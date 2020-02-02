@@ -12,4 +12,8 @@ export class SearchMoviesComponent implements OnInit {
   ngOnInit() {
   }
 
+  onSearch(title) {
+    console.log(title);
+  }
+
 }

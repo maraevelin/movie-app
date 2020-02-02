@@ -1,1 +1,6 @@
 <p>search-bar works!</p>
+<input 
+  #box
+  (keyup.enter)="onEnter(box.value)"
+  matInput 
+  placeholder="Search for movies by title">
