@@ -1,0 +1,41 @@
+.container {
+  padding: 64px;
+
+  display: grid;  
+  justify-content: space-evenly;
+  grid-template-columns: repeat(auto-fit, 15vw);
+  gap: 16px;
+
+  @media screen and (max-width: 593px) {
+    padding: 16px;
+
+    grid-template-columns: repeat(auto-fit, 25vw);
+  }
+}
+
+.card {
+  display: grid;
+
+  background-color: orangered;
+  
+  height: 20vw;
+
+  filter: contrast(100%);
+  transform: translateY(0);
+  transition: .4s;
+
+  &:hover {
+    filter: contrast(125%);
+    transform: translateY(-5%);
+    transition: .4s;
+  }
+
+  @media screen and (max-width: 593px) {
+    height: 33.33vw;
+  }
+
+  &-title{
+    justify-self: center;
+    align-self: center;
+  }
+}
