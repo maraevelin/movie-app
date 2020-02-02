@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./search-movies.component.scss']
 })
 export class SearchMoviesComponent implements OnInit {
+  loading = false;
+  results = [];
 
   constructor() { }
 
@@ -13,7 +15,12 @@ export class SearchMoviesComponent implements OnInit {
   }
 
   onSearch(title) {
-    console.log(title);
-  }
+    this.results = [];
+    this.loading = true;
 
+    setTimeout(() => {
+      this.results = [title];
+      this.loading =  false;
+    }, 1500);
+  }
 }
