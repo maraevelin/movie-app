@@ -1,2 +1,55 @@
 <p>movie works!</p>
-<p>showing movie {{id}}</p>
+<div *ngIf="movie">
+
+  <div class="poster">
+    <img class="poster-img" [src]="movie.Poster"/>
+  </div>
+
+  <div>
+    {{movie.Title}}
+    <br>
+    {{movie.Year}}
+    <br>
+    {{movie.Rated}}
+    <br>
+    {{movie.Released}}
+    <br>
+    {{movie.Runtime}}
+    <br>
+    {{movie.Genre}}
+    <br>
+    {{movie.Director}}
+    <br>
+    {{movie.Writer}}
+    <br>
+    {{movie.Actors}}
+    <br>
+    {{movie.Plot}}
+    <br>
+    {{movie.Language}}
+    <br>
+    {{movie.Country}}
+    <br>
+    {{movie.Awards}}
+    <br>
+    {{movie.Poster}}
+    <br>
+    {{movie.Ratings}}
+    <br>
+    {{movie.Metascore}}
+    <br>
+    {{movie.imdbRating}}
+    <br>
+    {{movie.imdbVotes}}
+    <br>
+    {{movie.imdbID}}
+    <br>
+    {{movie.Type}}
+    <br>
+    {{movie.totalSeasons}}
+    <br>
+    {{movie.Response}}
+    <br>
+    {{movie.Error}}
+  </div>
+</div>

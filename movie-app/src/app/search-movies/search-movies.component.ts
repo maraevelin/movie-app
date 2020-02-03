@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { OmdbApiServiceService } from '../services/omdb-api-service.service';
+import { OmdbApiService } from '../services/omdb-api.service';
 import { Movie } from '../services/models/Movie';
 import { SearchResponse } from '../services/models/SearchResponse';
 
@@ -13,7 +13,7 @@ export class SearchMoviesComponent implements OnInit {
   movies: Movie[] = [];
   error: string = null;
 
-  constructor(private apiService: OmdbApiServiceService) { }
+  constructor(private apiService: OmdbApiService) { }
 
   ngOnInit() {
   }

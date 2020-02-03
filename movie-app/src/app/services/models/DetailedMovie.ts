@@ -21,4 +21,5 @@ export interface DetailedMovie {
   Type: string;
   totalSeasons: string;
   Response: string;
+  Error: string;
 }
