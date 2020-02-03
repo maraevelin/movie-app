@@ -14,28 +14,27 @@
 }
 
 .card {
-  display: grid;
-
-  background-color: orangered;
-  
   height: 20vw;
 
-  filter: contrast(100%);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  border-top-left-radius: 10%;
+  border-bottom-right-radius: 10%;
+
+  filter: brightness(1) contrast(1);
   transform: translateY(0);
   transition: .4s;
 
   &:hover {
-    filter: contrast(125%);
+    filter: brightness(1.4) contrast(.85);
     transform: translateY(-5%);
     transition: .4s;
+
+    box-shadow: 8px 12px 8px grey;
   }
 
   @media screen and (max-width: 593px) {
     height: 33.33vw;
-  }
-
-  &-title{
-    justify-self: center;
-    align-self: center;
   }
 }

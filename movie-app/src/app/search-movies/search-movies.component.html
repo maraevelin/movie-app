@@ -5,6 +5,11 @@
   <mat-spinner color="accent"></mat-spinner>
 </div>
 
-<div *ngFor="let result of results">
-  <app-gallery></app-gallery>
+<div *ngIf="error">
+  {{error}}
 </div>
+
+<div *ngIf="movies">
+  <app-gallery [movies]="movies"></app-gallery>
+</div>
+
