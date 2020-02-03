@@ -8,6 +8,7 @@ import { GalleryComponent } from './gallery/gallery.component';
 import { SearchMoviesComponent } from './search-movies/search-movies.component';
 import { MovieComponent } from './movie/movie.component';
 import { MaterialDesignModule } from './material-design/material-design.module';
+import { NavigationBarComponent } from './navigation-bar/navigation-bar.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { MaterialDesignModule } from './material-design/material-design.module';
     SearchBarComponent,
     GalleryComponent,
     SearchMoviesComponent,
-    MovieComponent
+    MovieComponent,
+    NavigationBarComponent
   ],
   imports: [
     BrowserModule,
