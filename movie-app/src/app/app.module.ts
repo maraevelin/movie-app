@@ -4,12 +4,12 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { SearchBarComponent } from './search-bar/search-bar.component';
-import { GalleryComponent } from './gallery/gallery.component';
-import { SearchMoviesComponent } from './search-movies/search-movies.component';
+import { SearchBarComponent } from './components/search-bar/search-bar.component';
+import { GalleryComponent } from './components/gallery/gallery.component';
+import { SearchMoviesComponent } from './containers/search-movies/search-movies.component';
 import { MovieComponent } from './containers/movie/movie.component';
+import { NavigationBarComponent } from './components/navigation-bar/navigation-bar.component';
 import { MaterialDesignModule } from './material-design/material-design.module';
-import { NavigationBarComponent } from './navigation-bar/navigation-bar.component';
 import { OmdbInterceptor } from './interceptors/OmdbInterceptor';
 
 @NgModule({
@@ -28,7 +28,11 @@ import { OmdbInterceptor } from './interceptors/OmdbInterceptor';
     HttpClientModule
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: OmdbInterceptor, multi: true}
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: OmdbInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

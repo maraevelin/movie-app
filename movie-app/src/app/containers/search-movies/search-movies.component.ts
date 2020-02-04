@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { OmdbApiService } from '../services/omdb-api.service';
-import { Movie } from '../services/models/Movie';
-import { SearchResponse } from '../services/models/SearchResponse';
+import { Movie } from 'src/app/services/models/Movie';
+import { OmdbApiService } from 'src/app/services/omdb-api.service';
+import { SearchResponse } from 'src/app/services/models/SearchResponse';
 
 @Component({
   selector: 'app-search-movies',

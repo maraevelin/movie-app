@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Movie } from '../services/models/Movie';
+import { Movie } from 'src/app/services/models/Movie';
 
 @Component({
   selector: 'app-gallery',
