@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { SearchResponse } from './models/SearchResponse';
-import { DetailedMovie } from './models/DetailedMovieResponse';
+import { DetailedMovieResponse } from './models/DetailedMovieResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +21,6 @@ export class OmdbApiService {
     const params = new HttpParams()
       .set(environment.omdbParamImdbID, id)
       .set(environment.omdbParamPlot, environment.omdbPlot);
-    return this.http.get<DetailedMovie>(environment.omdbApiUrl, { params });
+    return this.http.get<DetailedMovieResponse>(environment.omdbApiUrl, { params });
   }
 }
