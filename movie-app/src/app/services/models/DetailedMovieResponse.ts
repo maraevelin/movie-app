@@ -19,7 +19,7 @@ export interface DetailedMovieResponse {
   imdbVotes: string;
   imdbID: string;
   Type: string;
-  totalSeasons: string;
+  TotalSeasons: string;
   Response: string;
   Error: string;
 }
