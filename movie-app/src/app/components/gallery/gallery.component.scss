@@ -22,11 +22,15 @@
   border-top-left-radius: 10%;
   border-bottom-right-radius: 10%;
 
+  cursor: default;
+
   filter: brightness(1) contrast(1);
   transform: translateY(0);
   transition: .4s;
 
   &:hover {
+    cursor: pointer;
+
     filter: brightness(1.4) contrast(.85);
     transform: translateY(-5%);
     transition: .4s;

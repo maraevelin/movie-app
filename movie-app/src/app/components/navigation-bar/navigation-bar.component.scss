@@ -13,11 +13,17 @@
 }
 
 .btn {
+  cursor: default;
+
   color: black;
+  
   transition: .2s;
 
   &:hover {
+    cursor: pointer;
+    
     color: white;
+    
     transition: .2s;
   }
 }
