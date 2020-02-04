@@ -8,6 +8,7 @@ export class DetailedMovie {
   readonly posterUrl: string;
   readonly actors: string[];
   readonly writers: string[];
+  readonly plot: string;
 
   constructor(source: DetailedMovieResponse) {
     this.title = source.Title;
@@ -17,5 +18,6 @@ export class DetailedMovie {
     this.posterUrl = source.Poster;
     this.actors = source.Actors.split(', ');
     this.writers = source.Writer.split(', ');
+    this.plot = source.Plot;
   }
 }

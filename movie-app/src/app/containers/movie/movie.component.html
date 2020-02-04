@@ -1,22 +1,23 @@
 <p>movie works!</p>
 <div *ngIf="movie">
-  <img class="poster-img" [src]="movie.posterUrl"/>
-  <div>
-    {{movie.title}}
+  <div class="container">
+    <div class="header title">{{ movie.title }}</div>
+    <div class="header rating">{{ movie.rating }}</div>
+    <img class="main poster" [src]="movie.posterUrl" />
+    <div class="main writers">
+      <div *ngFor="let writer of movie.writers">
+        {{ writer }}
+      </div>
+    </div>
+    <div class="main actors">
+      <div *ngFor="let actor of movie.actors">
+        {{ actor }}
+      </div>
+    </div>
+    <div class="footer runTime">{{ movie.runTime }}</div>
+    <div class="footer year">{{ movie.year }}</div>
   </div>
   <div>
-    {{movie.year}}
-  </div>
-  <div>
-    {{movie.rating}}
-  </div>
-  <div>
-    {{movie.runTime}}
-  </div>
-  <div>
-    {{movie.actors}}
-  </div>
-  <div>
-    {{movie.writers}}
+    {{movie.plot}}
   </div>
 </div>

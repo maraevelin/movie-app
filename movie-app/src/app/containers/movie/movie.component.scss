@@ -1,0 +1,60 @@
+.container {
+  padding: 0vw 15vw;
+
+  display: grid;
+  row-gap: 8px;
+  grid-template-rows: 10vh max-content 10vh;
+  grid-template-columns: repeat(3, 1fr);
+
+  @media screen and (max-width: 593px) {
+    padding: 0px;
+  }
+}
+
+.header {
+  grid-row: 1/2;
+  align-self: end;
+}
+
+.title {
+  grid-column: 1/2;
+}
+
+.rating {
+  grid-column: 3/4;
+  justify-self: end;
+}
+
+.main {
+  grid-row: 2/3;
+  align-self: start;
+  text-align: center;
+}
+
+.poster {
+  max-width: 30vw;
+  
+  grid-column: 0/1;
+}
+
+.writers {
+  grid-column: 2/3;
+}
+
+.actors {
+  grid-column: 3/4;
+}
+
+.footer {
+  grid-row: 3/4;
+  align-self: start;
+}
+
+.runTime {
+  grid-column: 1/2;
+}
+
+.year {
+  grid-column: 3/4;
+  justify-self: end;
+}
