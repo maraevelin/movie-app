@@ -2,6 +2,7 @@ import { DetailedMovieResponse } from 'src/app/services/models/DetailedMovieResp
 
 export class DetailedMovie {
   readonly title: string;
+  readonly year: string;
   readonly rating: string;
   readonly runTime: string;
   readonly posterUrl: string;
@@ -10,6 +11,7 @@ export class DetailedMovie {
 
   constructor(source: DetailedMovieResponse) {
     this.title = source.Title;
+    this.year = source.Year;
     this.rating = source.imdbRating;
     this.runTime = source.Runtime;
     this.posterUrl = source.Poster;
