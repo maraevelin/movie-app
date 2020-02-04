@@ -1,5 +1,5 @@
 <p>movie works!</p>
-<div *ngIf="movie">
+<div *ngIf="movie$ | async as movie">
   <div class="container">
     <div class="header title">{{ movie.title }}</div>
     <div class="header rating">{{ movie.rating }}</div>
@@ -14,7 +14,7 @@
         {{ actor }}
       </div>
     </div>
-    <div class="footer runTime">{{ movie.runTime }}</div>
+    <div class="footer run-time">{{ movie.runTime }}</div>
     <div class="footer year">{{ movie.year }}</div>
   </div>
   <div>

@@ -5,8 +5,8 @@ import { SearchResponse } from './models/SearchResponse';
 import { DetailedMovieResponse } from './models/DetailedMovieResponse';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Movie } from '../containers/models/Movie';
-import { DetailedMovie } from '../containers/models/DetailedMovie';
+import { Movie } from '../models/Movie';
+import { DetailedMovie } from '../models/DetailedMovie';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +17,7 @@ export class OmdbApiService {
 
   getMovies(title: string): Observable<Movie[]> {
     const params = new HttpParams().set(environment.omdbParamSearch, title);
-    const response: Observable<SearchResponse> = this.http.get<SearchResponse>(environment.omdbApiUrl, { params });
+    const response = this.http.get<SearchResponse>(environment.omdbApiUrl, { params });
     return response.pipe(
       map(searchResponse => searchResponse.Search.reduce((movies, movie) => {
         return (movie.Poster === 'N/A') ? movies : [...movies, new Movie(movie)];
@@ -29,7 +29,7 @@ export class OmdbApiService {
     const params = new HttpParams()
       .set(environment.omdbParamImdbID, id)
       .set(environment.omdbParamPlot, environment.omdbPlot);
-    const response: Observable<DetailedMovieResponse> = this.http.get<DetailedMovieResponse>(environment.omdbApiUrl, { params });
+    const response = this.http.get<DetailedMovieResponse>(environment.omdbApiUrl, { params });
     return response.pipe(map(movie => new DetailedMovie(movie)));
   }
 }
