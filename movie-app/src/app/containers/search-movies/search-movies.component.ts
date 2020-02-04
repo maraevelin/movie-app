@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { MovieResponse } from 'src/app/services/models/MovieResponse';
 import { OmdbApiService } from 'src/app/services/omdb-api.service';
-import { SearchResponse } from 'src/app/services/models/SearchResponse';
+import { Observable } from 'rxjs';
+import { Movie } from '../models/Movie';
 
 @Component({
   selector: 'app-search-movies',
@@ -10,7 +10,7 @@ import { SearchResponse } from 'src/app/services/models/SearchResponse';
 })
 export class SearchMoviesComponent implements OnInit {
   loading = false;
-  movies: MovieResponse[] = [];
+  movies: Movie[] = [];
   error: string = null;
 
   constructor(private apiService: OmdbApiService) { }
@@ -22,16 +22,9 @@ export class SearchMoviesComponent implements OnInit {
     this.loading = true;
     this.error = null;
 
-    this.apiService.getMovies(title).subscribe((data: SearchResponse) => {
-      this.loading =  false;
-
-      if (!!data.Error) {
-        this.movies = [];
-        this.error = data.Error;
-        return;
-      }
-
-      this.movies = {...data.Search};
+    this.apiService.getMovies(title).subscribe(movies => {
+      this.loading = false;
+      this.movies = movies;
     });
   }
 }

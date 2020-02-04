@@ -1,7 +1,7 @@
 <p>gallery works!</p>
 <div class="container">
-  <div *ngFor="let movie of movies | keyvalue">
-    <div class="card" [style.background-image]="'url('+ movie.value.Poster +')'" routerLink="/movies/{{movie.value.imdbID}}">
+  <div *ngFor="let movie of movies">
+    <div class="card" [style.background-image]="'url('+ movie.posterUrl +')'" routerLink="/movies/{{movie.imdbId}}">
     </div>
   </div>
 </div>

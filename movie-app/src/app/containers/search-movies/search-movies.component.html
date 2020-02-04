@@ -9,7 +9,7 @@
   {{error}}
 </div>
 
-<div *ngIf="movies">
+<div *ngIf="movies.length > 0">
   <app-gallery [movies]="movies"></app-gallery>
 </div>
 
