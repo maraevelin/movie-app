@@ -1,4 +1,4 @@
-export interface DetailedMovie {
+export interface DetailedMovieResponse {
   Title: string;
   Year: string;
   Rated: string;

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DetailedMovie } from '../../services/models/DetailedMovie';
+import { DetailedMovieResponse } from '../../services/models/DetailedMovieResponse';
 import { OmdbApiService } from '../../services/omdb-api.service';
 
 @Component({
@@ -10,7 +10,7 @@ import { OmdbApiService } from '../../services/omdb-api.service';
 })
 export class MovieComponent implements OnInit {
   id: string = null;
-  movie: DetailedMovie;
+  movie: DetailedMovieResponse;
   error: string = null;
 
   constructor(
@@ -20,7 +20,7 @@ export class MovieComponent implements OnInit {
 
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
-    this.service.getMovie(this.id).subscribe((data: DetailedMovie) => {
+    this.service.getMovie(this.id).subscribe((data: DetailedMovieResponse) => {
       if (data.Response === 'False') {
         this.error = data.Error;
         return;

@@ -1,7 +1,7 @@
-import { Movie } from './Movie';
+import { MovieResponse } from './MovieResponse';
 
 export interface SearchResponse {
-  Search: Movie[];
+  Search: MovieResponse[];
   Response: string;
   Error: string;
 }

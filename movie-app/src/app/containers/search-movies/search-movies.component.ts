@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Movie } from 'src/app/services/models/Movie';
+import { MovieResponse } from 'src/app/services/models/MovieResponse';
 import { OmdbApiService } from 'src/app/services/omdb-api.service';
 import { SearchResponse } from 'src/app/services/models/SearchResponse';
 
@@ -10,7 +10,7 @@ import { SearchResponse } from 'src/app/services/models/SearchResponse';
 })
 export class SearchMoviesComponent implements OnInit {
   loading = false;
-  movies: Movie[] = [];
+  movies: MovieResponse[] = [];
   error: string = null;
 
   constructor(private apiService: OmdbApiService) { }
