@@ -3,9 +3,10 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { SearchResponse } from './models/SearchResponse';
 import { DetailedMovieResponse } from './models/DetailedMovieResponse';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Movie } from '../containers/models/Movie';
+import { DetailedMovie } from '../containers/models/DetailedMovie';
 
 @Injectable({
   providedIn: 'root'
@@ -21,14 +22,14 @@ export class OmdbApiService {
       map(searchResponse => searchResponse.Search.reduce((movies, movie) => {
         return (movie.Poster === 'N/A') ? movies : [...movies, new Movie(movie)];
       }, []))
-
     );
   }
 
-  getMovie(id: string) {
+  getMovie(id: string): Observable<DetailedMovie> {
     const params = new HttpParams()
       .set(environment.omdbParamImdbID, id)
       .set(environment.omdbParamPlot, environment.omdbPlot);
-    return this.http.get<DetailedMovieResponse>(environment.omdbApiUrl, { params });
+    const response: Observable<DetailedMovieResponse> = this.http.get<DetailedMovieResponse>(environment.omdbApiUrl, { params });
+    return response.pipe(map(movie => new DetailedMovie(movie)));
   }
 }
