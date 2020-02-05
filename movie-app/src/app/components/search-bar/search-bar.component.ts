@@ -13,7 +13,7 @@ export class SearchBarComponent implements OnInit {
   ngOnInit() {
   }
 
-  onEnter(keyword) {
+  onEnter(keyword: string) {
     this.keyword.emit(keyword);
   }
 

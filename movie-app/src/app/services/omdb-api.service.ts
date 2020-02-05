@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Movie } from '../models/Movie';
 import { DetailedMovie } from '../models/DetailedMovie';
+import { MovieResponse } from './models/MovieResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class OmdbApiService {
     const params = new HttpParams().set(environment.omdbParamSearch, title);
     const response = this.http.get<SearchResponse>(environment.omdbApiUrl, { params });
     return response.pipe(
-      map(searchResponse => searchResponse.Search.reduce((movies, movie) => {
+      map(searchResponse => searchResponse.Search.reduce((movies: Movie[], movie: MovieResponse) => {
         return (movie.Poster === 'N/A') ? movies : [...movies, new Movie(movie)];
       }, []))
     );
