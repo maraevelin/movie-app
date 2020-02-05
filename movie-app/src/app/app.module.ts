@@ -11,6 +11,7 @@ import { MovieComponent } from './containers/movie/movie.component';
 import { NavigationBarComponent } from './components/navigation-bar/navigation-bar.component';
 import { MaterialDesignModule } from './material-design/material-design.module';
 import { OmdbInterceptor } from './interceptors/OmdbInterceptor';
+import { StoreModule } from '@ngrx/store';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,7 @@ import { OmdbInterceptor } from './interceptors/OmdbInterceptor';
     BrowserModule,
     AppRoutingModule,
     MaterialDesignModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [
     {
