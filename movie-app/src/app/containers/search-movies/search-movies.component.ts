@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { OmdbApiService } from 'src/app/services/omdb-api.service';
 import { Movie } from '../../models/Movie';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/store/root-reducer';
+import { SearchMoviesAction } from 'src/app/store/movie/actions/movie.actions';
+import { Observable } from 'rxjs';
+import { selectIsLoading, selectMovies, selectErrorMessage } from 'src/app/store/movie/selectors/movie.selectors';
 
 @Component({
   selector: 'app-search-movies',
@@ -8,19 +12,20 @@ import { Movie } from '../../models/Movie';
   styleUrls: ['./search-movies.component.scss']
 })
 export class SearchMoviesComponent implements OnInit {
-  loading = false;
-  movies: Movie[] = [];
+  isLoading$: Observable<boolean>;
+  movies$: Observable<Movie[]>;
+  errorMessage$: Observable<string | null>;
 
-  constructor(private apiService: OmdbApiService) { }
+  constructor(private store: Store<AppState>) {
+    this.isLoading$ = this.store.select(selectIsLoading);
+    this.movies$ = this.store.select(selectMovies);
+    this.errorMessage$ = this.store.select(selectErrorMessage)
+  }
 
   ngOnInit() {
   }
 
   onSearch(title: string) {
-    this.loading = true;
-    this.apiService.getMovies(title).subscribe(movies => {
-      this.loading = false;
-      this.movies = movies;
-    });
+    this.store.dispatch(new SearchMoviesAction(title));
   }
 }

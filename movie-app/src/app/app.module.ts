@@ -11,7 +11,11 @@ import { MovieComponent } from './containers/movie/movie.component';
 import { NavigationBarComponent } from './components/navigation-bar/navigation-bar.component';
 import { MaterialDesignModule } from './material-design/material-design.module';
 import { OmdbInterceptor } from './interceptors/OmdbInterceptor';
-import { StoreModule } from '@ngrx/store';
+import { StoreModule, ActionReducerMap } from '@ngrx/store';
+import { MovieReducer } from './store/movie/reducer/movie.reducer';
+import { AppState } from './store/root-reducer';
+import { EffectsModule } from '@ngrx/effects';
+import { MovieEffects } from './store/movie/effects/movie.effects';
 
 @NgModule({
   declarations: [
@@ -27,6 +31,10 @@ import { StoreModule } from '@ngrx/store';
     AppRoutingModule,
     MaterialDesignModule,
     HttpClientModule,
+    StoreModule.forRoot({
+      movie: MovieReducer
+    } as ActionReducerMap<AppState, any>),
+    EffectsModule.forRoot([MovieEffects]),
   ],
   providers: [
     {

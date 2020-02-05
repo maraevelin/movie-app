@@ -1,15 +1,14 @@
 <p>search-movies works!</p>
 
 <app-search-bar (keyword)="onSearch($event)"></app-search-bar>
-<div *ngIf="loading">
+<div *ngIf="isLoading$ | async">
   <mat-spinner color="accent"></mat-spinner>
 </div>
 
-<div *ngIf="error">
-  {{error}}
+<div *ngIf="errorMessage$ | async as errorMessage">
+  {{errorMessage}}
 </div>
 
-<div *ngIf="movies.length > 0">
-  <app-gallery [movies]="movies"></app-gallery>
+<div *ngIf="(movies$ | async)?.length > 0">
+  <app-gallery [movies]="movies$ | async"></app-gallery>
 </div>
-
