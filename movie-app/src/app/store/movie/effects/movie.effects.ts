@@ -13,7 +13,7 @@ export class MovieEffects {
     .pipe(
       ofType<SearchMoviesAction>(MovieActionTypes.SEARCH_MOVIES),
       switchMap(
-        (action) => this.service.getMovies(action.title)
+        (action) => this.service.searchMoviesByTitle(action.title)
           .pipe(
             map(response => new SearchMoviesSuccessAction(response)),
             catchError(error => of(new SearchMoviesFailAction(error)))
@@ -25,7 +25,7 @@ export class MovieEffects {
     .pipe(
       ofType<GetDetailedMovieAction>(MovieActionTypes.GET_DETAILED_MOVIE),
       switchMap(
-        (action) => this.service.getMovie(action.id)
+        (action) => this.service.getMovieByImdbId(action.id)
           .pipe(
             map(response => new GetDetailedMovieSuccessAction(response)),
             catchError(error => of(new GetDetailedMovieFailAction(error)))
