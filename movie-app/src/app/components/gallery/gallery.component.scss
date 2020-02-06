@@ -38,6 +38,13 @@
     box-shadow: 8px 12px 8px grey;
   }
 
+  &:active {
+    transform: translateY(-3%);
+    transition: .2s;
+
+    box-shadow: 4px 8px 4px grey;
+  }
+
   @media screen and (max-width: 593px) {
     height: 33.33vw;
   }
