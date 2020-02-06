@@ -19,7 +19,7 @@ export class SearchMoviesComponent implements OnInit {
   constructor(private store: Store<AppState>) {
     this.isLoading$ = this.store.select(selectIsLoading);
     this.movies$ = this.store.select(selectMovies);
-    this.errorMessage$ = this.store.select(selectErrorMessage)
+    this.errorMessage$ = this.store.select(selectErrorMessage);
   }
 
   ngOnInit() {

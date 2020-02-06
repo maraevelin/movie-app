@@ -1,23 +1,34 @@
 <p>movie works!</p>
-<div *ngIf="movie$ | async as movie">
-  <div class="container">
-    <div class="header title">{{ movie.title }}</div>
-    <div class="header rating">{{ movie.rating }}</div>
-    <img class="main poster" [src]="movie.posterUrl" />
-    <div class="main writers">
-      <div *ngFor="let writer of movie.writers">
-        {{ writer }}
-      </div>
-    </div>
-    <div class="main actors">
-      <div *ngFor="let actor of movie.actors">
-        {{ actor }}
-      </div>
-    </div>
-    <div class="footer run-time">{{ movie.runTime }}</div>
-    <div class="footer year">{{ movie.year }}</div>
+
+<div class="movie">
+  <div *ngIf="isLoading$ | async">
+    <mat-spinner color="accent"></mat-spinner>
   </div>
-  <div>
-    {{movie.plot}}
+  
+  <div *ngIf="errorMessage$ | async as errorMessage">
+    {{errorMessage}}
+  </div>
+  
+  <div *ngIf="movie$ | async as movie">
+    <div class="container">
+      <div class="header title">{{ movie.title }}</div>
+      <div class="header rating">{{ movie.rating }}</div>
+      <img class="main poster" [src]="movie.posterUrl" />
+      <div class="main writers">
+        <div *ngFor="let writer of movie.writers">
+          {{ writer }}
+        </div>
+      </div>
+      <div class="main actors">
+        <div *ngFor="let actor of movie.actors">
+          {{ actor }}
+        </div>
+      </div>
+      <div class="plot">
+        {{movie.plot}}
+      </div>
+      <div class="footer run-time">{{ movie.runTime }}</div>
+      <div class="footer year">{{ movie.year }}</div>
+    </div>
   </div>
 </div>

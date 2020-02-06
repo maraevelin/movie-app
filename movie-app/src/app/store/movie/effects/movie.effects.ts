@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { OmdbApiService } from 'src/app/services/omdb-api.service';
-import { MovieActionTypes, SearchMoviesAction, SearchMoviesSuccessAction, SearchMoviesFailAction } from '../actions/movie.actions';
+import { MovieActionTypes, SearchMoviesAction, SearchMoviesSuccessAction, SearchMoviesFailAction, GetDetailedMovieAction, GetDetailedMovieSuccessAction, GetDetailedMovieFailAction } from '../actions/movie.actions';
 import { switchMap, map, catchError } from 'rxjs/operators';
 
 
@@ -17,6 +17,18 @@ export class MovieEffects {
           .pipe(
             map(response => new SearchMoviesSuccessAction(response)),
             catchError(error => of(new SearchMoviesFailAction(error)))
+          )
+      ),
+    );
+
+    @Effect() getDetailedMovie$ = this.actions$
+    .pipe(
+      ofType<GetDetailedMovieAction>(MovieActionTypes.GET_DETAILED_MOVIE),
+      switchMap(
+        (action) => this.service.getMovie(action.id)
+          .pipe(
+            map(response => new GetDetailedMovieSuccessAction(response)),
+            catchError(error => of(new GetDetailedMovieFailAction(error)))
           )
       ),
     );

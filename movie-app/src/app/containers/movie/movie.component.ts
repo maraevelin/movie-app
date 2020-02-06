@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { OmdbApiService } from '../../services/omdb-api.service';
 import { DetailedMovie } from '../../models/DetailedMovie';
 import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/store/root-reducer';
+import { GetDetailedMovieAction } from 'src/app/store/movie/actions/movie.actions';
+import { selectDetailedMovie, selectIsLoading, selectErrorMessage } from 'src/app/store/movie/selectors/movie.selectors';
 
 @Component({
   selector: 'app-movie',
@@ -10,20 +13,23 @@ import { Observable } from 'rxjs';
   styleUrls: ['./movie.component.scss']
 })
 export class MovieComponent implements OnInit {
-  id: string | null = null;
-  movie$?: Observable<DetailedMovie>;
+  movie$?: Observable<DetailedMovie | null>;
+  isLoading$: Observable<boolean>;
+  errorMessage$: Observable<string | null>;
 
   constructor(
     private route: ActivatedRoute,
-    private service: OmdbApiService,
-  ) {}
+    private store: Store<AppState>,
+  ) {
+    const id: string = this.route.snapshot.paramMap.get('id') || '';
+    this.store.dispatch(new GetDetailedMovieAction(id));
+
+    this.isLoading$ = this.store.select(selectIsLoading);
+    this.movie$ = this.store.select(selectDetailedMovie);
+    this.errorMessage$ = this.store.select(selectErrorMessage);
+  }
 
   ngOnInit() {
-    this.id = this.route.snapshot.paramMap.get('id');
-
-    if (this.id) {
-      this.movie$ = this.service.getMovie(this.id);
-    }
   }
 
 }

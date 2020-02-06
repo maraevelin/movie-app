@@ -37,6 +37,12 @@ export class OmdbApiService {
       .set(environment.omdbParamImdbID, id)
       .set(environment.omdbParamPlot, environment.omdbPlot);
     const response = this.http.get<DetailedMovieResponse>(environment.omdbApiUrl, { params });
-    return response.pipe(map(movie => new DetailedMovie(movie)));
+    return response.pipe(map(movie => {
+      if (movie.Error) {
+        throw new Error(movie.Error);
+      }
+
+      return new DetailedMovie(movie);
+    }));
   }
 }

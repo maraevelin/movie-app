@@ -7,6 +7,7 @@ export interface MovieState {
   readonly isLoading: boolean;
   readonly errorMessage: string | null;
   readonly movies: Movie[];
+  readonly detailedMovie: DetailedMovie | null;
 }
 
 const initialState: MovieState = {
@@ -14,6 +15,7 @@ const initialState: MovieState = {
   isLoading: false,
   errorMessage: null,
   movies: [],
+  detailedMovie: null,
 };
 
 export function MovieReducer(
@@ -28,6 +30,7 @@ export function MovieReducer(
         isLoading: true,
         errorMessage: null,
         movies: [],
+        detailedMovie: null,
       };
     case MovieActionTypes.SEARCH_MOVIES_SUCCES:
       return {
@@ -35,6 +38,7 @@ export function MovieReducer(
         isLoading: false,
         errorMessage: null,
         movies: action.movies,
+        detailedMovie: null,
       };
     case MovieActionTypes.SEARCH_MOVIES_FAIL:
       return {
@@ -42,6 +46,29 @@ export function MovieReducer(
         isLoading: false,
         errorMessage: action.error.message,
         movies: [],
+        detailedMovie: null
+      };
+    case MovieActionTypes.GET_DETAILED_MOVIE:
+      return {
+        ...state,
+        isLoading: true,
+        errorMessage: null,
+        detailedMovie: null,
+      };
+    case MovieActionTypes.GET_DETAILED_MOVIE_SUCCES:
+      return {
+        ...state,
+        isLoading: false,
+        errorMessage: null,
+        detailedMovie: action.detailedMovie,
+      };
+    case MovieActionTypes.GET_DETAILED_MOVIE_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        errorMessage: action.error.message,
+        movies: [],
+        detailedMovie: null
       };
     default:
       return state;

@@ -23,3 +23,8 @@ export const selectErrorMessage = createSelector(
   selectMovie,
   (state: MovieState) => state.errorMessage
 );
+
+export const selectDetailedMovie = createSelector(
+  selectMovie,
+  (state: MovieState) => state.detailedMovie
+);

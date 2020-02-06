@@ -1,9 +1,11 @@
-.container {
+.movie {
   padding: 0vw 15vw;
+}
 
+.container {
   display: grid;
   row-gap: 8px;
-  grid-template-rows: 10vh max-content 10vh;
+  grid-template-rows: 5vh max-content max-content 5vh;
   grid-template-columns: repeat(3, 1fr);
 
   @media screen and (max-width: 593px) {
@@ -45,8 +47,14 @@
   grid-column: 3/4;
 }
 
-.footer {
+.plot {
   grid-row: 3/4;
+  grid-column: 1/-1;
+  align-self: start;
+}
+
+.footer {
+  grid-row: 4/5;
   align-self: start;
 }
 
