@@ -16,6 +16,8 @@ import { MovieReducer } from './store/movie/reducer/movie.reducer';
 import { AppState } from './store/root-reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { MovieEffects } from './store/movie/effects/movie.effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -35,6 +37,7 @@ import { MovieEffects } from './store/movie/effects/movie.effects';
       movie: MovieReducer
     } as ActionReducerMap<AppState, any>),
     EffectsModule.forRoot([MovieEffects]),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
   ],
   providers: [
     {

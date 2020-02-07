@@ -70,6 +70,8 @@ export function MovieReducer(
         movies: [],
         detailedMovie: null
       };
+    case MovieActionTypes.RESET:
+      return initialState;
     default:
       return state;
   }

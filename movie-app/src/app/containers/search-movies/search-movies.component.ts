@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Movie } from '../../models/Movie';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/root-reducer';
-import { SearchMoviesAction } from 'src/app/store/movie/actions/movie.actions';
+import { SearchMoviesAction, ResetAction } from 'src/app/store/movie/actions/movie.actions';
 import { Observable } from 'rxjs';
 import { selectIsLoading, selectMovies, selectErrorMessage } from 'src/app/store/movie/selectors/movie.selectors';
 
@@ -23,6 +23,7 @@ export class SearchMoviesComponent implements OnInit {
   }
 
   ngOnInit() {
+    
   }
 
   onSearch(title: string) {
