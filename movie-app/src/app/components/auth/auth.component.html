@@ -11,10 +11,13 @@
   </div>
 
   <button type="submit" [disabled]="form.invalid">
-    {{ isLogin ? 'Login' : 'Sign up' }}
-  </button>
-  |
-  <button (click)="onSwitch()">
-    Switch to {{ isLogin ? 'Sign up' : 'Login' }}
+    {{ isSignIn ? 'Sign in' : 'Sign up' }}
   </button>
 </form>
+
+<div *ngIf="isSignIn; else signup">
+  <button routerLink="/signup">Switch to Sign up</button>
+</div>
+<ng-template #signup>
+  <button routerLink="/signin">Switch to Sign in</button>
+</ng-template>

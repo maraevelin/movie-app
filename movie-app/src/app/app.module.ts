@@ -10,7 +10,7 @@ import { SearchMoviesComponent } from './containers/search-movies/search-movies.
 import { MovieComponent } from './containers/movie/movie.component';
 import { NavigationBarComponent } from './components/navigation-bar/navigation-bar.component';
 import { MaterialDesignModule } from './material-design/material-design.module';
-import { OmdbInterceptor } from './interceptors/OmdbInterceptor';
+import { Interceptor } from './interceptors/Interceptor';
 import { StoreModule, ActionReducerMap } from '@ngrx/store';
 import { MovieReducer } from './store/movie/reducer/movie.reducer';
 import { AppState } from './store/root-reducer';
@@ -49,7 +49,7 @@ import { ReactiveFormsModule } from '@angular/forms';
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: OmdbInterceptor,
+      useClass: Interceptor,
       multi: true
     }
   ],

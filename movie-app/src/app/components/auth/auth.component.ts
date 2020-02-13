@@ -1,11 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import {
-  FormGroup,
-  FormControl,
-  FormBuilder,
-  Validators
-} from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-auth',
@@ -13,24 +9,48 @@ import {
   styleUrls: ['./auth.component.scss']
 })
 export class AuthComponent implements OnInit {
-  isLogin = false;
+  isSignIn = false;
   form = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(6)]]
   });
 
-  constructor(private route: ActivatedRoute, private formBuilder: FormBuilder) {
+  constructor(
+    private route: ActivatedRoute,
+    private formBuilder: FormBuilder,
+    private service: AuthService
+  ) {
     const routeConfig = this.route.snapshot.routeConfig;
-    this.isLogin = (routeConfig && routeConfig.path === 'login') || false;
+    this.isSignIn = (routeConfig && routeConfig.path === 'signin') || false;
   }
 
   ngOnInit() {}
 
   onSubmit() {
-    this.form.reset();
-  }
+    if (this.form.invalid) {
+      return;
+    }
 
-  onSwitch() {
-    this.isLogin = !this.isLogin;
+    if (this.isSignIn) {
+      this.service.signin(this.form.value).subscribe(
+        response => {
+          console.log(response);
+        },
+        error => {
+          console.log(error);
+        }
+      );
+    } else {
+      this.service.signup(this.form.value).subscribe(
+        response => {
+          console.log(response);
+        },
+        error => {
+          console.log(error);
+        }
+      );
+    }
+
+    this.form.reset();
   }
 }

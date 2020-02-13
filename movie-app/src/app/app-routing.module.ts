@@ -6,7 +6,7 @@ import { MoviesResolver } from './resolvers/movies.resolver';
 import { AuthComponent } from './components/auth/auth.component';
 
 const routes: Routes = [
-  { path: 'login', component: AuthComponent },
+  { path: 'signin', component: AuthComponent },
   { path: 'signup', component: AuthComponent },
   { path: 'movies/:id', component: MovieComponent },
   {
