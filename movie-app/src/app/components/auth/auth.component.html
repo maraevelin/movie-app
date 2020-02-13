@@ -1,1 +1,20 @@
 <p>auth works!</p>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div>
+    E-mail
+    <input type="email" formControlName="email" />
+  </div>
+
+  <div>
+    Password
+    <input type="password" formControlName="password" />
+  </div>
+
+  <button type="submit" [disabled]="form.invalid">
+    {{ isLogin ? 'Login' : 'Sign up' }}
+  </button>
+  |
+  <button (click)="onSwitch()">
+    Switch to {{ isLogin ? 'Sign up' : 'Login' }}
+  </button>
+</form>
