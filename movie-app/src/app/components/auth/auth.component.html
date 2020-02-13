@@ -15,9 +15,6 @@
   </button>
 </form>
 
-<div *ngIf="isSignIn; else signup">
-  <button routerLink="/signup">Switch to Sign up</button>
-</div>
-<ng-template #signup>
-  <button routerLink="/signin">Switch to Sign in</button>
-</ng-template>
+<button (click)="onSwitch()">
+  Switch to {{ isSignIn ? ' Sign up ' : 'Sign in' }}
+</button>

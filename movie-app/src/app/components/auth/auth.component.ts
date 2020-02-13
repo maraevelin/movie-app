@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -15,16 +14,13 @@ export class AuthComponent implements OnInit {
     password: ['', [Validators.required, Validators.minLength(6)]]
   });
 
-  constructor(
-    private route: ActivatedRoute,
-    private formBuilder: FormBuilder,
-    private service: AuthService
-  ) {
-    const routeConfig = this.route.snapshot.routeConfig;
-    this.isSignIn = (routeConfig && routeConfig.path === 'signin') || false;
-  }
+  constructor(private formBuilder: FormBuilder, private service: AuthService) {}
 
   ngOnInit() {}
+
+  onSwitch() {
+    this.isSignIn = !this.isSignIn;
+  }
 
   onSubmit() {
     if (this.form.invalid) {
@@ -35,6 +31,7 @@ export class AuthComponent implements OnInit {
       this.service.signin(this.form.value).subscribe(
         response => {
           console.log(response);
+          this.form.reset();
         },
         error => {
           console.log(error);
@@ -44,13 +41,12 @@ export class AuthComponent implements OnInit {
       this.service.signup(this.form.value).subscribe(
         response => {
           console.log(response);
+          this.form.reset();
         },
         error => {
           console.log(error);
         }
       );
     }
-
-    this.form.reset();
   }
 }
