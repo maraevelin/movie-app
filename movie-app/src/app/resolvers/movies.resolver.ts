@@ -1,7 +1,7 @@
 import { Resolve } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from '../store/root-reducer';
-import { ResetAction } from '../store/movie/actions/movie.actions';
+import { MovieResetAction } from '../store/movie/actions/movie.actions';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -11,6 +11,6 @@ export class MoviesResolver implements Resolve<void> {
   constructor(private store: Store<AppState>) {}
 
   resolve(): void {
-    this.store.dispatch(new ResetAction());
+    this.store.dispatch(new MovieResetAction());
   }
 }

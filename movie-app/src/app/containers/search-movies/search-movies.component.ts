@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/root-reducer';
 import {
   SearchMoviesAction,
-  ResetAction
+  MovieResetAction
 } from 'src/app/store/movie/actions/movie.actions';
 import { Observable } from 'rxjs';
 import {

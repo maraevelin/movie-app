@@ -15,7 +15,7 @@ const initialState: MovieState = {
   isLoading: false,
   errorMessage: null,
   movies: [],
-  detailedMovie: null,
+  detailedMovie: null
 };
 
 export function MovieReducer(
@@ -30,7 +30,7 @@ export function MovieReducer(
         isLoading: true,
         errorMessage: null,
         movies: [],
-        detailedMovie: null,
+        detailedMovie: null
       };
     case MovieActionTypes.SEARCH_MOVIES_SUCCES:
       return {
@@ -38,7 +38,7 @@ export function MovieReducer(
         isLoading: false,
         errorMessage: null,
         movies: action.movies,
-        detailedMovie: null,
+        detailedMovie: null
       };
     case MovieActionTypes.SEARCH_MOVIES_FAIL:
       return {
@@ -53,14 +53,14 @@ export function MovieReducer(
         ...state,
         isLoading: true,
         errorMessage: null,
-        detailedMovie: null,
+        detailedMovie: null
       };
     case MovieActionTypes.GET_DETAILED_MOVIE_SUCCES:
       return {
         ...state,
         isLoading: false,
         errorMessage: null,
-        detailedMovie: action.detailedMovie,
+        detailedMovie: action.detailedMovie
       };
     case MovieActionTypes.GET_DETAILED_MOVIE_FAIL:
       return {
@@ -70,7 +70,7 @@ export function MovieReducer(
         movies: [],
         detailedMovie: null
       };
-    case MovieActionTypes.RESET:
+    case MovieActionTypes.MOVIE_RESET:
       return initialState;
     default:
       return state;

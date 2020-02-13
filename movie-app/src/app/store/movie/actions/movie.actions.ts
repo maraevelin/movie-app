@@ -3,7 +3,7 @@ import { Movie } from 'src/app/models/Movie';
 import { DetailedMovie } from 'src/app/models/DetailedMovie';
 
 export enum MovieActionTypes {
-  RESET = '[MOVIE] Reset',
+  MOVIE_RESET = '[MOVIE] Reset',
 
   SEARCH_MOVIES = '[MOVIE] Search movies',
   SEARCH_MOVIES_SUCCES = '[MOVIE] Search movies Success',
@@ -11,11 +11,11 @@ export enum MovieActionTypes {
 
   GET_DETAILED_MOVIE = '[MOVIE] Get detailed movie',
   GET_DETAILED_MOVIE_SUCCES = '[MOVIE] Get detailed movie Success',
-  GET_DETAILED_MOVIE_FAIL = '[MOVIE] Get detailed movie Fail',
+  GET_DETAILED_MOVIE_FAIL = '[MOVIE] Get detailed movie Fail'
 }
 
-export class ResetAction implements Action {
-  readonly type = MovieActionTypes.RESET;
+export class MovieResetAction implements Action {
+  readonly type = MovieActionTypes.MOVIE_RESET;
 }
 
 export class SearchMoviesAction implements Action {
@@ -48,7 +48,8 @@ export class GetDetailedMovieFailAction implements Action {
   constructor(public error: Error) {}
 }
 
-export type MovieAction = ResetAction
+export type MovieAction =
+  | MovieResetAction
   | SearchMoviesAction
   | SearchMoviesSuccessAction
   | SearchMoviesFailAction
