@@ -18,6 +18,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { MovieEffects } from './store/movie/effects/movie.effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
+import { AuthComponent } from './components/auth/auth.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { environment } from '../environments/environment';
     GalleryComponent,
     SearchMoviesComponent,
     MovieComponent,
-    NavigationBarComponent
+    NavigationBarComponent,
+    AuthComponent
   ],
   imports: [
     BrowserModule,
