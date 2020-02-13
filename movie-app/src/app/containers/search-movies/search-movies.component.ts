@@ -1,15 +1,22 @@
-import { Component, OnInit } from '@angular/core';
-import { Movie } from '../../models/Movie';
-import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/store/root-reducer';
-import { SearchMoviesAction, ResetAction } from 'src/app/store/movie/actions/movie.actions';
-import { Observable } from 'rxjs';
-import { selectIsLoading, selectMovies, selectErrorMessage } from 'src/app/store/movie/selectors/movie.selectors';
+import { Component, OnInit } from "@angular/core";
+import { Movie } from "../../models/Movie";
+import { Store } from "@ngrx/store";
+import { AppState } from "src/app/store/root-reducer";
+import {
+  SearchMoviesAction,
+  ResetAction
+} from "src/app/store/movie/actions/movie.actions";
+import { Observable } from "rxjs";
+import {
+  selectIsLoading,
+  selectMovies,
+  selectErrorMessage
+} from "src/app/store/movie/selectors/movie.selectors";
 
 @Component({
-  selector: 'app-search-movies',
-  templateUrl: './search-movies.component.html',
-  styleUrls: ['./search-movies.component.scss']
+  selector: "app-search-movies",
+  templateUrl: "./search-movies.component.html",
+  styleUrls: ["./search-movies.component.scss"]
 })
 export class SearchMoviesComponent implements OnInit {
   isLoading$: Observable<boolean>;
@@ -22,9 +29,7 @@ export class SearchMoviesComponent implements OnInit {
     this.errorMessage$ = this.store.select(selectErrorMessage);
   }
 
-  ngOnInit() {
-    
-  }
+  ngOnInit() {}
 
   onSearch(title: string) {
     this.store.dispatch(new SearchMoviesAction(title));

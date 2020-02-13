@@ -5,7 +5,11 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/root-reducer';
 import { GetDetailedMovieAction } from 'src/app/store/movie/actions/movie.actions';
-import { selectDetailedMovie, selectIsLoading, selectErrorMessage } from 'src/app/store/movie/selectors/movie.selectors';
+import {
+  selectDetailedMovie,
+  selectIsLoading,
+  selectErrorMessage
+} from 'src/app/store/movie/selectors/movie.selectors';
 
 @Component({
   selector: 'app-movie',
@@ -17,10 +21,7 @@ export class MovieComponent implements OnInit {
   isLoading$: Observable<boolean>;
   errorMessage$: Observable<string | null>;
 
-  constructor(
-    private route: ActivatedRoute,
-    private store: Store<AppState>,
-  ) {
+  constructor(private route: ActivatedRoute, private store: Store<AppState>) {
     const id: string = this.route.snapshot.paramMap.get('id') || '';
     this.store.dispatch(new GetDetailedMovieAction(id));
 
@@ -29,7 +30,5 @@ export class MovieComponent implements OnInit {
     this.errorMessage$ = this.store.select(selectErrorMessage);
   }
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }
