@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Effect, Actions, ofType } from '@ngrx/effects';
+import { Effect, Actions, ofType, createEffect } from '@ngrx/effects';
 import { AuthService } from 'src/app/services/auth.service';
 import {
   SignUpAction,
@@ -10,8 +10,11 @@ import {
   SignInSuccessAction,
   SignInFailAction
 } from '../actions/auth.actions';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { Store, select } from '@ngrx/store';
+import { AppState } from '../../root-reducer';
+import { selectUser } from '../selectors/auth.selectors';
 
 @Injectable()
 export class AuthEffects {
@@ -25,6 +28,14 @@ export class AuthEffects {
     )
   );
 
+  automaticSignIn$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType<SignUpSuccessAction>(AuthActionTypes.AUTH_SIGN_UP_SUCCES),
+      withLatestFrom(this.store.pipe(select(selectUser))),
+      map(([action, user]) => new SignInAction(user))
+    )
+  );
+
   @Effect() signIn$ = this.actions$.pipe(
     ofType<SignInAction>(AuthActionTypes.AUTH_SIGN_IN),
     switchMap(action =>
@@ -35,5 +46,9 @@ export class AuthEffects {
     )
   );
 
-  constructor(private actions$: Actions, private service: AuthService) {}
+  constructor(
+    private actions$: Actions,
+    private service: AuthService,
+    private store: Store<AppState>
+  ) {}
 }
