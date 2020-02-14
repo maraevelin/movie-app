@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Movie } from '../../models/Movie';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/root-reducer';
-import { SearchMoviesAction } from 'src/app/store/movie/actions/movie.actions';
+import { SearchAction } from 'src/app/store/movie/actions/movie.actions';
 import { Observable } from 'rxjs';
 import {
   selectIsLoading,
@@ -29,6 +29,6 @@ export class SearchMoviesComponent implements OnInit {
   ngOnInit() {}
 
   onSearch(title: string) {
-    this.store.dispatch(new SearchMoviesAction(title));
+    this.store.dispatch(new SearchAction(title));
   }
 }

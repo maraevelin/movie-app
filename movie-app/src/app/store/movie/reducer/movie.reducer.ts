@@ -23,7 +23,7 @@ export function MovieReducer(
   action: MovieAction
 ): MovieState {
   switch (action.type) {
-    case MovieActionTypes.SEARCH_MOVIES:
+    case MovieActionTypes.MOVIE_SEARCH:
       return {
         ...state,
         title: action.title,
@@ -32,43 +32,36 @@ export function MovieReducer(
         movies: [],
         detailedMovie: null
       };
-    case MovieActionTypes.SEARCH_MOVIES_SUCCES:
+    case MovieActionTypes.MOVIE_SEARCH_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        errorMessage: null,
-        movies: action.movies,
-        detailedMovie: null
+        movies: action.movies
       };
-    case MovieActionTypes.SEARCH_MOVIES_FAIL:
+    case MovieActionTypes.MOVIE_SEARCH_FAIL:
       return {
         ...state,
         isLoading: false,
-        errorMessage: action.error.message,
-        movies: [],
-        detailedMovie: null
+        errorMessage: action.error.message
       };
-    case MovieActionTypes.GET_DETAILED_MOVIE:
+    case MovieActionTypes.MOVIE_GET_DETAILED:
       return {
         ...state,
         isLoading: true,
         errorMessage: null,
         detailedMovie: null
       };
-    case MovieActionTypes.GET_DETAILED_MOVIE_SUCCES:
+    case MovieActionTypes.MOVIE_GET_DETAILED_SUCCES:
       return {
         ...state,
         isLoading: false,
-        errorMessage: null,
         detailedMovie: action.detailedMovie
       };
-    case MovieActionTypes.GET_DETAILED_MOVIE_FAIL:
+    case MovieActionTypes.MOVIE_GET_DETAILED_FAIL:
       return {
         ...state,
         isLoading: false,
-        errorMessage: action.error.message,
-        movies: [],
-        detailedMovie: null
+        errorMessage: action.error.message
       };
     case MovieActionTypes.MOVIE_RESET:
       return initialState;

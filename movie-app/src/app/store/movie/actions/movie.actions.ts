@@ -5,54 +5,54 @@ import { DetailedMovie } from 'src/app/models/DetailedMovie';
 export enum MovieActionTypes {
   MOVIE_RESET = '[MOVIE] Reset',
 
-  SEARCH_MOVIES = '[MOVIE] Search movies',
-  SEARCH_MOVIES_SUCCES = '[MOVIE] Search movies Success',
-  SEARCH_MOVIES_FAIL = '[MOVIE] Search movies Fail',
+  MOVIE_SEARCH = '[MOVIE] Search',
+  MOVIE_SEARCH_SUCCESS = '[MOVIE] Search Success',
+  MOVIE_SEARCH_FAIL = '[MOVIE] Search Fail',
 
-  GET_DETAILED_MOVIE = '[MOVIE] Get detailed movie',
-  GET_DETAILED_MOVIE_SUCCES = '[MOVIE] Get detailed movie Success',
-  GET_DETAILED_MOVIE_FAIL = '[MOVIE] Get detailed movie Fail'
+  MOVIE_GET_DETAILED = '[MOVIE] Get detailed',
+  MOVIE_GET_DETAILED_SUCCES = '[MOVIE] Get detailed Success',
+  MOVIE_GET_DETAILED_FAIL = '[MOVIE] Get detailed Fail'
 }
 
-export class MovieResetAction implements Action {
+export class ResetAction implements Action {
   readonly type = MovieActionTypes.MOVIE_RESET;
 }
 
-export class SearchMoviesAction implements Action {
-  readonly type = MovieActionTypes.SEARCH_MOVIES;
+export class SearchAction implements Action {
+  readonly type = MovieActionTypes.MOVIE_SEARCH;
   constructor(public title: string) {}
 }
 
-export class SearchMoviesSuccessAction implements Action {
-  readonly type = MovieActionTypes.SEARCH_MOVIES_SUCCES;
+export class SearchSuccessAction implements Action {
+  readonly type = MovieActionTypes.MOVIE_SEARCH_SUCCESS;
   constructor(public movies: Movie[]) {}
 }
 
-export class SearchMoviesFailAction implements Action {
-  readonly type = MovieActionTypes.SEARCH_MOVIES_FAIL;
+export class SearchFailAction implements Action {
+  readonly type = MovieActionTypes.MOVIE_SEARCH_FAIL;
   constructor(public error: Error) {}
 }
 
-export class GetDetailedMovieAction implements Action {
-  readonly type = MovieActionTypes.GET_DETAILED_MOVIE;
+export class GetDetailedAction implements Action {
+  readonly type = MovieActionTypes.MOVIE_GET_DETAILED;
   constructor(public id: string) {}
 }
 
-export class GetDetailedMovieSuccessAction implements Action {
-  readonly type = MovieActionTypes.GET_DETAILED_MOVIE_SUCCES;
+export class GetDetailedSuccessAction implements Action {
+  readonly type = MovieActionTypes.MOVIE_GET_DETAILED_SUCCES;
   constructor(public detailedMovie: DetailedMovie) {}
 }
 
-export class GetDetailedMovieFailAction implements Action {
-  readonly type = MovieActionTypes.GET_DETAILED_MOVIE_FAIL;
+export class GetDetailedFailAction implements Action {
+  readonly type = MovieActionTypes.MOVIE_GET_DETAILED_FAIL;
   constructor(public error: Error) {}
 }
 
 export type MovieAction =
-  | MovieResetAction
-  | SearchMoviesAction
-  | SearchMoviesSuccessAction
-  | SearchMoviesFailAction
-  | GetDetailedMovieAction
-  | GetDetailedMovieSuccessAction
-  | GetDetailedMovieFailAction;
+  | ResetAction
+  | SearchAction
+  | SearchSuccessAction
+  | SearchFailAction
+  | GetDetailedAction
+  | GetDetailedSuccessAction
+  | GetDetailedFailAction;

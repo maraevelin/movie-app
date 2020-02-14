@@ -4,7 +4,7 @@ import { DetailedMovie } from '../../models/DetailedMovie';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/root-reducer';
-import { GetDetailedMovieAction } from 'src/app/store/movie/actions/movie.actions';
+import { GetDetailedAction } from 'src/app/store/movie/actions/movie.actions';
 import {
   selectDetailedMovie,
   selectIsLoading,
@@ -23,7 +23,7 @@ export class MovieComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private store: Store<AppState>) {
     const id: string = this.route.snapshot.paramMap.get('id') || '';
-    this.store.dispatch(new GetDetailedMovieAction(id));
+    this.store.dispatch(new GetDetailedAction(id));
 
     this.isLoading$ = this.store.select(selectIsLoading);
     this.movie$ = this.store.select(selectDetailedMovie);

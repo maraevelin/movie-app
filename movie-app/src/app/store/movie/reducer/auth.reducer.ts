@@ -18,24 +18,6 @@ export function AuthReducer(
 ): AuthState {
   switch (action.type) {
     case AuthActionTypes.AUTH_SIGN_UP:
-      return {
-        ...state,
-        user: action.user,
-        isLoading: true,
-        errorMessage: null
-      };
-    case AuthActionTypes.AUTH_SIGN_UP_SUCCES:
-      return {
-        ...state,
-        isLoading: false
-      };
-    case AuthActionTypes.AUTH_SIGN_UP_FAIL:
-      return {
-        ...state,
-        user: { email: '', password: '' },
-        isLoading: false,
-        errorMessage: action.error.message
-      };
     case AuthActionTypes.AUTH_SIGN_IN:
       return {
         ...state,
@@ -43,11 +25,13 @@ export function AuthReducer(
         isLoading: true,
         errorMessage: null
       };
+    case AuthActionTypes.AUTH_SIGN_UP_SUCCES:
     case AuthActionTypes.AUTH_SIGN_IN_SUCCES:
       return {
         ...state,
         isLoading: false
       };
+    case AuthActionTypes.AUTH_SIGN_UP_FAIL:
     case AuthActionTypes.AUTH_SIGN_IN_FAIL:
       return {
         ...state,
