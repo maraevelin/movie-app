@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { User } from 'src/app/models/User';
 
 export enum AuthActionTypes {
   AUTH_RESET = '[AUTH] Reset',
@@ -12,13 +13,14 @@ export enum AuthActionTypes {
   AUTH_SIGN_IN_FAIL = '[AUTH] Sign in Fail'
 }
 
-export class AuthResetAction implements Action {
+export class ResetAction implements Action {
   readonly type = AuthActionTypes.AUTH_RESET;
+  constructor() {}
 }
 
 export class SignUpAction implements Action {
   readonly type = AuthActionTypes.AUTH_SIGN_UP;
-  constructor(public email: string) {}
+  constructor(public user: User) {}
 }
 
 export class SignUpSuccessAction implements Action {
@@ -32,7 +34,7 @@ export class SignUpFailAction implements Action {
 
 export class SignInAction implements Action {
   readonly type = AuthActionTypes.AUTH_SIGN_IN;
-  constructor(public email: string) {}
+  constructor(public user: User) {}
 }
 
 export class SignInSuccessAction implements Action {
@@ -45,7 +47,7 @@ export class SignInFailAction implements Action {
 }
 
 export type AuthAction =
-  | AuthResetAction
+  | ResetAction
   | SignUpAction
   | SignUpSuccessAction
   | SignUpFailAction

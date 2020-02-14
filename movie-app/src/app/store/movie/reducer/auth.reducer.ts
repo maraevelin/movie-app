@@ -1,13 +1,13 @@
 import { AuthAction, AuthActionTypes } from '../actions/auth.actions';
+import { User } from 'src/app/models/User';
 
 export interface AuthState {
-  readonly email: string;
+  readonly user: User;
   readonly isLoading: boolean;
   readonly errorMessage: string | null;
 }
-
 const initialState: AuthState = {
-  email: '',
+  user: { email: '', password: '' },
   isLoading: false,
   errorMessage: null
 };
@@ -17,13 +17,10 @@ export function AuthReducer(
   action: AuthAction
 ): AuthState {
   switch (action.type) {
-    case AuthActionTypes.AUTH_RESET:
-      return initialState;
-
     case AuthActionTypes.AUTH_SIGN_UP:
       return {
         ...state,
-        email: action.email,
+        user: action.user,
         isLoading: true,
         errorMessage: null
       };
@@ -35,14 +32,14 @@ export function AuthReducer(
     case AuthActionTypes.AUTH_SIGN_UP_FAIL:
       return {
         ...state,
-        email: '',
+        user: { email: '', password: '' },
         isLoading: false,
         errorMessage: action.error.message
       };
     case AuthActionTypes.AUTH_SIGN_IN:
       return {
         ...state,
-        email: action.email,
+        user: action.user,
         isLoading: true,
         errorMessage: null
       };
@@ -54,10 +51,12 @@ export function AuthReducer(
     case AuthActionTypes.AUTH_SIGN_IN_FAIL:
       return {
         ...state,
-        email: '',
+        user: { email: '', password: '' },
         isLoading: false,
         errorMessage: action.error.message
       };
+    case AuthActionTypes.AUTH_RESET:
+      return initialState;
     default:
       return state;
   }

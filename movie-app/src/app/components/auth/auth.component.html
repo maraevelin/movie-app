@@ -18,3 +18,11 @@
 <button (click)="onSwitch()">
   Switch to {{ isSignIn ? ' Sign up ' : 'Sign in' }}
 </button>
+
+<div *ngIf="isLoading$ | async">
+  <mat-spinner color="accent"></mat-spinner>
+</div>
+
+<div *ngIf="errorMessage$ | async as errorMessage">
+  {{ errorMessage }}
+</div>

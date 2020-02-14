@@ -20,6 +20,8 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { AuthComponent } from './components/auth/auth.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AuthEffects } from './store/movie/effects/auth.effects';
+import { AuthReducer } from './store/movie/reducer/auth.reducer';
 
 @NgModule({
   declarations: [
@@ -37,9 +39,10 @@ import { ReactiveFormsModule } from '@angular/forms';
     MaterialDesignModule,
     HttpClientModule,
     StoreModule.forRoot({
-      movie: MovieReducer
+      movie: MovieReducer,
+      auth: AuthReducer
     } as ActionReducerMap<AppState, any>),
-    EffectsModule.forRoot([MovieEffects]),
+    EffectsModule.forRoot([MovieEffects, AuthEffects]),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production

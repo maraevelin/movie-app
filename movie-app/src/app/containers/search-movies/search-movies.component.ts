@@ -2,10 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Movie } from '../../models/Movie';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/root-reducer';
-import {
-  SearchMoviesAction,
-  MovieResetAction
-} from 'src/app/store/movie/actions/movie.actions';
+import { SearchMoviesAction } from 'src/app/store/movie/actions/movie.actions';
 import { Observable } from 'rxjs';
 import {
   selectIsLoading,
