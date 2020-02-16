@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Effect, Actions, ofType, createEffect } from '@ngrx/effects';
+import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { AuthService } from 'src/app/services/auth.service';
 import {
   SignUpAction,
@@ -13,17 +13,19 @@ import {
 import { catchError, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { Store, select } from '@ngrx/store';
-import { AppState } from '../..';
 import { selectUser } from '../selectors/auth.selectors';
+import { AppState } from '../..';
 
 @Injectable()
 export class AuthEffects {
-  @Effect() signUp$ = this.actions$.pipe(
-    ofType<SignUpAction>(AuthActionTypes.AUTH_SIGN_UP),
-    switchMap(action =>
-      this.service.signup(action.user).pipe(
-        map(response => new SignUpSuccessAction()),
-        catchError(error => of(new SignUpFailAction(error)))
+  signUp$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType<SignUpAction>(AuthActionTypes.AUTH_SIGN_UP),
+      switchMap(action =>
+        this.service.signup(action.payload.user).pipe(
+          map(() => new SignUpSuccessAction()),
+          catchError(error => of(new SignUpFailAction(error)))
+        )
       )
     )
   );
@@ -36,13 +38,15 @@ export class AuthEffects {
     )
   );
 
-  @Effect() signIn$ = this.actions$.pipe(
-    ofType<SignInAction>(AuthActionTypes.AUTH_SIGN_IN),
-    switchMap(action =>
-      this.service.signin(action.user).pipe(
-        map(response => new SignInSuccessAction()),
-        catchError(error => of(new SignInFailAction(error)))
-      )
+  signIn$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType<SignInAction>(AuthActionTypes.AUTH_SIGN_IN),
+      switchMap(action => {
+        return this.service.signin(action.payload.user).pipe(
+          map(() => new SignInSuccessAction()),
+          catchError(error => of(new SignInFailAction(error)))
+        );
+      })
     )
   );
 

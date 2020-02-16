@@ -3,13 +3,13 @@ import { ActivatedRoute } from '@angular/router';
 import { DetailedMovie } from '../../models/detailed-movie.model';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/store/root-reducer';
 import { GetDetailedAction } from 'src/app/store/movie/actions/movie.actions';
 import {
   selectDetailedMovie,
   selectIsLoading,
   selectErrorMessage
 } from 'src/app/store/movie/selectors/movie.selectors';
+import { AppState } from 'src/app/store';
 
 @Component({
   selector: 'app-movie',
