@@ -1,15 +1,11 @@
 import { Injectable } from '@angular/core';
-import {
-  HttpClient,
-  HttpParams,
-  HttpErrorResponse
-} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { User } from '../models/user.model';
 import { environment } from 'src/environments/environment';
 import { SignUpResponse } from './models/sign-up-response.model';
 import { SignInResponse } from './models/sign-in-response.model';
-import { Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -24,9 +20,6 @@ export class AuthService {
     return this.http.post<SignUpResponse>(url, user).pipe(
       catchError(error => {
         throw new Error(error.error.error.message);
-      }),
-      map(response => {
-        return response;
       })
     );
   }
@@ -36,9 +29,6 @@ export class AuthService {
     return this.http.post<SignInResponse>(url, user).pipe(
       catchError(error => {
         throw new Error(error.error.error.message);
-      }),
-      map(response => {
-        return response;
       })
     );
   }
