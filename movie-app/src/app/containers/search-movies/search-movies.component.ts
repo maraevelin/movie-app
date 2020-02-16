@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Movie } from '../../models/Movie';
+import { Movie } from '../../models/movie.model';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/root-reducer';
 import { SearchAction } from 'src/app/store/movie/actions/movie.actions';

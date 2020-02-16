@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { SearchResponse } from './models/SearchResponse';
-import { DetailedMovieResponse } from './models/DetailedMovieResponse';
+import { SearchResponse } from './models/search-response.model';
+import { DetailedMovieResponse } from './models/detailed-movie-response.model';
 import { Observable, throwError } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Movie } from '../models/Movie';
-import { DetailedMovie } from '../models/DetailedMovie';
-import { MovieResponse } from './models/MovieResponse';
+import { Movie } from '../models/movie.model';
+import { DetailedMovie } from '../models/detailed-movie.model';
+import { MovieResponse } from './models/movie-response.model';
 
 @Injectable({
   providedIn: 'root'

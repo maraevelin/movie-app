@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
-import { Movie } from 'src/app/models/Movie';
-import { DetailedMovie } from 'src/app/models/DetailedMovie';
+import { Movie } from 'src/app/models/movie.model';
+import { DetailedMovie } from 'src/app/models/detailed-movie.model';
 
 export enum MovieActionTypes {
   MOVIE_RESET = '[MOVIE] Reset',

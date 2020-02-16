@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { User } from 'src/app/models/User';
+import { User } from 'src/app/models/user.model';
 
 export enum AuthActionTypes {
   AUTH_RESET = '[AUTH] Reset',

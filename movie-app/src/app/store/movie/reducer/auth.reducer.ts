@@ -1,5 +1,5 @@
 import { AuthAction, AuthActionTypes } from '../actions/auth.actions';
-import { User } from 'src/app/models/User';
+import { User } from 'src/app/models/user.model';
 
 export interface AuthState {
   readonly user: User;

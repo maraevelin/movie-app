@@ -1,6 +1,6 @@
-import { Movie } from 'src/app/models/Movie';
+import { Movie } from 'src/app/models/movie.model';
 import { MovieAction, MovieActionTypes } from '../actions/movie.actions';
-import { DetailedMovie } from 'src/app/models/DetailedMovie';
+import { DetailedMovie } from 'src/app/models/detailed-movie.model';
 
 export interface MovieState {
   readonly title: string;

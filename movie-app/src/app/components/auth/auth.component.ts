@@ -7,7 +7,7 @@ import {
   SignUpAction,
   ResetAction
 } from 'src/app/store/movie/actions/auth.actions';
-import { User } from 'src/app/models/User';
+import { User } from 'src/app/models/user.model';
 import { Observable } from 'rxjs';
 import {
   selectIsLoading,

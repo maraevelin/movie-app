@@ -4,10 +4,10 @@ import {
   HttpParams,
   HttpErrorResponse
 } from '@angular/common/http';
-import { User } from '../models/User';
+import { User } from '../models/user.model';
 import { environment } from 'src/environments/environment';
-import { SignUpResponse } from './models/SignUpResponse';
-import { SignInResponse } from './models/SignInResponse';
+import { SignUpResponse } from './models/sign-up-response.model';
+import { SignInResponse } from './models/sign-in-response.model';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 

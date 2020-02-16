@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Movie } from 'src/app/models/Movie';
+import { Movie } from 'src/app/models/movie.model';
 
 @Component({
   selector: 'app-gallery',
@@ -7,11 +7,9 @@ import { Movie } from 'src/app/models/Movie';
   styleUrls: ['./gallery.component.scss']
 })
 export class GalleryComponent implements OnInit {
-  @Input() movies: Movie[] =  [];
+  @Input() movies: Movie[] = [];
 
-  constructor() {
-  }
+  constructor() {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 }

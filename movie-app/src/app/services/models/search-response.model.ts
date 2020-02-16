@@ -1,4 +1,4 @@
-import { MovieResponse } from './MovieResponse';
+import { MovieResponse } from './movie-response.model';
 
 export interface SearchResponse {
   Search: MovieResponse[];

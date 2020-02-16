@@ -1,4 +1,4 @@
-import { DetailedMovieResponse } from 'src/app/services/models/DetailedMovieResponse';
+import { DetailedMovieResponse } from 'src/app/services/models/detailed-movie-response.model';
 
 export class DetailedMovie {
   readonly title: string;
