@@ -3,11 +3,10 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { SearchResponse } from './models/search-response.model';
 import { DetailedMovieResponse } from './models/detailed-movie-response.model';
-import { Observable, throwError } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import { Movie } from '../models/movie.model';
 import { DetailedMovie } from '../models/detailed-movie.model';
-import { MovieResponse } from './models/movie-response.model';
 
 @Injectable({
   providedIn: 'root'
@@ -21,19 +20,15 @@ export class OmdbApiService {
       params
     });
     return response.pipe(
-      map(searchResponse => {
+      tap(searchResponse => {
         if (searchResponse.Error) {
           throw new Error(searchResponse.Error);
         }
-
-        return searchResponse.Search.reduce(
-          (movies: Movie[], movie: MovieResponse) => {
-            return movie.Poster === 'N/A'
-              ? movies
-              : [...movies, new Movie(movie)];
-          },
-          []
-        );
+      }),
+      map(searchResponse => {
+        return searchResponse.Search.filter(
+          movie => movie.Poster !== 'N/A'
+        ).map(movie => new Movie(movie));
       })
     );
   }
@@ -47,13 +42,12 @@ export class OmdbApiService {
       { params }
     );
     return response.pipe(
-      map(movie => {
+      tap(movie => {
         if (movie.Error) {
           throw new Error(movie.Error);
         }
-
-        return new DetailedMovie(movie);
-      })
+      }),
+      map(movie => new DetailedMovie(movie))
     );
   }
 }
