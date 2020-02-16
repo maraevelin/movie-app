@@ -20,32 +20,32 @@ export class ResetAction implements Action {
 
 export class SearchAction implements Action {
   readonly type = MovieActionTypes.MOVIE_SEARCH;
-  constructor(public title: string) {}
+  constructor(public payload: { title: string }) {}
 }
 
 export class SearchSuccessAction implements Action {
   readonly type = MovieActionTypes.MOVIE_SEARCH_SUCCESS;
-  constructor(public movies: Movie[]) {}
+  constructor(public payload: { movies: Movie[] }) {}
 }
 
 export class SearchFailAction implements Action {
   readonly type = MovieActionTypes.MOVIE_SEARCH_FAIL;
-  constructor(public error: Error) {}
+  constructor(public payload: { error: Error }) {}
 }
 
 export class GetDetailedAction implements Action {
   readonly type = MovieActionTypes.MOVIE_GET_DETAILED;
-  constructor(public id: string) {}
+  constructor(public payload: { id: string }) {}
 }
 
 export class GetDetailedSuccessAction implements Action {
   readonly type = MovieActionTypes.MOVIE_GET_DETAILED_SUCCES;
-  constructor(public detailedMovie: DetailedMovie) {}
+  constructor(public payload: { detailedMovie: DetailedMovie }) {}
 }
 
 export class GetDetailedFailAction implements Action {
   readonly type = MovieActionTypes.MOVIE_GET_DETAILED_FAIL;
-  constructor(public error: Error) {}
+  constructor(public payload: { error: Error }) {}
 }
 
 export type MovieAction =

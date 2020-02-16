@@ -26,7 +26,7 @@ export function MovieReducer(
     case MovieActionTypes.MOVIE_SEARCH:
       return {
         ...state,
-        title: action.title,
+        title: action.payload.title,
         isLoading: true,
         errorMessage: null,
         movies: [],
@@ -36,13 +36,13 @@ export function MovieReducer(
       return {
         ...state,
         isLoading: false,
-        movies: action.movies
+        movies: action.payload.movies
       };
     case MovieActionTypes.MOVIE_SEARCH_FAIL:
       return {
         ...state,
         isLoading: false,
-        errorMessage: action.error.message
+        errorMessage: action.payload.error.message
       };
     case MovieActionTypes.MOVIE_GET_DETAILED:
       return {
@@ -55,13 +55,13 @@ export function MovieReducer(
       return {
         ...state,
         isLoading: false,
-        detailedMovie: action.detailedMovie
+        detailedMovie: action.payload.detailedMovie
       };
     case MovieActionTypes.MOVIE_GET_DETAILED_FAIL:
       return {
         ...state,
         isLoading: false,
-        errorMessage: action.error.message
+        errorMessage: action.payload.error.message
       };
     case MovieActionTypes.MOVIE_RESET:
       return initialState;

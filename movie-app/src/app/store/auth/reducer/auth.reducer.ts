@@ -21,7 +21,7 @@ export function AuthReducer(
     case AuthActionTypes.AUTH_SIGN_IN:
       return {
         ...state,
-        user: action.user,
+        user: action.payload.user,
         isLoading: true,
         errorMessage: null
       };
@@ -37,7 +37,7 @@ export function AuthReducer(
         ...state,
         user: { email: '', password: '' },
         isLoading: false,
-        errorMessage: action.error.message
+        errorMessage: action.payload.error.message
       };
     case AuthActionTypes.AUTH_RESET:
       return initialState;

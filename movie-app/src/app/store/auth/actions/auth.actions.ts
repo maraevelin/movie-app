@@ -19,7 +19,7 @@ export class ResetAction implements Action {
 
 export class SignUpAction implements Action {
   readonly type = AuthActionTypes.AUTH_SIGN_UP;
-  constructor(public user: User) {}
+  constructor(public payload: { user: User }) {}
 }
 
 export class SignUpSuccessAction implements Action {
@@ -28,12 +28,12 @@ export class SignUpSuccessAction implements Action {
 
 export class SignUpFailAction implements Action {
   readonly type = AuthActionTypes.AUTH_SIGN_UP_FAIL;
-  constructor(public error: Error) {}
+  constructor(public payload: { error: Error }) {}
 }
 
 export class SignInAction implements Action {
   readonly type = AuthActionTypes.AUTH_SIGN_IN;
-  constructor(public user: User) {}
+  constructor(public payload: { user: User }) {}
 }
 
 export class SignInSuccessAction implements Action {
@@ -42,7 +42,7 @@ export class SignInSuccessAction implements Action {
 
 export class SignInFailAction implements Action {
   readonly type = AuthActionTypes.AUTH_SIGN_IN_FAIL;
-  constructor(public error: Error) {}
+  constructor(public payload: { error: Error }) {}
 }
 
 export type AuthAction =
