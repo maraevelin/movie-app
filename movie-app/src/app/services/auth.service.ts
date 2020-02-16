@@ -11,8 +11,6 @@ import { catchError } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly apiKey = `?key=${environment.firebaseApiKey}`;
-
   constructor(private http: HttpClient) {}
 
   signup(user: User): Observable<SignUpResponse> {
