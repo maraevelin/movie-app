@@ -15,7 +15,6 @@ export enum AuthActionTypes {
 
 export class ResetAction implements Action {
   readonly type = AuthActionTypes.AUTH_RESET;
-  constructor() {}
 }
 
 export class SignUpAction implements Action {

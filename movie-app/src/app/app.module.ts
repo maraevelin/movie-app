@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -10,7 +10,6 @@ import { SearchMoviesComponent } from './containers/search-movies/search-movies.
 import { MovieComponent } from './containers/movie/movie.component';
 import { NavigationBarComponent } from './components/navigation-bar/navigation-bar.component';
 import { MaterialDesignModule } from './material-design/material-design.module';
-import { Interceptor } from './interceptors/Interceptor';
 import { StoreModule, ActionReducerMap } from '@ngrx/store';
 import { MovieReducer } from './store/movie/reducer/movie.reducer';
 import { AppState } from './store/root-reducer';
@@ -22,6 +21,7 @@ import { AuthComponent } from './components/auth/auth.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AuthEffects } from './store/movie/effects/auth.effects';
 import { AuthReducer } from './store/movie/reducer/auth.reducer';
+import { interceptorProviders } from './interceptors/interceptors';
 
 @NgModule({
   declarations: [
@@ -49,13 +49,7 @@ import { AuthReducer } from './store/movie/reducer/auth.reducer';
     }),
     ReactiveFormsModule
   ],
-  providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: Interceptor,
-      multi: true
-    }
-  ],
+  providers: [interceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
