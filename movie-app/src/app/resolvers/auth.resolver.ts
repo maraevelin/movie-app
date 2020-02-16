@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Resolve } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from '../store/root-reducer';
-import { ResetAction } from '../store/movie/actions/auth.actions';
+import { ResetAction } from '../store/auth/actions/auth.actions';
 
 @Injectable({
   providedIn: 'root'

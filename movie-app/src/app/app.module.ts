@@ -19,8 +19,8 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { AuthComponent } from './components/auth/auth.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { AuthEffects } from './store/movie/effects/auth.effects';
-import { AuthReducer } from './store/movie/reducer/auth.reducer';
+import { AuthEffects } from './store/auth/effects/auth.effects';
+import { AuthReducer } from './store/auth/reducer/auth.reducer';
 import { interceptorProviders } from './interceptors/interceptors';
 
 @NgModule({

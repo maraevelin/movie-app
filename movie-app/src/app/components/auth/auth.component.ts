@@ -6,13 +6,13 @@ import {
   SignInAction,
   SignUpAction,
   ResetAction
-} from 'src/app/store/movie/actions/auth.actions';
+} from 'src/app/store/auth/actions/auth.actions';
 import { User } from 'src/app/models/user.model';
 import { Observable } from 'rxjs';
 import {
   selectIsLoading,
   selectErrorMessage
-} from 'src/app/store/movie/selectors/auth.selectors';
+} from 'src/app/store/auth/selectors/auth.selectors';
 
 @Component({
   selector: 'app-auth',
