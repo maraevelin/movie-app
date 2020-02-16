@@ -1,6 +1,6 @@
 import { Resolve } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { AppState } from '../store/root-reducer';
+import { AppState } from '../store';
 import { ResetAction } from '../store/movie/actions/movie.actions';
 import { Injectable } from '@angular/core';
 

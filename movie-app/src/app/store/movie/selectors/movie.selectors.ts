@@ -1,4 +1,4 @@
-import { AppState } from '../../root-reducer';
+import { AppState } from '../..';
 import { createSelector } from '@ngrx/store';
 import { MovieState } from '../reducer/movie.reducer';
 

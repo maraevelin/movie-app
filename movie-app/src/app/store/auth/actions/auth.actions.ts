@@ -19,7 +19,11 @@ export class ResetAction implements Action {
 
 export class SignUpAction implements Action {
   readonly type = AuthActionTypes.AUTH_SIGN_UP;
-  constructor(public payload: { user: User }) {}
+  readonly payload: { user: User };
+
+  constructor(user: User) {
+    this.payload = { user };
+  }
 }
 
 export class SignUpSuccessAction implements Action {
@@ -28,12 +32,20 @@ export class SignUpSuccessAction implements Action {
 
 export class SignUpFailAction implements Action {
   readonly type = AuthActionTypes.AUTH_SIGN_UP_FAIL;
-  constructor(public payload: { error: Error }) {}
+  readonly payload: { error: Error };
+
+  constructor(error: Error) {
+    this.payload = { error };
+  }
 }
 
 export class SignInAction implements Action {
   readonly type = AuthActionTypes.AUTH_SIGN_IN;
-  constructor(public payload: { user: User }) {}
+  readonly payload: { user: User };
+
+  constructor(user: User) {
+    this.payload = { user };
+  }
 }
 
 export class SignInSuccessAction implements Action {
@@ -42,7 +54,11 @@ export class SignInSuccessAction implements Action {
 
 export class SignInFailAction implements Action {
   readonly type = AuthActionTypes.AUTH_SIGN_IN_FAIL;
-  constructor(public payload: { error: Error }) {}
+  readonly payload: { error: Error };
+
+  constructor(error: Error) {
+    this.payload = { error };
+  }
 }
 
 export type AuthAction =

@@ -13,7 +13,7 @@ import {
 import { catchError, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { Store, select } from '@ngrx/store';
-import { AppState } from '../../root-reducer';
+import { AppState } from '../..';
 import { selectUser } from '../selectors/auth.selectors';
 
 @Injectable()

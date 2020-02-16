@@ -1,4 +1,4 @@
-import { AppState } from '../../root-reducer';
+import { AppState } from '../..';
 import { createSelector } from '@ngrx/store';
 import { AuthState } from '../reducer/auth.reducer';
 

@@ -11,16 +11,12 @@ import { MovieComponent } from './containers/movie/movie.component';
 import { NavigationBarComponent } from './components/navigation-bar/navigation-bar.component';
 import { MaterialDesignModule } from './material-design/material-design.module';
 import { StoreModule, ActionReducerMap } from '@ngrx/store';
-import { MovieReducer } from './store/movie/reducer/movie.reducer';
-import { AppState } from './store/root-reducer';
+import { AppState, reducers, effects } from './store';
 import { EffectsModule } from '@ngrx/effects';
-import { MovieEffects } from './store/movie/effects/movie.effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { AuthComponent } from './components/auth/auth.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { AuthEffects } from './store/auth/effects/auth.effects';
-import { AuthReducer } from './store/auth/reducer/auth.reducer';
 import { interceptorProviders } from './interceptors/interceptors';
 
 @NgModule({
@@ -38,18 +34,15 @@ import { interceptorProviders } from './interceptors/interceptors';
     AppRoutingModule,
     MaterialDesignModule,
     HttpClientModule,
-    StoreModule.forRoot({
-      movie: MovieReducer,
-      auth: AuthReducer
-    } as ActionReducerMap<AppState, any>),
-    EffectsModule.forRoot([MovieEffects, AuthEffects]),
+    StoreModule.forRoot(reducers as ActionReducerMap<AppState, any>),
+    EffectsModule.forRoot(effects),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production
     }),
     ReactiveFormsModule
   ],
-  providers: [interceptorProviders],
+  providers: [...interceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

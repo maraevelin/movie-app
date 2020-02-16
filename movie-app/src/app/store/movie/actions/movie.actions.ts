@@ -20,32 +20,56 @@ export class ResetAction implements Action {
 
 export class SearchAction implements Action {
   readonly type = MovieActionTypes.MOVIE_SEARCH;
-  constructor(public payload: { title: string }) {}
+  readonly payload: { title: string };
+
+  constructor(title: string) {
+    this.payload = { title };
+  }
 }
 
 export class SearchSuccessAction implements Action {
   readonly type = MovieActionTypes.MOVIE_SEARCH_SUCCESS;
-  constructor(public payload: { movies: Movie[] }) {}
+  readonly payload: { movies: Movie[] };
+
+  constructor(movies: Movie[]) {
+    this.payload = { movies };
+  }
 }
 
 export class SearchFailAction implements Action {
   readonly type = MovieActionTypes.MOVIE_SEARCH_FAIL;
-  constructor(public payload: { error: Error }) {}
+  readonly payload: { error: Error };
+
+  constructor(error: Error) {
+    this.payload = { error };
+  }
 }
 
 export class GetDetailedAction implements Action {
   readonly type = MovieActionTypes.MOVIE_GET_DETAILED;
-  constructor(public payload: { id: string }) {}
+  readonly payload: { id: string };
+
+  constructor(id: string) {
+    this.payload = { id };
+  }
 }
 
 export class GetDetailedSuccessAction implements Action {
   readonly type = MovieActionTypes.MOVIE_GET_DETAILED_SUCCES;
-  constructor(public payload: { detailedMovie: DetailedMovie }) {}
+  readonly payload: { detailedMovie: DetailedMovie };
+
+  constructor(detailedMovie: DetailedMovie) {
+    this.payload = { detailedMovie };
+  }
 }
 
 export class GetDetailedFailAction implements Action {
   readonly type = MovieActionTypes.MOVIE_GET_DETAILED_FAIL;
-  constructor(public payload: { error: Error }) {}
+  readonly payload: { error: Error };
+
+  constructor(error: Error) {
+    this.payload = { error };
+  }
 }
 
 export type MovieAction =
