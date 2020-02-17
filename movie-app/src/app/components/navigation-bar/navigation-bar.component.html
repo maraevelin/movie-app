@@ -5,8 +5,17 @@
   <div class="btn btn_movies" routerLink="/movies">
     movies
   </div>
-  <div class="btn btn_signin" routerLink="/auth">
-    login
+
+  <div *ngIf="isSignedIn$ | async; else isVisitor">
+    <div class="btn btn_auth" (click)="onSignOut()">
+      sign out
+    </div>
   </div>
+
+  <ng-template #isVisitor>
+    <div class="btn btn_auth" routerLink="/auth">
+      sign in
+    </div>
+  </ng-template>
 </div>
 <p>navigation-bar works!</p>

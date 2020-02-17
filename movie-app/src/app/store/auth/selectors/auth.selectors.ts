@@ -18,3 +18,8 @@ export const selectErrorMessage = createSelector(
   selectAuth,
   (state: AuthState) => state.errorMessage
 );
+
+export const selectIsSignedIn = createSelector(
+  selectAuth,
+  (state: AuthState) => state.isSignedIn
+);

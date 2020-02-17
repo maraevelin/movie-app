@@ -11,12 +11,14 @@ import {
 } from '../actions/auth.actions';
 
 export interface AuthState {
+  readonly isSignedIn: boolean;
   readonly user: User;
   readonly isLoading: boolean;
   readonly errorMessage: string | null;
 }
 
 const initialState: AuthState = {
+  isSignedIn: false,
   user: { email: '', password: '' },
   isLoading: false,
   errorMessage: null
@@ -31,12 +33,18 @@ export const authReducer = createReducer(
   on(reset, _state => ({ ...initialState })),
   on(signUp, signIn, (state, { user }) => ({
     ...state,
+    isSignedIn: false,
     isLoading: true,
     errorMessage: null,
     user
   })),
-  on(signUpSuccess, signInSuccess, state => ({
+  on(signUpSuccess, state => ({
     ...state,
+    isLoading: false
+  })),
+  on(signInSuccess, state => ({
+    ...state,
+    isSignedIn: true,
     isLoading: false
   })),
   on(signUpFail, signInFail, (state, { error }) => ({
