@@ -1,4 +1,4 @@
-import { Action, createAction } from '@ngrx/store';
+import { createAction, props } from '@ngrx/store';
 import { Movie } from 'src/app/models/movie.model';
 import { DetailedMovie } from 'src/app/models/detailed-movie.model';
 
@@ -16,64 +16,32 @@ export enum MovieActionTypes {
 
 export const reset = createAction(MovieActionTypes.MOVIE_RESET);
 
-export class SearchAction implements Action {
-  readonly type = MovieActionTypes.MOVIE_SEARCH;
-  readonly payload: { title: string };
+export const search = createAction(
+  MovieActionTypes.MOVIE_SEARCH,
+  props<{ title: string }>()
+);
 
-  constructor(title: string) {
-    this.payload = { title };
-  }
-}
+export const searchSuccess = createAction(
+  MovieActionTypes.MOVIE_SEARCH_SUCCESS,
+  props<{ movies: Movie[] }>()
+);
 
-export class SearchSuccessAction implements Action {
-  readonly type = MovieActionTypes.MOVIE_SEARCH_SUCCESS;
-  readonly payload: { movies: Movie[] };
+export const searchFail = createAction(
+  MovieActionTypes.MOVIE_SEARCH_FAIL,
+  props<{ error: Error }>()
+);
 
-  constructor(movies: Movie[]) {
-    this.payload = { movies };
-  }
-}
+export const getDetailed = createAction(
+  MovieActionTypes.MOVIE_GET_DETAILED,
+  props<{ id: string }>()
+);
 
-export class SearchFailAction implements Action {
-  readonly type = MovieActionTypes.MOVIE_SEARCH_FAIL;
-  readonly payload: { error: Error };
+export const getDetailedSuccess = createAction(
+  MovieActionTypes.MOVIE_SEARCH_SUCCESS,
+  props<{ detailedMovie: DetailedMovie }>()
+);
 
-  constructor(error: Error) {
-    this.payload = { error };
-  }
-}
-
-export class GetDetailedAction implements Action {
-  readonly type = MovieActionTypes.MOVIE_GET_DETAILED;
-  readonly payload: { id: string };
-
-  constructor(id: string) {
-    this.payload = { id };
-  }
-}
-
-export class GetDetailedSuccessAction implements Action {
-  readonly type = MovieActionTypes.MOVIE_GET_DETAILED_SUCCES;
-  readonly payload: { detailedMovie: DetailedMovie };
-
-  constructor(detailedMovie: DetailedMovie) {
-    this.payload = { detailedMovie };
-  }
-}
-
-export class GetDetailedFailAction implements Action {
-  readonly type = MovieActionTypes.MOVIE_GET_DETAILED_FAIL;
-  readonly payload: { error: Error };
-
-  constructor(error: Error) {
-    this.payload = { error };
-  }
-}
-
-export type MovieAction =
-  | SearchAction
-  | SearchSuccessAction
-  | SearchFailAction
-  | GetDetailedAction
-  | GetDetailedSuccessAction
-  | GetDetailedFailAction;
+export const getDetailedFail = createAction(
+  MovieActionTypes.MOVIE_GET_DETAILED_FAIL,
+  props<{ error: Error }>()
+);

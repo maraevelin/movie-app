@@ -3,13 +3,12 @@ import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { OmdbApiService } from 'src/app/services/omdb-api.service';
 import {
-  MovieActionTypes,
-  SearchAction,
-  SearchSuccessAction,
-  SearchFailAction,
-  GetDetailedAction,
-  GetDetailedSuccessAction,
-  GetDetailedFailAction
+  search,
+  searchSuccess,
+  searchFail,
+  getDetailed,
+  getDetailedSuccess,
+  getDetailedFail
 } from '../actions/movie.actions';
 import { switchMap, map, catchError } from 'rxjs/operators';
 
@@ -17,11 +16,11 @@ import { switchMap, map, catchError } from 'rxjs/operators';
 export class MovieEffects {
   searchMovies$ = createEffect(() =>
     this.actions$.pipe(
-      ofType<SearchAction>(MovieActionTypes.MOVIE_SEARCH),
+      ofType(search),
       switchMap(action =>
-        this.service.searchMoviesByTitle(action.payload.title).pipe(
-          map(response => new SearchSuccessAction(response)),
-          catchError(error => of(new SearchFailAction(error)))
+        this.service.searchMoviesByTitle(action.title).pipe(
+          map(movies => searchSuccess({ movies })),
+          catchError(error => of(searchFail({ error })))
         )
       )
     )
@@ -29,11 +28,11 @@ export class MovieEffects {
 
   getDetailedMovie$ = createEffect(() =>
     this.actions$.pipe(
-      ofType<GetDetailedAction>(MovieActionTypes.MOVIE_GET_DETAILED),
+      ofType(getDetailed),
       switchMap(action =>
-        this.service.getMovieByImdbId(action.payload.id).pipe(
-          map(response => new GetDetailedSuccessAction(response)),
-          catchError(error => of(new GetDetailedFailAction(error)))
+        this.service.getMovieByImdbId(action.id).pipe(
+          map(detailedMovie => getDetailedSuccess({ detailedMovie })),
+          catchError(error => of(getDetailedFail({ error })))
         )
       )
     )

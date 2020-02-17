@@ -1,6 +1,15 @@
 import { Movie } from 'src/app/models/movie.model';
-import { MovieAction, MovieActionTypes } from '../actions/movie.actions';
+import {
+  reset,
+  search,
+  searchSuccess,
+  getDetailed,
+  searchFail,
+  getDetailedSuccess,
+  getDetailedFail
+} from '../actions/movie.actions';
 import { DetailedMovie } from 'src/app/models/detailed-movie.model';
+import { createReducer, on, Action } from '@ngrx/store';
 
 export interface MovieState {
   readonly title: string;
@@ -18,54 +27,45 @@ const initialState: MovieState = {
   detailedMovie: null
 };
 
-export function MovieReducer(
-  state = initialState,
-  action: MovieAction
-): MovieState {
-  switch (action.type) {
-    case MovieActionTypes.MOVIE_SEARCH:
-      return {
-        ...state,
-        title: action.payload.title,
-        isLoading: true,
-        errorMessage: null,
-        movies: [],
-        detailedMovie: null
-      };
-    case MovieActionTypes.MOVIE_SEARCH_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        movies: action.payload.movies
-      };
-    case MovieActionTypes.MOVIE_SEARCH_FAIL:
-      return {
-        ...state,
-        isLoading: false,
-        errorMessage: action.payload.error.message
-      };
-    case MovieActionTypes.MOVIE_GET_DETAILED:
-      return {
-        ...state,
-        isLoading: true,
-        errorMessage: null,
-        detailedMovie: null
-      };
-    case MovieActionTypes.MOVIE_GET_DETAILED_SUCCES:
-      return {
-        ...state,
-        isLoading: false,
-        detailedMovie: action.payload.detailedMovie
-      };
-    case MovieActionTypes.MOVIE_GET_DETAILED_FAIL:
-      return {
-        ...state,
-        isLoading: false,
-        errorMessage: action.payload.error.message
-      };
-    case MovieActionTypes.MOVIE_RESET:
-      return initialState;
-    default:
-      return state;
-  }
+export function reducer(state: MovieState | undefined, action: Action) {
+  return movieReducer(state, action);
 }
+
+export const movieReducer = createReducer(
+  initialState,
+  on(reset, state => ({ ...initialState })),
+  on(search, (state, { title }) => ({
+    ...state,
+    isLoading: true,
+    errorMessage: null,
+    movies: [],
+    detailedMovie: null,
+    title
+  })),
+  on(searchSuccess, (state, { movies }) => ({
+    ...state,
+    isLoading: false,
+    movies
+  })),
+  on(searchFail, (state, { error }) => ({
+    ...state,
+    isLoading: false,
+    errorMessage: error.message
+  })),
+  on(getDetailed, state => ({
+    ...state,
+    isLoading: true,
+    errorMessage: null,
+    detailedMovie: null
+  })),
+  on(getDetailedSuccess, (state, { detailedMovie }) => ({
+    ...state,
+    isLoading: false,
+    detailedMovie
+  })),
+  on(getDetailedFail, (state, { error }) => ({
+    ...state,
+    isLoading: false,
+    errorMessage: error.message
+  }))
+);

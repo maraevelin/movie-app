@@ -3,13 +3,13 @@ import { ActivatedRoute } from '@angular/router';
 import { DetailedMovie } from '../../models/detailed-movie.model';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { GetDetailedAction } from 'src/app/store/movie/actions/movie.actions';
 import {
   selectDetailedMovie,
   selectIsLoading,
   selectErrorMessage
 } from 'src/app/store/movie/selectors/movie.selectors';
 import { AppState } from 'src/app/store';
+import { getDetailed } from 'src/app/store/movie/actions/movie.actions';
 
 @Component({
   selector: 'app-movie',
@@ -23,7 +23,7 @@ export class MovieComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private store: Store<AppState>) {
     const id: string = this.route.snapshot.paramMap.get('id') || '';
-    this.store.dispatch(new GetDetailedAction(id));
+    this.store.dispatch(getDetailed({ id }));
 
     this.isLoading$ = this.store.select(selectIsLoading);
     this.movie$ = this.store.select(selectDetailedMovie);

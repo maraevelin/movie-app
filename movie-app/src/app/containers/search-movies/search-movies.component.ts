@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { Movie } from '../../models/movie.model';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
-import { SearchAction } from 'src/app/store/movie/actions/movie.actions';
 import { Observable } from 'rxjs';
 import {
   selectIsLoading,
   selectMovies,
   selectErrorMessage
 } from 'src/app/store/movie/selectors/movie.selectors';
+import { search } from 'src/app/store/movie/actions/movie.actions';
 
 @Component({
   selector: 'app-search-movies',
@@ -29,6 +29,6 @@ export class SearchMoviesComponent implements OnInit {
   ngOnInit() {}
 
   onSearch(title: string) {
-    this.store.dispatch(new SearchAction(title));
+    this.store.dispatch(search({ title }));
   }
 }
