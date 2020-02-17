@@ -2,13 +2,12 @@ import { Injectable } from '@angular/core';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { AuthService } from 'src/app/services/auth.service';
 import {
-  SignUpAction,
-  SignInAction,
-  AuthActionTypes,
-  SignUpSuccessAction,
-  SignUpFailAction,
-  SignInSuccessAction,
-  SignInFailAction
+  signUp,
+  signUpSuccess,
+  signUpFail,
+  signIn,
+  signInSuccess,
+  signInFail
 } from '../actions/auth.actions';
 import { catchError, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
@@ -20,11 +19,11 @@ import { AppState } from '../..';
 export class AuthEffects {
   signUp$ = createEffect(() =>
     this.actions$.pipe(
-      ofType<SignUpAction>(AuthActionTypes.AUTH_SIGN_UP),
+      ofType(signUp),
       switchMap(action =>
-        this.service.signup(action.payload.user).pipe(
-          map(() => new SignUpSuccessAction()),
-          catchError(error => of(new SignUpFailAction(error)))
+        this.service.signup(action.user).pipe(
+          map(() => signUpSuccess()),
+          catchError(error => of(signUpFail({ error })))
         )
       )
     )
@@ -32,19 +31,19 @@ export class AuthEffects {
 
   automaticSignIn$ = createEffect(() =>
     this.actions$.pipe(
-      ofType<SignUpSuccessAction>(AuthActionTypes.AUTH_SIGN_UP_SUCCES),
+      ofType(signUpSuccess),
       withLatestFrom(this.store.pipe(select(selectUser))),
-      map(([action, user]) => new SignInAction(user))
+      map(([_action, user]) => signIn({ user }))
     )
   );
 
   signIn$ = createEffect(() =>
     this.actions$.pipe(
-      ofType<SignInAction>(AuthActionTypes.AUTH_SIGN_IN),
+      ofType(signIn),
       switchMap(action => {
-        return this.service.signin(action.payload.user).pipe(
-          map(() => new SignInSuccessAction()),
-          catchError(error => of(new SignInFailAction(error)))
+        return this.service.signin(action.user).pipe(
+          map(() => signInSuccess()),
+          catchError(error => of(signInFail({ error })))
         );
       })
     )

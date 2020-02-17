@@ -1,47 +1,48 @@
-import { AuthAction, AuthActionTypes } from '../actions/auth.actions';
 import { User } from 'src/app/models/user.model';
+import { Action, createReducer, on } from '@ngrx/store';
+import {
+  reset,
+  signUp,
+  signUpSuccess,
+  signUpFail,
+  signIn,
+  signInSuccess,
+  signInFail
+} from '../actions/auth.actions';
 
 export interface AuthState {
   readonly user: User;
   readonly isLoading: boolean;
   readonly errorMessage: string | null;
 }
+
 const initialState: AuthState = {
   user: { email: '', password: '' },
   isLoading: false,
   errorMessage: null
 };
 
-export function AuthReducer(
-  state = initialState,
-  action: AuthAction
-): AuthState {
-  switch (action.type) {
-    case AuthActionTypes.AUTH_SIGN_UP:
-    case AuthActionTypes.AUTH_SIGN_IN:
-      return {
-        ...state,
-        user: action.payload.user,
-        isLoading: true,
-        errorMessage: null
-      };
-    case AuthActionTypes.AUTH_SIGN_UP_SUCCES:
-    case AuthActionTypes.AUTH_SIGN_IN_SUCCES:
-      return {
-        ...state,
-        isLoading: false
-      };
-    case AuthActionTypes.AUTH_SIGN_UP_FAIL:
-    case AuthActionTypes.AUTH_SIGN_IN_FAIL:
-      return {
-        ...state,
-        user: { email: '', password: '' },
-        isLoading: false,
-        errorMessage: action.payload.error.message
-      };
-    case AuthActionTypes.AUTH_RESET:
-      return initialState;
-    default:
-      return state;
-  }
+export function reducer(state: AuthState | undefined, action: Action) {
+  return authReducer(state, action);
 }
+
+export const authReducer = createReducer(
+  initialState,
+  on(reset, _state => ({ ...initialState })),
+  on(signUp, signIn, (state, { user }) => ({
+    ...state,
+    isLoading: true,
+    errorMessage: null,
+    user
+  })),
+  on(signUpSuccess, signInSuccess, state => ({
+    ...state,
+    isLoading: false
+  })),
+  on(signUpFail, signInFail, (state, { error }) => ({
+    ...state,
+    isLoading: false,
+    user: { email: '', password: '' },
+    errorMessage: error.message
+  }))
+);

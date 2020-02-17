@@ -2,17 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
-import {
-  SignInAction,
-  SignUpAction,
-  ResetAction
-} from 'src/app/store/auth/actions/auth.actions';
 import { User } from 'src/app/models/user.model';
 import { Observable } from 'rxjs';
 import {
   selectIsLoading,
   selectErrorMessage
 } from 'src/app/store/auth/selectors/auth.selectors';
+import { reset, signIn, signUp } from 'src/app/store/auth/actions/auth.actions';
 
 @Component({
   selector: 'app-auth',
@@ -40,7 +36,7 @@ export class AuthComponent implements OnInit {
 
   onSwitch() {
     this.isSignIn = !this.isSignIn;
-    this.store.dispatch(new ResetAction());
+    this.store.dispatch(reset());
   }
 
   onSubmit() {
@@ -49,8 +45,6 @@ export class AuthComponent implements OnInit {
     }
 
     const user: User = this.form.value;
-    this.store.dispatch(
-      this.isSignIn ? new SignInAction(user) : new SignUpAction(user)
-    );
+    this.store.dispatch(this.isSignIn ? signIn({ user }) : signUp({ user }));
   }
 }

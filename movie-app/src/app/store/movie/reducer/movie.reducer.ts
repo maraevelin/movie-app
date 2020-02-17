@@ -33,7 +33,7 @@ export function reducer(state: MovieState | undefined, action: Action) {
 
 export const movieReducer = createReducer(
   initialState,
-  on(reset, state => ({ ...initialState })),
+  on(reset, _state => ({ ...initialState })),
   on(search, (state, { title }) => ({
     ...state,
     isLoading: true,

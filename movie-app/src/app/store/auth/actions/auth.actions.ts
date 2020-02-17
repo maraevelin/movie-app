@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import { createAction, props } from '@ngrx/store';
 import { User } from 'src/app/models/user.model';
 
 export enum AuthActionTypes {
@@ -13,59 +13,28 @@ export enum AuthActionTypes {
   AUTH_SIGN_IN_FAIL = '[AUTH] Sign in Fail'
 }
 
-export class ResetAction implements Action {
-  readonly type = AuthActionTypes.AUTH_RESET;
-}
+export const reset = createAction(AuthActionTypes.AUTH_RESET);
 
-export class SignUpAction implements Action {
-  readonly type = AuthActionTypes.AUTH_SIGN_UP;
-  readonly payload: { user: User };
+export const signUp = createAction(
+  AuthActionTypes.AUTH_SIGN_UP,
+  props<{ user: User }>()
+);
 
-  constructor(user: User) {
-    this.payload = { user };
-  }
-}
+export const signUpSuccess = createAction(AuthActionTypes.AUTH_SIGN_UP_SUCCES);
 
-export class SignUpSuccessAction implements Action {
-  readonly type = AuthActionTypes.AUTH_SIGN_UP_SUCCES;
-}
+export const signUpFail = createAction(
+  AuthActionTypes.AUTH_SIGN_UP_FAIL,
+  props<{ error: Error }>()
+);
 
-export class SignUpFailAction implements Action {
-  readonly type = AuthActionTypes.AUTH_SIGN_UP_FAIL;
-  readonly payload: { error: Error };
+export const signIn = createAction(
+  AuthActionTypes.AUTH_SIGN_IN,
+  props<{ user: User }>()
+);
 
-  constructor(error: Error) {
-    this.payload = { error };
-  }
-}
+export const signInSuccess = createAction(AuthActionTypes.AUTH_SIGN_IN_SUCCES);
 
-export class SignInAction implements Action {
-  readonly type = AuthActionTypes.AUTH_SIGN_IN;
-  readonly payload: { user: User };
-
-  constructor(user: User) {
-    this.payload = { user };
-  }
-}
-
-export class SignInSuccessAction implements Action {
-  readonly type = AuthActionTypes.AUTH_SIGN_IN_SUCCES;
-}
-
-export class SignInFailAction implements Action {
-  readonly type = AuthActionTypes.AUTH_SIGN_IN_FAIL;
-  readonly payload: { error: Error };
-
-  constructor(error: Error) {
-    this.payload = { error };
-  }
-}
-
-export type AuthAction =
-  | ResetAction
-  | SignUpAction
-  | SignUpSuccessAction
-  | SignUpFailAction
-  | SignInAction
-  | SignInSuccessAction
-  | SignInFailAction;
+export const signInFail = createAction(
+  AuthActionTypes.AUTH_SIGN_IN_FAIL,
+  props<{ error: Error }>()
+);

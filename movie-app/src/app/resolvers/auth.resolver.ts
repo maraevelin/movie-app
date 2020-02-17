@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Resolve } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from '../store';
-import { ResetAction } from '../store/auth/actions/auth.actions';
+import { reset } from '../store/auth/actions/auth.actions';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +10,6 @@ import { ResetAction } from '../store/auth/actions/auth.actions';
 export class AuthResolver implements Resolve<void> {
   constructor(private store: Store<AppState>) {}
   resolve(): void {
-    this.store.dispatch(new ResetAction());
+    this.store.dispatch(reset());
   }
 }
