@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import { Action, createAction } from '@ngrx/store';
 import { Movie } from 'src/app/models/movie.model';
 import { DetailedMovie } from 'src/app/models/detailed-movie.model';
 
@@ -14,9 +14,7 @@ export enum MovieActionTypes {
   MOVIE_GET_DETAILED_FAIL = '[MOVIE] Get detailed Fail'
 }
 
-export class ResetAction implements Action {
-  readonly type = MovieActionTypes.MOVIE_RESET;
-}
+export const reset = createAction(MovieActionTypes.MOVIE_RESET);
 
 export class SearchAction implements Action {
   readonly type = MovieActionTypes.MOVIE_SEARCH;
@@ -73,7 +71,6 @@ export class GetDetailedFailAction implements Action {
 }
 
 export type MovieAction =
-  | ResetAction
   | SearchAction
   | SearchSuccessAction
   | SearchFailAction
