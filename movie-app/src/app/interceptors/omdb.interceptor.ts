@@ -14,13 +14,13 @@ export class OmdbInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    const omdbApiUrl = environment.omdbApiUrl;
+    const omdbApiUrl = environment.omdb.url;
 
     if (req.url.startsWith(omdbApiUrl)) {
       const request = req.clone({
         params: req.params.set(
-          environment.omdbApiKeyParam,
-          environment.omdbApiKey
+          environment.omdb.paramApiKey,
+          environment.omdb.apiKey
         )
       });
       return next.handle(request);

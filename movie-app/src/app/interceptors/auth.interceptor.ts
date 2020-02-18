@@ -14,15 +14,15 @@ export class AuthInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    const firebaseApiURl = environment.firebaseApiUrl;
+    const firebaseApiURl = environment.firebase.url;
 
     if (req.url.startsWith(firebaseApiURl)) {
       const request = req.clone({
         params: req.params
-          .set(environment.firebaseApiKeyParam, environment.firebaseApiKey)
+          .set(environment.firebase.paramApiKey, environment.firebase.apiKey)
           .set(
-            environment.firebaseParamReturnSecureTokenParam,
-            environment.firebaseParamReturnSecureToken
+            environment.firebase.paramReturnSecureTokenParam,
+            environment.firebase.returnSecureTokenPreference
           )
       });
       return next.handle(request);

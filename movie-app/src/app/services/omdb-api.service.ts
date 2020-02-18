@@ -15,8 +15,8 @@ export class OmdbApiService {
   constructor(private http: HttpClient) {}
 
   searchMoviesByTitle(title: string): Observable<Movie[]> {
-    const params = new HttpParams().set(environment.omdbParamSearch, title);
-    const response = this.http.get<SearchResponse>(environment.omdbApiUrl, {
+    const params = new HttpParams().set(environment.omdb.paramSearch, title);
+    const response = this.http.get<SearchResponse>(environment.omdb.url, {
       params
     });
     return response.pipe(
@@ -35,10 +35,10 @@ export class OmdbApiService {
 
   getMovieByImdbId(id: string): Observable<DetailedMovie> {
     const params = new HttpParams()
-      .set(environment.omdbParamImdbID, id)
-      .set(environment.omdbParamPlot, environment.omdbPlot);
+      .set(environment.omdb.paramImdbId, id)
+      .set(environment.omdb.paramPlot, environment.omdb.plotPreference);
     const response = this.http.get<DetailedMovieResponse>(
-      environment.omdbApiUrl,
+      environment.omdb.url,
       { params }
     );
     return response.pipe(
