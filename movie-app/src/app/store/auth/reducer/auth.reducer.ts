@@ -29,7 +29,7 @@ export function reducer(state: AuthState | undefined, action: Action) {
   return authReducer(state, action);
 }
 
-export const authReducer = createReducer(
+const authReducer = createReducer(
   initialState,
   on(reset, _state => ({ ...initialState })),
   on(signUp, signIn, (state, { credentials }) => ({

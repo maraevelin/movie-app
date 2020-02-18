@@ -1,35 +1,29 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Credentials } from '../models/credentials.model';
-import { environment } from 'src/environments/environment';
-import { SignUpResponse } from './models/sign-up-response.model';
-import { SignInResponse } from './models/sign-in-response.model';
-import { Observable } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
-import { User } from '../models/user.model';
+import { Observable, from } from 'rxjs';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  constructor(private http: HttpClient) {}
+  constructor(private firebase: AngularFireAuth) {}
 
-  signup(credentials: Credentials): Observable<SignUpResponse> {
-    const url = `${environment.firebaseOld.url}:signUp`;
-    return this.http.post<SignUpResponse>(url, credentials).pipe(
-      catchError(error => {
-        throw new Error(error.error.error.message);
-      })
+  signup(credentials: Credentials): Observable<firebase.auth.UserCredential> {
+    return from(
+      this.firebase.auth.createUserWithEmailAndPassword(
+        credentials.email,
+        credentials.password
+      )
     );
   }
 
-  signin(credentials: Credentials): Observable<SignInResponse> {
-    const url = `${environment.firebaseOld.url}:signInWithPassword`;
-    return this.http.post<SignInResponse>(url, credentials).pipe(
-      catchError(error => {
-        throw new Error(error.error.error.message);
-      }),
-      tap(response => new User(response))
+  signin(credentials: Credentials): Observable<firebase.auth.UserCredential> {
+    return from(
+      this.firebase.auth.signInWithEmailAndPassword(
+        credentials.email,
+        credentials.password
+      )
     );
   }
 }

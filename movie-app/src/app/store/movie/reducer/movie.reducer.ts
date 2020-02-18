@@ -31,7 +31,7 @@ export function reducer(state: MovieState | undefined, action: Action) {
   return movieReducer(state, action);
 }
 
-export const movieReducer = createReducer(
+const movieReducer = createReducer(
   initialState,
   on(reset, _state => ({ ...initialState })),
   on(search, (state, { title }) => ({

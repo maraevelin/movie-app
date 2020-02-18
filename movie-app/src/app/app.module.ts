@@ -18,6 +18,9 @@ import { environment } from '../environments/environment';
 import { AuthComponent } from './components/auth/auth.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { interceptorProviders } from './interceptors/interceptors';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFireAuthModule } from '@angular/fire/auth';
 
 @NgModule({
   declarations: [
@@ -40,7 +43,10 @@ import { interceptorProviders } from './interceptors/interceptors';
       maxAge: 25,
       logOnly: environment.production
     }),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireDatabaseModule,
+    AngularFireAuthModule
   ],
   providers: [...interceptorProviders],
   bootstrap: [AppComponent]
