@@ -9,12 +9,19 @@ import {
   signInSuccess,
   signInFail
 } from '../actions/auth.actions';
-import { catchError, map, switchMap, withLatestFrom } from 'rxjs/operators';
+import {
+  catchError,
+  map,
+  switchMap,
+  withLatestFrom,
+  tap
+} from 'rxjs/operators';
 import { of } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import { selectCredentials } from '../selectors/auth.selectors';
 import { AppState } from '../..';
 import { User } from 'src/app/models/user.model';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthEffects {
@@ -50,9 +57,19 @@ export class AuthEffects {
     )
   );
 
+  redirectToMovies$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(signInSuccess),
+        tap(() => this.router.navigate(['/movies']))
+      ),
+    { dispatch: false }
+  );
+
   constructor(
     private actions$: Actions,
     private service: AuthService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private router: Router
   ) {}
 }

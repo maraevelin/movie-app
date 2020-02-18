@@ -18,7 +18,6 @@ import { environment } from '../environments/environment';
 import { AuthComponent } from './components/auth/auth.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { interceptorProviders } from './interceptors/interceptors';
-import { StoreRouterConnectingModule } from '@ngrx/router-store';
 
 @NgModule({
   declarations: [
@@ -41,8 +40,7 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
       maxAge: 25,
       logOnly: environment.production
     }),
-    ReactiveFormsModule,
-    StoreRouterConnectingModule.forRoot()
+    ReactiveFormsModule
   ],
   providers: [...interceptorProviders],
   bootstrap: [AppComponent]
