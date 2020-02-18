@@ -22,9 +22,26 @@
   grid-column: 1/2;
 }
 
-.rating {
+.watch-list {
   grid-column: 3/4;
   justify-self: end;
+
+  color: black;
+
+  transition: 0.2s;
+
+  &:hover {
+    cursor: pointer;
+
+    color: teal;
+
+    transition: 0.2s;
+  }
+
+  &:active {
+    transform: translateY(10%);
+    transition: 0.2s;
+  }
 }
 
 .main {
@@ -35,7 +52,7 @@
 
 .poster {
   max-width: 30vw;
-  
+
   grid-column: 0/1;
 }
 

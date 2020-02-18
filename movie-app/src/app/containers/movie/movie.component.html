@@ -4,15 +4,27 @@
   <div *ngIf="isLoading$ | async">
     <mat-spinner color="accent"></mat-spinner>
   </div>
-  
+
   <div *ngIf="errorMessage$ | async as errorMessage">
-    {{errorMessage}}
+    {{ errorMessage }}
   </div>
-  
+
   <div *ngIf="movie$ | async as movie">
     <div class="container">
-      <div class="header title">{{ movie.title }}</div>
-      <div class="header rating">{{ movie.rating }}</div>
+      <div class="header title">{{ movie.title }} ({{ movie.rating }})</div>
+
+      <ng-container *ngIf="isOnWatchList; else isNotOnWatchList">
+        <div class="header watch-list" (click)="onRemoveFromWatchList()">
+          Remove from watch list
+        </div>
+      </ng-container>
+
+      <ng-template #isNotOnWatchList>
+        <div class="header watch-list" (click)="onAddToWatchList()">
+          Add to watch list
+        </div>
+      </ng-template>
+
       <img class="main poster" [src]="movie.posterUrl" />
       <div class="main writers">
         <div *ngFor="let writer of movie.writers">
@@ -25,7 +37,7 @@
         </div>
       </div>
       <div class="plot">
-        {{movie.plot}}
+        {{ movie.plot }}
       </div>
       <div class="footer run-time">{{ movie.runTime }}</div>
       <div class="footer year">{{ movie.year }}</div>
