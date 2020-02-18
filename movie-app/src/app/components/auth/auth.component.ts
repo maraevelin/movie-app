@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
-import { User } from 'src/app/models/user.model';
+import { Credentials } from 'src/app/models/credentials.model';
 import { Observable } from 'rxjs';
 import {
   selectIsLoading,
@@ -44,7 +44,9 @@ export class AuthComponent implements OnInit {
       return;
     }
 
-    const user: User = this.form.value;
-    this.store.dispatch(this.isSignIn ? signIn({ user }) : signUp({ user }));
+    const credentials: Credentials = this.form.value;
+    this.store.dispatch(
+      this.isSignIn ? signIn({ credentials }) : signUp({ credentials })
+    );
   }
 }

@@ -12,7 +12,7 @@ import {
 import { catchError, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { Store, select } from '@ngrx/store';
-import { selectUser } from '../selectors/auth.selectors';
+import { selectCredentials } from '../selectors/auth.selectors';
 import { AppState } from '../..';
 
 @Injectable()
@@ -21,7 +21,7 @@ export class AuthEffects {
     this.actions$.pipe(
       ofType(signUp),
       switchMap(action =>
-        this.service.signup(action.user).pipe(
+        this.service.signup(action.credentials).pipe(
           map(() => signUpSuccess()),
           catchError(error => of(signUpFail({ error })))
         )
@@ -29,23 +29,23 @@ export class AuthEffects {
     )
   );
 
-  automaticSignIn$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(signUpSuccess),
-      withLatestFrom(this.store.pipe(select(selectUser))),
-      map(([_action, user]) => signIn({ user }))
-    )
-  );
-
   signIn$ = createEffect(() =>
     this.actions$.pipe(
       ofType(signIn),
       switchMap(action => {
-        return this.service.signin(action.user).pipe(
+        return this.service.signin(action.credentials).pipe(
           map(() => signInSuccess()),
           catchError(error => of(signInFail({ error })))
         );
       })
+    )
+  );
+
+  automaticSignIn$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(signUpSuccess),
+      withLatestFrom(this.store.pipe(select(selectCredentials))),
+      map(([_action, credentials]) => signIn({ credentials }))
     )
   );
 

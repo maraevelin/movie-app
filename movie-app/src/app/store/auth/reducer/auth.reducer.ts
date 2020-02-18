@@ -1,4 +1,4 @@
-import { User } from 'src/app/models/user.model';
+import { Credentials } from 'src/app/models/credentials.model';
 import { Action, createReducer, on } from '@ngrx/store';
 import {
   reset,
@@ -12,14 +12,14 @@ import {
 
 export interface AuthState {
   readonly isSignedIn: boolean;
-  readonly user: User;
+  readonly credentials: Credentials;
   readonly isLoading: boolean;
   readonly errorMessage: string | null;
 }
 
 const initialState: AuthState = {
   isSignedIn: false,
-  user: { email: '', password: '' },
+  credentials: { email: '', password: '' },
   isLoading: false,
   errorMessage: null
 };
@@ -31,12 +31,12 @@ export function reducer(state: AuthState | undefined, action: Action) {
 export const authReducer = createReducer(
   initialState,
   on(reset, _state => ({ ...initialState })),
-  on(signUp, signIn, (state, { user }) => ({
+  on(signUp, signIn, (state, { credentials }) => ({
     ...state,
     isSignedIn: false,
     isLoading: true,
     errorMessage: null,
-    user
+    credentials
   })),
   on(signUpSuccess, state => ({
     ...state,
@@ -50,7 +50,7 @@ export const authReducer = createReducer(
   on(signUpFail, signInFail, (state, { error }) => ({
     ...state,
     isLoading: false,
-    user: { email: '', password: '' },
+    credentials: { email: '', password: '' },
     errorMessage: error.message
   }))
 );
