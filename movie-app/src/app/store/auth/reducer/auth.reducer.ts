@@ -9,19 +9,20 @@ import {
   signInSuccess,
   signInFail
 } from '../actions/auth.actions';
+import { User } from 'src/app/models/user.model';
 
 export interface AuthState {
-  readonly isSignedIn: boolean;
   readonly credentials: Credentials;
+  readonly user: User | null;
   readonly isLoading: boolean;
   readonly errorMessage: string | null;
 }
 
 const initialState: AuthState = {
-  isSignedIn: false,
   credentials: { email: '', password: '' },
   isLoading: false,
-  errorMessage: null
+  errorMessage: null,
+  user: null
 };
 
 export function reducer(state: AuthState | undefined, action: Action) {
@@ -33,19 +34,19 @@ export const authReducer = createReducer(
   on(reset, _state => ({ ...initialState })),
   on(signUp, signIn, (state, { credentials }) => ({
     ...state,
-    isSignedIn: false,
     isLoading: true,
     errorMessage: null,
-    credentials
+    credentials,
+    user: null
   })),
   on(signUpSuccess, state => ({
     ...state,
     isLoading: false
   })),
-  on(signInSuccess, state => ({
+  on(signInSuccess, (state, { user }) => ({
     ...state,
-    isSignedIn: true,
-    isLoading: false
+    isLoading: false,
+    user
   })),
   on(signUpFail, signInFail, (state, { error }) => ({
     ...state,

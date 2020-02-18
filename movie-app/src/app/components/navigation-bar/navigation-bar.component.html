@@ -6,13 +6,13 @@
     movies
   </div>
 
-  <div *ngIf="isSignedIn$ | async; else isVisitor">
+  <div *ngIf="user$ | async; else visitor">
     <div class="btn btn_auth" (click)="onSignOut()">
       sign out
     </div>
   </div>
 
-  <ng-template #isVisitor>
+  <ng-template #visitor>
     <div class="btn btn_auth" routerLink="/auth">
       sign in
     </div>

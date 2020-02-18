@@ -14,6 +14,7 @@ import { of } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import { selectCredentials } from '../selectors/auth.selectors';
 import { AppState } from '../..';
+import { User } from 'src/app/models/user.model';
 
 @Injectable()
 export class AuthEffects {
@@ -34,7 +35,7 @@ export class AuthEffects {
       ofType(signIn),
       switchMap(action => {
         return this.service.signin(action.credentials).pipe(
-          map(() => signInSuccess()),
+          map(response => signInSuccess({ user: new User(response) })),
           catchError(error => of(signInFail({ error })))
         );
       })

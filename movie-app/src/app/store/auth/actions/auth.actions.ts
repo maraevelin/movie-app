@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { Credentials } from 'src/app/models/credentials.model';
+import { User } from 'src/app/models/user.model';
 
 export enum AuthActionTypes {
   AUTH_RESET = '[AUTH] Reset',
@@ -32,7 +33,10 @@ export const signIn = createAction(
   props<{ credentials: Credentials }>()
 );
 
-export const signInSuccess = createAction(AuthActionTypes.AUTH_SIGN_IN_SUCCES);
+export const signInSuccess = createAction(
+  AuthActionTypes.AUTH_SIGN_IN_SUCCES,
+  props<{ user: User }>()
+);
 
 export const signInFail = createAction(
   AuthActionTypes.AUTH_SIGN_IN_FAIL,

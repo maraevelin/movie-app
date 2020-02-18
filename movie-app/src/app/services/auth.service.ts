@@ -5,7 +5,8 @@ import { environment } from 'src/environments/environment';
 import { SignUpResponse } from './models/sign-up-response.model';
 import { SignInResponse } from './models/sign-in-response.model';
 import { Observable } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
+import { User } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +28,8 @@ export class AuthService {
     return this.http.post<SignInResponse>(url, credentials).pipe(
       catchError(error => {
         throw new Error(error.error.error.message);
-      })
+      }),
+      tap(response => new User(response))
     );
   }
 }

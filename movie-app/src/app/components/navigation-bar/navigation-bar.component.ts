@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
-import { selectIsSignedIn } from 'src/app/store/auth/selectors/auth.selectors';
+import { selectUser } from 'src/app/store/auth/selectors/auth.selectors';
 import { reset } from 'src/app/store/auth/actions/auth.actions';
+import { User } from 'src/app/models/user.model';
 
 @Component({
   selector: 'app-navigation-bar',
@@ -11,10 +12,10 @@ import { reset } from 'src/app/store/auth/actions/auth.actions';
   styleUrls: ['./navigation-bar.component.scss']
 })
 export class NavigationBarComponent implements OnInit {
-  isSignedIn$: Observable<boolean>;
+  user$: Observable<User | null>;
 
   constructor(private store: Store<AppState>) {
-    this.isSignedIn$ = this.store.select(selectIsSignedIn);
+    this.user$ = this.store.select(selectUser);
   }
 
   ngOnInit() {}
