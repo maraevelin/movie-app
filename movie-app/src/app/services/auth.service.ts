@@ -15,7 +15,7 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   signup(credentials: Credentials): Observable<SignUpResponse> {
-    const url = `${environment.firebase.url}:signUp`;
+    const url = `${environment.firebaseOld.url}:signUp`;
     return this.http.post<SignUpResponse>(url, credentials).pipe(
       catchError(error => {
         throw new Error(error.error.error.message);
@@ -24,7 +24,7 @@ export class AuthService {
   }
 
   signin(credentials: Credentials): Observable<SignInResponse> {
-    const url = `${environment.firebase.url}:signInWithPassword`;
+    const url = `${environment.firebaseOld.url}:signInWithPassword`;
     return this.http.post<SignInResponse>(url, credentials).pipe(
       catchError(error => {
         throw new Error(error.error.error.message);
