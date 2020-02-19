@@ -34,7 +34,7 @@ export function reducer(state: AuthState | undefined, action: Action) {
 
 const authReducer = createReducer(
   initialState,
-  on(reset, signOutSuccess, _state => ({ ...initialState })),
+  on(reset, signOutSuccess, () => ({ ...initialState })),
   on(signUp, signIn, (state, { credentials }) => ({
     ...state,
     isLoading: true,

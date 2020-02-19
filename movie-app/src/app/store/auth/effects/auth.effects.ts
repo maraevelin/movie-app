@@ -55,7 +55,7 @@ export class AuthEffects {
   signOut$ = createEffect(() =>
     this.actions$.pipe(
       ofType(signOut),
-      switchMap(_action => {
+      switchMap(() => {
         return this.service.signout().pipe(
           map(() => signOutSuccess()),
           catchError(error => of(signOutFail({ error })))
@@ -68,7 +68,7 @@ export class AuthEffects {
     this.actions$.pipe(
       ofType(signUpSuccess),
       withLatestFrom(this.store.pipe(select(selectCredentials))),
-      map(([_action, credentials]) => signIn({ credentials }))
+      map(([, credentials]) => signIn({ credentials }))
     )
   );
 
