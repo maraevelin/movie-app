@@ -21,6 +21,7 @@ import { interceptorProviders } from './interceptors/interceptors';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    AngularFirestoreModule
   ],
   providers: [...interceptorProviders],
   bootstrap: [AppComponent]

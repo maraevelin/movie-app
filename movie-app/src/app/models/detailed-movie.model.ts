@@ -1,6 +1,7 @@
 import { DetailedMovieResponse } from 'src/app/services/models/detailed-movie-response.model';
 
 export class DetailedMovie {
+  readonly imdbId: string;
   readonly title: string;
   readonly year: string;
   readonly rating: string;
@@ -11,6 +12,7 @@ export class DetailedMovie {
   readonly plot: string;
 
   constructor(source: DetailedMovieResponse) {
+    this.imdbId = source.imdbID;
     this.title = source.Title;
     this.year = source.Year;
     this.rating = source.imdbRating;

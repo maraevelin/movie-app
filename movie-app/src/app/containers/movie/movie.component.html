@@ -14,13 +14,13 @@
       <div class="header title">{{ movie.title }} ({{ movie.rating }})</div>
 
       <ng-container *ngIf="isOnWatchList; else isNotOnWatchList">
-        <div class="header watch-list" (click)="onRemoveFromWatchList()">
+        <div class="header watch-list" (click)="onRemoveFromWatchList(movie)">
           Remove from watch list
         </div>
       </ng-container>
 
       <ng-template #isNotOnWatchList>
-        <div class="header watch-list" (click)="onAddToWatchList()">
+        <div class="header watch-list" (click)="onAddToWatchList(movie)">
           Add to watch list
         </div>
       </ng-template>

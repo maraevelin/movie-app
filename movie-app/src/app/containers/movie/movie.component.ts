@@ -12,6 +12,7 @@ import { AppState } from 'src/app/store';
 import { getDetailed } from 'src/app/store/movie/actions/movie.actions';
 import { User } from 'src/app/models/user.model';
 import { selectUser } from 'src/app/store/auth/selectors/auth.selectors';
+import { FirestoreService } from 'src/app/services/firestore.service';
 
 @Component({
   selector: 'app-movie',
@@ -29,7 +30,8 @@ export class MovieComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private store: Store<AppState>,
-    private router: Router
+    private router: Router,
+    private service: FirestoreService
   ) {
     const id: string = this.route.snapshot.paramMap.get('id') || '';
     this.store.dispatch(getDetailed({ id }));
@@ -44,18 +46,20 @@ export class MovieComponent implements OnInit {
     this.user$.subscribe(user => (this.isSignedIn = !!user));
   }
 
-  onAddToWatchList(): void {
+  onAddToWatchList(movie: DetailedMovie): void {
     if (!this.isSignedIn) {
-      console.log('users only');
+      this.router.navigate(['/auth']);
+    }
+    this.service.addToWatchList(movie);
+    this.isOnWatchList = true;
+  }
+
+  onRemoveFromWatchList(movie: DetailedMovie): void {
+    if (!this.isSignedIn) {
       this.router.navigate(['/auth']);
     }
 
-    this.isOnWatchList = true;
-    console.log('added to watch list');
-  }
-
-  onRemoveFromWatchList(): void {
+    this.service.removeFromWatchList(movie);
     this.isOnWatchList = false;
-    console.log('removed from watch list');
   }
 }
