@@ -3,8 +3,8 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { selectUser } from 'src/app/store/auth/selectors/auth.selectors';
-import { reset } from 'src/app/store/auth/actions/auth.actions';
 import { User } from 'src/app/models/user.model';
+import { signOut } from 'src/app/store/auth/actions/auth.actions';
 
 @Component({
   selector: 'app-navigation-bar',
@@ -21,6 +21,6 @@ export class NavigationBarComponent implements OnInit {
   ngOnInit() {}
 
   onSignOut() {
-    this.store.dispatch(reset());
+    this.store.dispatch(signOut());
   }
 }

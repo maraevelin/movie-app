@@ -7,7 +7,10 @@ import {
   signUpFail,
   signIn,
   signInSuccess,
-  signInFail
+  signInFail,
+  signOut,
+  signOutFail,
+  signOutSuccess
 } from '../actions/auth.actions';
 import { User } from 'src/app/models/user.model';
 
@@ -31,7 +34,7 @@ export function reducer(state: AuthState | undefined, action: Action) {
 
 const authReducer = createReducer(
   initialState,
-  on(reset, _state => ({ ...initialState })),
+  on(reset, signOutSuccess, _state => ({ ...initialState })),
   on(signUp, signIn, (state, { credentials }) => ({
     ...state,
     isLoading: true,
@@ -52,6 +55,16 @@ const authReducer = createReducer(
     ...state,
     isLoading: false,
     credentials: { email: '', password: '' },
+    errorMessage: error.message
+  })),
+  on(signOut, state => ({
+    ...state,
+    isLoading: true,
+    errorMessage: null
+  })),
+  on(signOutFail, (state, { error }) => ({
+    ...state,
+    isLoading: false,
     errorMessage: error.message
   }))
 );

@@ -26,4 +26,8 @@ export class AuthService {
       )
     );
   }
+
+  signout(): Observable<void> {
+    return from(this.firebase.auth.signOut());
+  }
 }

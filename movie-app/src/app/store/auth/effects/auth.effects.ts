@@ -7,7 +7,10 @@ import {
   signUpFail,
   signIn,
   signInSuccess,
-  signInFail
+  signInFail,
+  signOut,
+  signOutSuccess,
+  signOutFail
 } from '../actions/auth.actions';
 import {
   catchError,
@@ -44,6 +47,18 @@ export class AuthEffects {
         return this.service.signin(action.credentials).pipe(
           map(response => signInSuccess({ user: new User(response) })),
           catchError(error => of(signInFail({ error })))
+        );
+      })
+    )
+  );
+
+  signOut$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(signOut),
+      switchMap(_action => {
+        return this.service.signout().pipe(
+          map(() => signOutSuccess()),
+          catchError(error => of(signOutFail({ error })))
         );
       })
     )

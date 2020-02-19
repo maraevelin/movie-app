@@ -11,7 +11,11 @@ export enum AuthActionTypes {
 
   AUTH_SIGN_IN = '[AUTH] Sign in',
   AUTH_SIGN_IN_SUCCES = '[AUTH] Sign in Success',
-  AUTH_SIGN_IN_FAIL = '[AUTH] Sign in Fail'
+  AUTH_SIGN_IN_FAIL = '[AUTH] Sign in Fail',
+
+  AUTH_SIGN_OUT = '[AUTH] Sign out',
+  AUTH_SIGN_OUT_SUCCESS = '[AUTH] Sign out Success',
+  AUTH_SIGN_OUT_FAIL = '[AUTH] Sign out Fail'
 }
 
 export const reset = createAction(AuthActionTypes.AUTH_RESET);
@@ -40,5 +44,16 @@ export const signInSuccess = createAction(
 
 export const signInFail = createAction(
   AuthActionTypes.AUTH_SIGN_IN_FAIL,
+  props<{ error: Error }>()
+);
+
+export const signOut = createAction(AuthActionTypes.AUTH_SIGN_OUT);
+
+export const signOutSuccess = createAction(
+  AuthActionTypes.AUTH_SIGN_OUT_SUCCESS
+);
+
+export const signOutFail = createAction(
+  AuthActionTypes.AUTH_SIGN_OUT_FAIL,
   props<{ error: Error }>()
 );
