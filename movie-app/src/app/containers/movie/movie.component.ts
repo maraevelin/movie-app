@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { DetailedMovie } from '../../models/detailed-movie.model';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -30,7 +30,6 @@ export class MovieComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private store: Store<AppState>,
-    private router: Router,
     private service: FirestoreService
   ) {
     const id: string = this.route.snapshot.paramMap.get('id') || '';
@@ -47,17 +46,20 @@ export class MovieComponent implements OnInit {
   }
 
   onAddToWatchList(movie: DetailedMovie): void {
+    /*
     if (!this.isSignedIn) {
       this.router.navigate(['/auth']);
     }
+    */
+
     this.service.addToWatchList(movie);
     this.isOnWatchList = true;
   }
 
   onRemoveFromWatchList(movie: DetailedMovie): void {
-    if (!this.isSignedIn) {
-      this.router.navigate(['/auth']);
-    }
+    // if (!this.isSignedIn) {
+    //   this.router.navigate(['/auth']);
+    // }
 
     this.service.removeFromWatchList(movie);
     this.isOnWatchList = false;
