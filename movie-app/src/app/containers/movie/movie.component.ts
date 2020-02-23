@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DetailedMovie } from '../../models/detailed-movie.model';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -12,7 +12,8 @@ import { AppState } from 'src/app/store';
 import { getDetailed } from 'src/app/store/movie/actions/movie.actions';
 import { User } from 'src/app/models/user.model';
 import { selectUser } from 'src/app/store/auth/selectors/auth.selectors';
-import { FirestoreService } from 'src/app/services/firestore.service';
+import { WatchListService } from 'src/app/services/watch-list.service';
+import { WatchList } from 'src/app/services/models/watch-list.model';
 
 @Component({
   selector: 'app-movie',
@@ -20,20 +21,23 @@ import { FirestoreService } from 'src/app/services/firestore.service';
   styleUrls: ['./movie.component.scss']
 })
 export class MovieComponent implements OnInit {
+  id: string;
   movie$?: Observable<DetailedMovie | null>;
   isLoading$: Observable<boolean>;
   errorMessage$: Observable<string | null>;
   user$: Observable<User | null>;
+  watchList: WatchList[] = [];
   isSignedIn = false;
   isOnWatchList = false;
 
   constructor(
     private route: ActivatedRoute,
     private store: Store<AppState>,
-    private service: FirestoreService
+    private router: Router,
+    private service: WatchListService
   ) {
-    const id: string = this.route.snapshot.paramMap.get('id') || '';
-    this.store.dispatch(getDetailed({ id }));
+    this.id = this.route.snapshot.paramMap.get('id') || '';
+    this.store.dispatch(getDetailed({ id: this.id }));
 
     this.isLoading$ = this.store.select(selectIsLoading);
     this.movie$ = this.store.select(selectDetailedMovie);
@@ -42,26 +46,34 @@ export class MovieComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.user$.subscribe(user => (this.isSignedIn = !!user));
+    this.user$.subscribe(user => {
+      this.isSignedIn = !!user;
+    });
+
+    this.service.collection$().subscribe(watchList => {
+      this.watchList = !!watchList ? [...watchList] : [];
+      this.isOnWatchList =
+        !!watchList && watchList.filter(m => m.id === this.id).length > 0;
+    });
   }
 
   onAddToWatchList(movie: DetailedMovie): void {
-    /*
-    if (!this.isSignedIn) {
-      this.router.navigate(['/auth']);
-    }
-    */
-
-    this.service.addToWatchList(movie);
-    this.isOnWatchList = true;
+    this.redirectVisitor();
+    this.service.createDoc({
+      id: movie.imdbId,
+      title: movie.title,
+      isSeen: false
+    });
   }
 
   onRemoveFromWatchList(movie: DetailedMovie): void {
-    // if (!this.isSignedIn) {
-    //   this.router.navigate(['/auth']);
-    // }
+    this.redirectVisitor();
+    this.service.removeDoc(movie.imdbId);
+  }
 
-    this.service.removeFromWatchList(movie);
-    this.isOnWatchList = false;
+  private redirectVisitor() {
+    if (!this.isSignedIn) {
+      this.router.navigate(['/auth']);
+    }
   }
 }

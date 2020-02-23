@@ -1,85 +1,114 @@
-import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { DetailedMovie } from '../models/detailed-movie.model';
+import { Inject } from '@angular/core';
+import { AngularFirestore, QueryFn } from '@angular/fire/firestore';
+import { Observable, of } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 import { Store } from '@ngrx/store';
 import { AppState } from '../store';
-import { environment } from 'src/environments/environment';
-import { Observable } from 'rxjs';
-import { User } from '../models/user.model';
 import { selectUser } from '../store/auth/selectors/auth.selectors';
-import { map } from 'rxjs/operators';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class FirestoreService {
-  userId = environment.firebaseDb.userId;
-  subCollection = environment.firebaseDb.subCollection;
+export abstract class FirestoreService<T> {
+  protected abstract mainCollection: string;
+  protected abstract subCollection: string;
+  protected abstract logId: string;
 
-  db = this.firestore.collection(environment.firebaseDb.collection);
-  imdbIds$: Observable<string[]>;
-  imdbIds2$: Observable<any[]>;
-
-  user$: Observable<User | null>;
+  private userId: string | null = null;
 
   constructor(
-    private store: Store<AppState>,
-    private readonly firestore: AngularFirestore
+    @Inject(AngularFirestore) protected firestore: AngularFirestore,
+    private store: Store<AppState>
   ) {
-    this.user$ = this.store.select(selectUser);
-
-    this.imdbIds2$ = this.db
-      .doc(this.userId)
-      .collection(this.subCollection)
-      .valueChanges();
-
-    this.imdbIds2$.subscribe(s => {
-      console.log('value changes');
-      console.log(s);
+    this.store.select(selectUser).subscribe(user => {
+      this.userId = !!user ? user.id : null;
     });
-
-    this.imdbIds$ = this.db
-      .doc(this.userId)
-      .collection(this.subCollection)
-      .stateChanges()
-      .pipe(
-        map(actions => {
-          return actions.map(action => {
-            console.log('state changes');
-            console.log(action);
-            return action.payload.doc.id;
-          });
-        })
-      );
-
-    this.imdbIds$.subscribe();
   }
 
-  addToWatchList(movie: DetailedMovie) {
-    this.db
+  private get collection() {
+    if (!this.userId) {
+      return;
+    }
+
+    return this.firestore
+      .collection(this.mainCollection)
       .doc(this.userId)
-      .collection(this.subCollection)
-      .doc(movie.imdbId)
-      .set({ title: movie.title, imdbId: movie.imdbId }, { merge: true })
-      .catch(error => {
-        console.log(`error occured: ${error}`);
-      })
+      .collection(this.subCollection);
+  }
+
+  collection$(queryFn?: QueryFn): Observable<T[] | undefined> {
+    if (!this.userId) {
+      return of(undefined);
+    }
+
+    return this.firestore
+      .collection(this.mainCollection)
+      .doc(this.userId)
+      .collection<T>(this.subCollection, queryFn)
+      .valueChanges()
+      .pipe(
+        tap(r => {
+          if (!environment.production) {
+            console.groupCollapsed(
+              `[${this.logId}] [${this.mainCollection}] Collection`
+            );
+            console.table(r);
+            console.groupEnd();
+          }
+        })
+      );
+  }
+
+  doc$(id: string): Observable<T | undefined> {
+    if (!this.collection) {
+      return of(undefined);
+    }
+
+    return this.collection
+      .doc<T>(id)
+      .valueChanges()
+      .pipe(
+        tap(r => {
+          if (!environment.production) {
+            console.groupCollapsed(
+              `[${this.logId}] [${this.mainCollection}] [${id}] Document`
+            );
+            console.log(r);
+            console.groupEnd();
+          }
+        })
+      );
+  }
+
+  async createDoc(object: { id: string } & T): Promise<void> {
+    if (!this.collection) {
+      return;
+    }
+
+    return await this.collection
+      .doc<T>(object.id)
+      .set({ ...object }, { merge: true })
       .then(() => {
-        console.log('addition finished');
+        if (!environment.production) {
+          console.groupCollapsed(`[${this.logId}] Create document`);
+          console.log(`[ID] ${object.id}`);
+          console.groupEnd();
+        }
       });
   }
 
-  removeFromWatchList(movie: DetailedMovie) {
-    this.db
-      .doc(this.userId)
-      .collection(this.subCollection)
-      .doc(movie.imdbId)
+  async removeDoc(id: string): Promise<void> {
+    if (!this.collection) {
+      return;
+    }
+
+    return await this.collection
+      .doc(id)
       .delete()
-      .catch(error => {
-        console.warn('here after error ,' + error);
-      })
       .then(() => {
-        console.log('here after delete');
+        if (!environment.production) {
+          console.groupCollapsed(`[${this.logId}] Remove document`);
+          console.log(`[ID] ${id}`);
+          console.groupEnd();
+        }
       });
   }
 }
