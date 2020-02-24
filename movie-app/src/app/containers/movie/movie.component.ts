@@ -22,10 +22,10 @@ import { WatchList } from 'src/app/services/models/watch-list.model';
 })
 export class MovieComponent implements OnInit {
   id: string;
-  movie$?: Observable<DetailedMovie | null>;
+  movie$?: Observable<DetailedMovie | undefined>;
   isLoading$: Observable<boolean>;
-  errorMessage$: Observable<string | null>;
-  user$: Observable<User | null>;
+  errorMessage$: Observable<string | undefined>;
+  user$: Observable<User | undefined>;
   watchList: WatchList[] = [];
   isSignedIn = false;
   isOnWatchList = false;

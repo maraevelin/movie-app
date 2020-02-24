@@ -14,17 +14,17 @@ import { createReducer, on, Action } from '@ngrx/store';
 export interface MovieState {
   readonly title: string;
   readonly isLoading: boolean;
-  readonly errorMessage: string | null;
+  readonly errorMessage: string | undefined;
   readonly movies: Movie[];
-  readonly detailedMovie: DetailedMovie | null;
+  readonly detailedMovie: DetailedMovie | undefined;
 }
 
 const initialState: MovieState = {
   title: '',
   isLoading: false,
-  errorMessage: null,
+  errorMessage: undefined,
   movies: [],
-  detailedMovie: null
+  detailedMovie: undefined
 };
 
 export function reducer(state: MovieState | undefined, action: Action) {
@@ -37,9 +37,9 @@ const movieReducer = createReducer(
   on(search, (state, { title }) => ({
     ...state,
     isLoading: true,
-    errorMessage: null,
+    errorMessage: undefined,
     movies: [],
-    detailedMovie: null,
+    detailedMovie: undefined,
     title
   })),
   on(searchSuccess, (state, { movies }) => ({
@@ -55,8 +55,8 @@ const movieReducer = createReducer(
   on(getDetailed, state => ({
     ...state,
     isLoading: true,
-    errorMessage: null,
-    detailedMovie: null
+    errorMessage: undefined,
+    detailedMovie: undefined
   })),
   on(getDetailedSuccess, (state, { detailedMovie }) => ({
     ...state,

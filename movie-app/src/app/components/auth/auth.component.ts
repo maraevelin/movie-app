@@ -17,7 +17,7 @@ import { reset, signIn, signUp } from 'src/app/store/auth/actions/auth.actions';
 })
 export class AuthComponent implements OnInit {
   isLoading$: Observable<boolean>;
-  errorMessage$: Observable<string | null>;
+  errorMessage$: Observable<string | undefined>;
   isSignIn = true;
   form = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],

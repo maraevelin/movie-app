@@ -12,7 +12,7 @@ import { signOut } from 'src/app/store/auth/actions/auth.actions';
   styleUrls: ['./navigation-bar.component.scss']
 })
 export class NavigationBarComponent implements OnInit {
-  user$: Observable<User | null>;
+  user$: Observable<User | undefined>;
 
   constructor(private store: Store<AppState>) {
     this.user$ = this.store.select(selectUser);

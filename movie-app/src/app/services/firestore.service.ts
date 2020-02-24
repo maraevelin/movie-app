@@ -1,6 +1,6 @@
 import { Inject } from '@angular/core';
 import { AngularFirestore, QueryFn } from '@angular/fire/firestore';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Store } from '@ngrx/store';
@@ -12,22 +12,18 @@ export abstract class FirestoreService<T> {
   protected abstract subCollection: string;
   protected abstract logId: string;
 
-  private userId: string | null = null;
+  private userId: string | undefined = undefined;
 
   constructor(
     @Inject(AngularFirestore) protected firestore: AngularFirestore,
     private store: Store<AppState>
   ) {
     this.store.select(selectUser).subscribe(user => {
-      this.userId = !!user ? user.id : null;
+      this.userId = user ? user.id : undefined;
     });
   }
 
   private get collection() {
-    if (!this.userId) {
-      return;
-    }
-
     return this.firestore
       .collection(this.mainCollection)
       .doc(this.userId)
@@ -35,10 +31,6 @@ export abstract class FirestoreService<T> {
   }
 
   collection$(queryFn?: QueryFn): Observable<T[] | undefined> {
-    if (!this.userId) {
-      return of(undefined);
-    }
-
     return this.firestore
       .collection(this.mainCollection)
       .doc(this.userId)
@@ -58,10 +50,6 @@ export abstract class FirestoreService<T> {
   }
 
   doc$(id: string): Observable<T | undefined> {
-    if (!this.collection) {
-      return of(undefined);
-    }
-
     return this.collection
       .doc<T>(id)
       .valueChanges()
@@ -79,10 +67,6 @@ export abstract class FirestoreService<T> {
   }
 
   async createDoc(object: { id: string } & T): Promise<void> {
-    if (!this.collection) {
-      return;
-    }
-
     return await this.collection
       .doc<T>(object.id)
       .set({ ...object }, { merge: true })
@@ -96,10 +80,6 @@ export abstract class FirestoreService<T> {
   }
 
   async removeDoc(id: string): Promise<void> {
-    if (!this.collection) {
-      return;
-    }
-
     return await this.collection
       .doc(id)
       .delete()

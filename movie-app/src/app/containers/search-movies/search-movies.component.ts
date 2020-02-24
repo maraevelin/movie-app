@@ -18,7 +18,7 @@ import { search } from 'src/app/store/movie/actions/movie.actions';
 export class SearchMoviesComponent implements OnInit {
   isLoading$: Observable<boolean>;
   movies$: Observable<Movie[]>;
-  errorMessage$: Observable<string | null>;
+  errorMessage$: Observable<string | undefined>;
 
   constructor(private store: Store<AppState>) {
     this.isLoading$ = this.store.select(selectIsLoading);

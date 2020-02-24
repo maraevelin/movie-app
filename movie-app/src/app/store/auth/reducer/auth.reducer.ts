@@ -16,16 +16,16 @@ import { User } from 'src/app/models/user.model';
 
 export interface AuthState {
   readonly credentials: Credentials;
-  readonly user: User | null;
+  readonly user: User | undefined;
   readonly isLoading: boolean;
-  readonly errorMessage: string | null;
+  readonly errorMessage: string | undefined;
 }
 
 const initialState: AuthState = {
   credentials: { email: '', password: '' },
   isLoading: false,
-  errorMessage: null,
-  user: null
+  errorMessage: undefined,
+  user: undefined
 };
 
 export function reducer(state: AuthState | undefined, action: Action) {
@@ -38,9 +38,9 @@ const authReducer = createReducer(
   on(signUp, signIn, (state, { credentials }) => ({
     ...state,
     isLoading: true,
-    errorMessage: null,
+    errorMessage: undefined,
     credentials,
-    user: null
+    user: undefined
   })),
   on(signUpSuccess, state => ({
     ...state,
@@ -60,7 +60,7 @@ const authReducer = createReducer(
   on(signOut, state => ({
     ...state,
     isLoading: true,
-    errorMessage: null
+    errorMessage: undefined
   })),
   on(signOutFail, (state, { error }) => ({
     ...state,

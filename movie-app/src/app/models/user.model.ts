@@ -1,10 +1,10 @@
 export class User {
-  public readonly id: string | null;
-  public readonly email: string | null;
+  public readonly id: string | undefined;
+  public readonly email: string | undefined;
 
   constructor(userCredential: firebase.auth.UserCredential) {
     const user = userCredential.user;
-    this.id = !!user ? user.uid : null;
-    this.email = !!user ? user.email : null;
+    this.id = user ? user.uid : undefined;
+    this.email = user && user.email ? user.email : undefined;
   }
 }
