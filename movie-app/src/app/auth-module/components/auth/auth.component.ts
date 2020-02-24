@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
-import { Credentials } from 'src/app/models/credentials.model';
 import { Observable } from 'rxjs';
-import * as AuthSelectors from 'src/app/store/auth/selectors/auth.selectors';
-import { reset, signIn, signUp } from 'src/app/store/auth/actions/auth.actions';
+import * as AuthSelectors from '../../store/auth/selectors/auth.selectors';
+import { reset, signIn, signUp } from '../../store/auth/actions/auth.actions';
+import { Credentials } from '../../models/credentials.model';
 
 @Component({
   selector: 'app-auth',

@@ -6,10 +6,10 @@ import { Store } from '@ngrx/store';
 import * as MovieSelectors from 'src/app/store/movie/selectors/movie.selectors';
 import { AppState } from 'src/app/store';
 import { getDetailed } from 'src/app/store/movie/actions/movie.actions';
-import { User } from 'src/app/models/user.model';
-import { selectUser } from 'src/app/store/auth/selectors/auth.selectors';
 import { WatchListService } from 'src/app/services/watch-list.service';
 import { WatchList } from 'src/app/services/models/watch-list.model';
+import { selectUser } from 'src/app/auth-module/store/auth/selectors/auth.selectors';
+import { User } from 'src/app/auth-module/models/user.model';
 
 @Component({
   selector: 'app-movie',
@@ -44,15 +44,17 @@ export class MovieComponent implements OnInit {
   ngOnInit() {
     this.user$.subscribe(user => {
       this.isSignedIn = !!user;
-    });
 
-    if (this.isSignedIn) {
-      this.service.collection$().subscribe(watchList => {
-        this.watchList = watchList ? [...watchList] : [];
-        this.isOnWatchList =
-          !!watchList && watchList.filter(m => m.id === this.id).length > 0;
-      });
-    }
+      if (this.isSignedIn) {
+        this.service.collection$().subscribe(watchList => {
+          this.watchList = watchList ? [...watchList] : [];
+          this.isOnWatchList =
+            !!watchList && watchList.filter(m => m.id === this.id).length > 0;
+        });
+      } else {
+        this.isOnWatchList = false;
+      }
+    });
   }
 
   onAddToWatchList(movie: DetailedMovie): void {

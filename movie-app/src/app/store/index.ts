@@ -1,7 +1,7 @@
 import * as MovieStore from './movie/reducer/movie.reducer';
-import * as AuthStore from './auth/reducer/auth.reducer';
 import { MovieEffects } from './movie/effects/movie.effects';
-import { AuthEffects } from './auth/effects/auth.effects';
+import * as AuthStore from '../auth-module/store/auth/reducer/auth.reducer';
+import { AuthEffects } from '../auth-module/store/auth/effects/auth.effects';
 
 export interface AppState {
   readonly movie: MovieStore.MovieState;

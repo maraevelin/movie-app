@@ -15,13 +15,13 @@ import { AppState, reducers, effects } from './store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
-import { AuthComponent } from './components/auth/auth.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { interceptorProviders } from './interceptors/interceptors';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AuthModuleModule } from './auth-module/auth-module.module';
 
 @NgModule({
   declarations: [
@@ -30,8 +30,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
     GalleryComponent,
     SearchMoviesComponent,
     MovieComponent,
-    NavigationBarComponent,
-    AuthComponent
+    NavigationBarComponent
   ],
   imports: [
     BrowserModule,
@@ -48,7 +47,8 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    AuthModuleModule
   ],
   providers: [...interceptorProviders],
   bootstrap: [AppComponent]

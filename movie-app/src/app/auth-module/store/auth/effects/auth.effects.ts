@@ -1,20 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
-import { AuthService } from 'src/app/services/auth.service';
 import * as AuthActions from '../actions/auth.actions';
-import {
-  catchError,
-  map,
-  switchMap,
-  withLatestFrom,
-  tap
-} from 'rxjs/operators';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { Store, select } from '@ngrx/store';
-import { selectCredentials } from '../selectors/auth.selectors';
-import { AppState } from '../..';
-import { User } from 'src/app/models/user.model';
 import { Router } from '@angular/router';
+import { User } from 'src/app/auth-module/models/user.model';
+import { AuthService } from 'src/app/auth-module/services/auth.service';
 
 @Injectable()
 export class AuthEffects {
@@ -23,7 +14,9 @@ export class AuthEffects {
       ofType(AuthActions.signUp),
       switchMap(action =>
         this.service.signup(action.credentials).pipe(
-          map(() => AuthActions.signUpSuccess()),
+          map(() =>
+            AuthActions.signUpSuccess({ credentials: action.credentials })
+          ),
           catchError(error => of(AuthActions.signUpFail({ error })))
         )
       )
@@ -59,8 +52,7 @@ export class AuthEffects {
   automaticSignIn$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.signUpSuccess),
-      withLatestFrom(this.store.pipe(select(selectCredentials))),
-      map(([, credentials]) => AuthActions.signIn({ credentials }))
+      tap(action => AuthActions.signIn({ credentials: action.credentials }))
     )
   );
 
@@ -76,7 +68,6 @@ export class AuthEffects {
   constructor(
     private actions$: Actions,
     private service: AuthService,
-    private store: Store<AppState>,
     private router: Router
   ) {}
 }

@@ -5,7 +5,7 @@ import { tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Store } from '@ngrx/store';
 import { AppState } from '../store';
-import { selectUser } from '../store/auth/selectors/auth.selectors';
+import { selectUser } from '../auth-module/store/auth/selectors/auth.selectors';
 
 export abstract class FirestoreService<T> {
   protected abstract mainCollection: string;
