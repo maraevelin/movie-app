@@ -1,17 +1,14 @@
-import { Credentials } from 'src/app/models/credentials.model';
 import { Action, createReducer, on } from '@ngrx/store';
 import * as AuthActions from '../actions/auth.actions';
 import { User } from 'src/app/models/user.model';
 
 export interface AuthState {
-  readonly credentials: Credentials;
   readonly user: User | undefined;
   readonly isLoading: boolean;
   readonly errorMessage: string | undefined;
 }
 
 const initialState: AuthState = {
-  credentials: { email: '', password: '' },
   isLoading: false,
   errorMessage: undefined,
   user: undefined
