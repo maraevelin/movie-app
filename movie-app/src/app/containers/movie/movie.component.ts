@@ -3,11 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DetailedMovie } from '../../models/detailed-movie.model';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import {
-  selectDetailedMovie,
-  selectIsLoading,
-  selectErrorMessage
-} from 'src/app/store/movie/selectors/movie.selectors';
+import * as MovieSelectors from 'src/app/store/movie/selectors/movie.selectors';
 import { AppState } from 'src/app/store';
 import { getDetailed } from 'src/app/store/movie/actions/movie.actions';
 import { User } from 'src/app/models/user.model';
@@ -39,9 +35,9 @@ export class MovieComponent implements OnInit {
     this.id = this.route.snapshot.paramMap.get('id') || '';
     this.store.dispatch(getDetailed({ id: this.id }));
 
-    this.isLoading$ = this.store.select(selectIsLoading);
-    this.movie$ = this.store.select(selectDetailedMovie);
-    this.errorMessage$ = this.store.select(selectErrorMessage);
+    this.isLoading$ = this.store.select(MovieSelectors.selectIsLoading);
+    this.movie$ = this.store.select(MovieSelectors.selectDetailedMovie);
+    this.errorMessage$ = this.store.select(MovieSelectors.selectErrorMessage);
     this.user$ = this.store.select(selectUser);
   }
 
@@ -50,11 +46,13 @@ export class MovieComponent implements OnInit {
       this.isSignedIn = !!user;
     });
 
-    this.service.collection$().subscribe(watchList => {
-      this.watchList = watchList ? [...watchList] : [];
-      this.isOnWatchList =
-        !!watchList && watchList.filter(m => m.id === this.id).length > 0;
-    });
+    if (this.isSignedIn) {
+      this.service.collection$().subscribe(watchList => {
+        this.watchList = watchList ? [...watchList] : [];
+        this.isOnWatchList =
+          !!watchList && watchList.filter(m => m.id === this.id).length > 0;
+      });
+    }
   }
 
   onAddToWatchList(movie: DetailedMovie): void {

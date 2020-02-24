@@ -1,13 +1,5 @@
 import { Movie } from 'src/app/models/movie.model';
-import {
-  reset,
-  search,
-  searchSuccess,
-  getDetailed,
-  searchFail,
-  getDetailedSuccess,
-  getDetailedFail
-} from '../actions/movie.actions';
+import * as MovieActions from '../actions/movie.actions';
 import { DetailedMovie } from 'src/app/models/detailed-movie.model';
 import { createReducer, on, Action } from '@ngrx/store';
 
@@ -33,8 +25,8 @@ export function reducer(state: MovieState | undefined, action: Action) {
 
 const movieReducer = createReducer(
   initialState,
-  on(reset, () => ({ ...initialState })),
-  on(search, (state, { title }) => ({
+  on(MovieActions.reset, () => ({ ...initialState })),
+  on(MovieActions.search, (state, { title }) => ({
     ...state,
     isLoading: true,
     errorMessage: undefined,
@@ -42,28 +34,28 @@ const movieReducer = createReducer(
     detailedMovie: undefined,
     title
   })),
-  on(searchSuccess, (state, { movies }) => ({
+  on(MovieActions.searchSuccess, (state, { movies }) => ({
     ...state,
     isLoading: false,
     movies
   })),
-  on(searchFail, (state, { error }) => ({
+  on(MovieActions.searchFail, (state, { error }) => ({
     ...state,
     isLoading: false,
     errorMessage: error.message
   })),
-  on(getDetailed, state => ({
+  on(MovieActions.getDetailed, state => ({
     ...state,
     isLoading: true,
     errorMessage: undefined,
     detailedMovie: undefined
   })),
-  on(getDetailedSuccess, (state, { detailedMovie }) => ({
+  on(MovieActions.getDetailedSuccess, (state, { detailedMovie }) => ({
     ...state,
     isLoading: false,
     detailedMovie
   })),
-  on(getDetailedFail, (state, { error }) => ({
+  on(MovieActions.getDetailedFail, (state, { error }) => ({
     ...state,
     isLoading: false,
     errorMessage: error.message

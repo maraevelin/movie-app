@@ -3,11 +3,7 @@ import { Movie } from '../../models/movie.model';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { Observable } from 'rxjs';
-import {
-  selectIsLoading,
-  selectMovies,
-  selectErrorMessage
-} from 'src/app/store/movie/selectors/movie.selectors';
+import * as MovieSelectors from 'src/app/store/movie/selectors/movie.selectors';
 import { search } from 'src/app/store/movie/actions/movie.actions';
 
 @Component({
@@ -21,9 +17,9 @@ export class SearchMoviesComponent implements OnInit {
   errorMessage$: Observable<string | undefined>;
 
   constructor(private store: Store<AppState>) {
-    this.isLoading$ = this.store.select(selectIsLoading);
-    this.movies$ = this.store.select(selectMovies);
-    this.errorMessage$ = this.store.select(selectErrorMessage);
+    this.isLoading$ = this.store.select(MovieSelectors.selectIsLoading);
+    this.movies$ = this.store.select(MovieSelectors.selectMovies);
+    this.errorMessage$ = this.store.select(MovieSelectors.selectErrorMessage);
   }
 
   ngOnInit() {}

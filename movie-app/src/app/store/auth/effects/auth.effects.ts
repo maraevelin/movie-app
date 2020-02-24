@@ -1,17 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { AuthService } from 'src/app/services/auth.service';
-import {
-  signUp,
-  signUpSuccess,
-  signUpFail,
-  signIn,
-  signInSuccess,
-  signInFail,
-  signOut,
-  signOutSuccess,
-  signOutFail
-} from '../actions/auth.actions';
+import * as AuthActions from '../actions/auth.actions';
 import {
   catchError,
   map,
@@ -30,11 +20,11 @@ import { Router } from '@angular/router';
 export class AuthEffects {
   signUp$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(signUp),
+      ofType(AuthActions.signUp),
       switchMap(action =>
         this.service.signup(action.credentials).pipe(
-          map(() => signUpSuccess()),
-          catchError(error => of(signUpFail({ error })))
+          map(() => AuthActions.signUpSuccess()),
+          catchError(error => of(AuthActions.signUpFail({ error })))
         )
       )
     )
@@ -42,11 +32,13 @@ export class AuthEffects {
 
   signIn$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(signIn),
+      ofType(AuthActions.signIn),
       switchMap(action => {
         return this.service.signin(action.credentials).pipe(
-          map(response => signInSuccess({ user: new User(response) })),
-          catchError(error => of(signInFail({ error })))
+          map(response =>
+            AuthActions.signInSuccess({ user: new User(response) })
+          ),
+          catchError(error => of(AuthActions.signInFail({ error })))
         );
       })
     )
@@ -54,11 +46,11 @@ export class AuthEffects {
 
   signOut$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(signOut),
+      ofType(AuthActions.signOut),
       switchMap(() => {
         return this.service.signout().pipe(
-          map(() => signOutSuccess()),
-          catchError(error => of(signOutFail({ error })))
+          map(() => AuthActions.signOutSuccess()),
+          catchError(error => of(AuthActions.signOutFail({ error })))
         );
       })
     )
@@ -66,16 +58,16 @@ export class AuthEffects {
 
   automaticSignIn$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(signUpSuccess),
+      ofType(AuthActions.signUpSuccess),
       withLatestFrom(this.store.pipe(select(selectCredentials))),
-      map(([, credentials]) => signIn({ credentials }))
+      map(([, credentials]) => AuthActions.signIn({ credentials }))
     )
   );
 
   redirectToMovies$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(signInSuccess),
+        ofType(AuthActions.signInSuccess),
         tap(() => this.router.navigate(['/movies']))
       ),
     { dispatch: false }

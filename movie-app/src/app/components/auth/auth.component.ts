@@ -4,10 +4,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { Credentials } from 'src/app/models/credentials.model';
 import { Observable } from 'rxjs';
-import {
-  selectIsLoading,
-  selectErrorMessage
-} from 'src/app/store/auth/selectors/auth.selectors';
+import * as AuthSelectors from 'src/app/store/auth/selectors/auth.selectors';
 import { reset, signIn, signUp } from 'src/app/store/auth/actions/auth.actions';
 
 @Component({
@@ -28,8 +25,8 @@ export class AuthComponent implements OnInit {
     private formBuilder: FormBuilder,
     private store: Store<AppState>
   ) {
-    this.isLoading$ = this.store.select(selectIsLoading);
-    this.errorMessage$ = this.store.select(selectErrorMessage);
+    this.isLoading$ = this.store.select(AuthSelectors.selectIsLoading);
+    this.errorMessage$ = this.store.select(AuthSelectors.selectErrorMessage);
   }
 
   ngOnInit() {}
