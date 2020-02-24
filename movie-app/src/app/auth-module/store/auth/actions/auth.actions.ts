@@ -1,4 +1,5 @@
 import { createAction, props } from '@ngrx/store';
+
 import { Credentials } from 'src/app/auth-module/models/credentials.model';
 import { User } from 'src/app/auth-module/models/user.model';
 
@@ -22,32 +23,32 @@ export const reset = createAction(AuthActionTypes.AUTH_RESET);
 
 export const signUp = createAction(
   AuthActionTypes.AUTH_SIGN_UP,
-  props<{ credentials: Credentials }>()
+  props<{ credentials: Credentials; returnUrl?: string | undefined }>()
 );
 
 export const signUpSuccess = createAction(
   AuthActionTypes.AUTH_SIGN_UP_SUCCES,
-  props<{ credentials: Credentials }>()
+  props<{ credentials: Credentials; returnUrl?: string | undefined }>()
 );
 
 export const signUpFail = createAction(
   AuthActionTypes.AUTH_SIGN_UP_FAIL,
-  props<{ error: Error }>()
+  props<{ error: Error; returnUrl?: string | undefined }>()
 );
 
 export const signIn = createAction(
   AuthActionTypes.AUTH_SIGN_IN,
-  props<{ credentials: Credentials }>()
+  props<{ credentials: Credentials; returnUrl?: string | undefined }>()
 );
 
 export const signInSuccess = createAction(
   AuthActionTypes.AUTH_SIGN_IN_SUCCES,
-  props<{ user: User }>()
+  props<{ user: User; returnUrl?: string | undefined }>()
 );
 
 export const signInFail = createAction(
   AuthActionTypes.AUTH_SIGN_IN_FAIL,
-  props<{ error: Error }>()
+  props<{ error: Error; returnUrl?: string | undefined }>()
 );
 
 export const signOut = createAction(AuthActionTypes.AUTH_SIGN_OUT);

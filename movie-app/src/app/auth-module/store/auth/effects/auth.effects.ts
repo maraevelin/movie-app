@@ -1,11 +1,13 @@
-import { Injectable } from '@angular/core';
-import { Actions, ofType, createEffect } from '@ngrx/effects';
 import * as AuthActions from '../actions/auth.actions';
+
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
-import { of } from 'rxjs';
+
+import { AuthService } from 'src/app/auth-module/services/auth.service';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from 'src/app/auth-module/models/user.model';
-import { AuthService } from 'src/app/auth-module/services/auth.service';
+import { of } from 'rxjs';
 
 @Injectable()
 export class AuthEffects {
@@ -15,7 +17,10 @@ export class AuthEffects {
       switchMap(action =>
         this.service.signup(action.credentials).pipe(
           map(() =>
-            AuthActions.signUpSuccess({ credentials: action.credentials })
+            AuthActions.signUpSuccess({
+              credentials: action.credentials,
+              returnUrl: action.returnUrl
+            })
           ),
           catchError(error => of(AuthActions.signUpFail({ error })))
         )
@@ -29,7 +34,10 @@ export class AuthEffects {
       switchMap(action => {
         return this.service.signin(action.credentials).pipe(
           map(response =>
-            AuthActions.signInSuccess({ user: new User(response) })
+            AuthActions.signInSuccess({
+              user: new User(response),
+              returnUrl: action.returnUrl
+            })
           ),
           catchError(error => of(AuthActions.signInFail({ error })))
         );
@@ -52,15 +60,23 @@ export class AuthEffects {
   automaticSignIn$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.signUpSuccess),
-      tap(action => AuthActions.signIn({ credentials: action.credentials }))
+      tap(action =>
+        AuthActions.signIn({
+          credentials: action.credentials,
+          returnUrl: action.returnUrl
+        })
+      )
     )
   );
 
-  redirectToMovies$ = createEffect(
+  automaticRedirect$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType(AuthActions.signInSuccess),
-        tap(() => this.router.navigate(['/movies']))
+        tap(action => {
+          const returnUrl: string = action.returnUrl || '/movies';
+          this.router.navigate([returnUrl]);
+        })
       ),
     { dispatch: false }
   );

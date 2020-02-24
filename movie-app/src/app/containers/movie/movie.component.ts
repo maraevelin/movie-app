@@ -1,15 +1,18 @@
+import * as MovieSelectors from 'src/app/store/movie/selectors/movie.selectors';
+
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+
+import { AppState } from 'src/app/store';
 import { DetailedMovie } from '../../models/detailed-movie.model';
+import { Location } from '@angular/common';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import * as MovieSelectors from 'src/app/store/movie/selectors/movie.selectors';
-import { AppState } from 'src/app/store';
-import { getDetailed } from 'src/app/store/movie/actions/movie.actions';
-import { WatchListService } from 'src/app/services/watch-list.service';
-import { WatchList } from 'src/app/services/models/watch-list.model';
-import { selectUser } from 'src/app/auth-module/store/auth/selectors/auth.selectors';
 import { User } from 'src/app/auth-module/models/user.model';
+import { WatchList } from 'src/app/services/models/watch-list.model';
+import { WatchListService } from 'src/app/services/watch-list.service';
+import { getDetailed } from 'src/app/store/movie/actions/movie.actions';
+import { selectUser } from 'src/app/auth-module/store/auth/selectors/auth.selectors';
 
 @Component({
   selector: 'app-movie',
@@ -27,10 +30,11 @@ export class MovieComponent implements OnInit {
   isOnWatchList = false;
 
   constructor(
-    private route: ActivatedRoute,
     private store: Store<AppState>,
+    private service: WatchListService,
+    private route: ActivatedRoute,
     private router: Router,
-    private service: WatchListService
+    private location: Location
   ) {
     this.id = this.route.snapshot.paramMap.get('id') || '';
     this.store.dispatch(getDetailed({ id: this.id }));
@@ -73,7 +77,12 @@ export class MovieComponent implements OnInit {
 
   private redirectVisitor() {
     if (!this.isSignedIn) {
-      this.router.navigate(['/auth']);
+      const returnUrl: NavigationExtras = {
+        queryParams: { returnUrl: this.location.path() },
+        queryParamsHandling: 'merge',
+        skipLocationChange: true
+      };
+      this.router.navigate(['/auth'], returnUrl);
     }
   }
 }

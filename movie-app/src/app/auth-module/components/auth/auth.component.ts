@@ -1,11 +1,14 @@
+import * as AuthSelectors from '../../store/auth/selectors/auth.selectors';
+
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/store';
-import { Observable } from 'rxjs';
-import * as AuthSelectors from '../../store/auth/selectors/auth.selectors';
 import { reset, signIn, signUp } from '../../store/auth/actions/auth.actions';
+
+import { ActivatedRoute } from '@angular/router';
+import { AppState } from 'src/app/store';
 import { Credentials } from '../../models/credentials.model';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-auth',
@@ -13,9 +16,11 @@ import { Credentials } from '../../models/credentials.model';
   styleUrls: ['./auth.component.scss']
 })
 export class AuthComponent implements OnInit {
+  returnUrl: string | undefined;
   isLoading$: Observable<boolean>;
   errorMessage$: Observable<string | undefined>;
   isSignIn = true;
+
   form = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(6)]]
@@ -23,13 +28,18 @@ export class AuthComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private route: ActivatedRoute
   ) {
     this.isLoading$ = this.store.select(AuthSelectors.selectIsLoading);
     this.errorMessage$ = this.store.select(AuthSelectors.selectErrorMessage);
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.route.queryParamMap.subscribe(params => {
+      this.returnUrl = params.get('returnUrl') || undefined;
+    });
+  }
 
   onSwitch() {
     this.isSignIn = !this.isSignIn;
@@ -43,7 +53,9 @@ export class AuthComponent implements OnInit {
 
     const credentials: Credentials = this.form.value;
     this.store.dispatch(
-      this.isSignIn ? signIn({ credentials }) : signUp({ credentials })
+      this.isSignIn
+        ? signIn({ credentials, returnUrl: this.returnUrl })
+        : signUp({ credentials, returnUrl: this.returnUrl })
     );
   }
 }
