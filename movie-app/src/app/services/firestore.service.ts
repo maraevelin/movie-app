@@ -1,6 +1,6 @@
 import { Inject } from '@angular/core';
 import { AngularFirestore, QueryFn } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Store } from '@ngrx/store';
@@ -24,6 +24,10 @@ export abstract class FirestoreService<T> {
   }
 
   private get collection() {
+    if (!this.userId) {
+      return undefined;
+    }
+
     return this.firestore
       .collection(this.mainCollection)
       .doc(this.userId)
@@ -50,6 +54,10 @@ export abstract class FirestoreService<T> {
   }
 
   doc$(id: string): Observable<T | undefined> {
+    if (!this.collection) {
+      return of(undefined);
+    }
+
     return this.collection
       .doc<T>(id)
       .valueChanges()
@@ -67,6 +75,10 @@ export abstract class FirestoreService<T> {
   }
 
   async createDoc(object: { id: string } & T): Promise<void> {
+    if (!this.collection) {
+      return;
+    }
+
     return await this.collection
       .doc<T>(object.id)
       .set({ ...object }, { merge: true })
@@ -80,6 +92,10 @@ export abstract class FirestoreService<T> {
   }
 
   async removeDoc(id: string): Promise<void> {
+    if (!this.collection) {
+      return;
+    }
+
     return await this.collection
       .doc(id)
       .delete()

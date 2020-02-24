@@ -51,7 +51,7 @@ export class MovieComponent implements OnInit {
     });
 
     this.service.collection$().subscribe(watchList => {
-      this.watchList = !!watchList ? [...watchList] : [];
+      this.watchList = watchList ? [...watchList] : [];
       this.isOnWatchList =
         !!watchList && watchList.filter(m => m.id === this.id).length > 0;
     });
