@@ -6,6 +6,10 @@
     movies
   </div>
 
+  <div class="btn btn_watchList" routerLink="/watchList">
+    watch list
+  </div>
+
   <div *ngIf="user$ | async; else visitor">
     <div class="btn btn_auth" (click)="onSignOut()">
       sign out
