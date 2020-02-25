@@ -13,6 +13,7 @@ import { WatchList } from 'src/app/services/models/watch-list.model';
 import { WatchListService } from 'src/app/services/watch-list.service';
 import { getDetailed } from 'src/app/store/movie/actions/movie.actions';
 import { selectUser } from 'src/app/auth-module/store/auth/selectors/auth.selectors';
+import { AuthConstants } from 'src/app/auth-module/shared/auth.shared';
 
 @Component({
   selector: 'app-movie',
@@ -77,12 +78,12 @@ export class MovieComponent implements OnInit {
 
   private redirectVisitor() {
     if (!this.isSignedIn) {
-      const returnUrl: NavigationExtras = {
-        queryParams: { returnUrl: this.location.path() },
+      const redirectTo: NavigationExtras = {
+        queryParams: { [AuthConstants.REDIRECT_URL]: this.location.path() },
         queryParamsHandling: 'merge',
         skipLocationChange: true
       };
-      this.router.navigate(['/auth'], returnUrl);
+      this.router.navigate(['/auth'], redirectTo);
     }
   }
 }

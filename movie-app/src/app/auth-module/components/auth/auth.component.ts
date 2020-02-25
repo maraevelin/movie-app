@@ -9,6 +9,7 @@ import { AppState } from 'src/app/store';
 import { Credentials } from '../../models/credentials.model';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
+import { AuthConstants } from '../../shared/auth.shared';
 
 @Component({
   selector: 'app-auth',
@@ -16,7 +17,7 @@ import { Store } from '@ngrx/store';
   styleUrls: ['./auth.component.scss']
 })
 export class AuthComponent implements OnInit {
-  returnUrl: string | undefined;
+  redirectUrl: string | undefined;
   isLoading$: Observable<boolean>;
   errorMessage$: Observable<string | undefined>;
   isSignIn = true;
@@ -37,7 +38,7 @@ export class AuthComponent implements OnInit {
 
   ngOnInit() {
     this.route.queryParamMap.subscribe(params => {
-      this.returnUrl = params.get('returnUrl') || undefined;
+      this.redirectUrl = params.get(AuthConstants.REDIRECT_URL) || undefined;
     });
   }
 
@@ -54,8 +55,8 @@ export class AuthComponent implements OnInit {
     const credentials: Credentials = this.form.value;
     this.store.dispatch(
       this.isSignIn
-        ? signIn({ credentials, returnUrl: this.returnUrl })
-        : signUp({ credentials, returnUrl: this.returnUrl })
+        ? signIn({ credentials, returnUrl: this.redirectUrl })
+        : signUp({ credentials, returnUrl: this.redirectUrl })
     );
   }
 }
