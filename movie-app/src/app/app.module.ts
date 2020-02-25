@@ -22,6 +22,7 @@ import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AuthModuleModule } from './auth-module/auth-module.module';
+import { WatchListComponent } from './containers/watch-list/watch-list/watch-list.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { AuthModuleModule } from './auth-module/auth-module.module';
     GalleryComponent,
     SearchMoviesComponent,
     MovieComponent,
-    NavigationBarComponent
+    NavigationBarComponent,
+    WatchListComponent
   ],
   imports: [
     BrowserModule,
