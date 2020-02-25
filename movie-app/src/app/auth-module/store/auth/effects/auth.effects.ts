@@ -69,7 +69,7 @@ export class AuthEffects {
     )
   );
 
-  automaticRedirect$ = createEffect(
+  automaticRedirectOnSignInSuccess$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType(AuthActions.signInSuccess),
@@ -77,6 +77,15 @@ export class AuthEffects {
           const returnUrl: string = action.returnUrl || '/movies';
           this.router.navigate([returnUrl]);
         })
+      ),
+    { dispatch: false }
+  );
+
+  automaticRedirectOnSignOutSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.signOutSuccess),
+        tap(() => this.router.navigate(['/']))
       ),
     { dispatch: false }
   );
