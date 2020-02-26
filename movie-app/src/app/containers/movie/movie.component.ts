@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { User } from 'src/app/auth-module/models/user.model';
 import { WatchList } from 'src/app/services/models/watch-list.model';
-import { WatchListService } from 'src/app/services/watch-list.service';
+import { WatchListFirestoreService } from 'src/app/services/watch-list.firestore.service';
 import { getDetailed } from 'src/app/store/movie/actions/movie.actions';
 import { selectUser } from 'src/app/auth-module/store/auth/selectors/auth.selectors';
 import { AuthConstants } from 'src/app/auth-module/shared/auth.shared';
@@ -32,7 +32,7 @@ export class MovieComponent implements OnInit {
 
   constructor(
     private store: Store<AppState>,
-    private service: WatchListService,
+    private service: WatchListFirestoreService,
     private route: ActivatedRoute,
     private router: Router,
     private location: Location

@@ -1,1 +1,5 @@
 <p>watch-list works!</p>
+<div *ngIf="isLoading$ | async">...loading</div>
+<div *ngFor="let movie of movies$ | async">
+  <p>{{ movie.title }} #{{ movie.id }}</p>
+</div>
