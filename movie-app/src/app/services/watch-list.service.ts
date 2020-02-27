@@ -1,63 +1,121 @@
 import { Injectable } from '@angular/core';
-import { WatchListFirestoreService } from './watch-list.firestore.service';
-import { WatchListStoreService } from './watch-list.store.service';
+import { WatchListFirestore } from './watch-list.firestore.service';
+import { WatchListStore } from './watch-list.store.service';
 import { tap, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { WatchList } from './models/watch-list.model';
+import { WatchListResponse } from './models/watch-list-response.model';
+import { WatchListCollection } from '../models/watch-list-collection.model';
+import { OmdbApiService } from './omdb-api.service';
+import { DetailedMovie } from '../models/detailed-movie.model';
+import { Store } from '@ngrx/store';
+import { AppState } from '../store';
+import { selectUser } from '../auth-module/store/auth/selectors/auth.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class WatchListService {
-  private readonly storeId = `[${this.store.store}]`;
+  private readonly storeId = `[${this.watchListStore.store}]`;
+  private watchListCollection: WatchListCollection = {};
 
   constructor(
-    private firestore: WatchListFirestoreService,
-    private store: WatchListStoreService
+    private firestore: WatchListFirestore,
+    private watchListStore: WatchListStore,
+    private omdbService: OmdbApiService,
+    private store: Store<AppState>
   ) {
+    this.store.select(selectUser).subscribe({
+      next: user => {
+        if (user) {
+          this.initCollection();
+        }
+      }
+    });
+  }
+
+  private initCollection() {
     this.firestore
       .collection$()
       .pipe(
-        tap(movies =>
-          this.store.patch(
-            {
-              isLoading: false,
-              isUpdated: false,
-              movies,
-              errorMessage: undefined
-            },
-            `${this.storeId} collection subscription`
-          )
-        )
+        tap(movies => {
+          this.setWatchListCollection(movies);
+
+          this.resetState();
+        })
       )
       .subscribe();
   }
 
-  get isLoading$(): Observable<boolean> {
-    return this.store.state$.pipe(map(state => state.isLoading));
+  private setWatchListCollection(
+    movies: WatchListResponse[] | undefined
+  ): void {
+    if (!movies || movies.length === 0) {
+      this.watchListCollection = {};
+      return;
+    }
+
+    movies.forEach(movie => {
+      if (!this.watchListCollection.hasOwnProperty(movie.id)) {
+        this.omdbService.getMovieByImdbId(movie.id).subscribe({
+          next: detailedMovie => {
+            this.addMovieToWatchList(movie, detailedMovie);
+          },
+          error: (error: Error) => console.log(error),
+          complete: () => {}
+        });
+      }
+    });
   }
 
-  get movies$(): Observable<WatchList[]> {
-    return this.store.state$.pipe(
-      map(state => (state.isLoading ? [] : state.movies))
+  private resetState() {
+    this.watchListStore.patch(
+      {
+        isLoading: false,
+        isUpdated: false,
+        movies: this.watchListCollection,
+        errorMessage: undefined
+      },
+      `${this.storeId} collection subscription`
+    );
+  }
+
+  private addMovieToWatchList(
+    movie: WatchListResponse,
+    detailedMovie: DetailedMovie
+  ) {
+    this.watchListCollection[movie.id] = {
+      imdbId: movie.id,
+      recommendation: movie.recommendation,
+      isFinished: movie.isFinished,
+      title: detailedMovie.title,
+      year: detailedMovie.year,
+      posterUrl: detailedMovie.posterUrl
+    };
+  }
+
+  get isLoading$(): Observable<boolean> {
+    return this.watchListStore.state$.pipe(map(state => state.isLoading));
+  }
+
+  get movies$(): Observable<WatchListCollection> {
+    return this.watchListStore.state$.pipe(
+      map(state => (state.isLoading ? {} : state.movies))
     );
   }
 
   get isEmpty$(): Observable<boolean> {
-    return this.store.state$.pipe(
-      map(
-        state => !state.isLoading && state.movies && state.movies.length === 0
-      )
+    return this.watchListStore.state$.pipe(
+      map(state => !state.isLoading && state.movies && state.movies === {})
     );
   }
 
   get isUpdated$(): Observable<boolean> {
-    return this.store.state$.pipe(map(state => state.isUpdated));
+    return this.watchListStore.state$.pipe(map(state => state.isUpdated));
   }
 
   get errorMessage$(): Observable<string | undefined> {
-    return this.store.state$.pipe(map(state => state.errorMessage));
+    return this.watchListStore.state$.pipe(map(state => state.errorMessage));
   }
 
-  async create(movie: WatchList) {
+  async create(movie: WatchListResponse) {
     const event = 'create document';
 
     this.handleNewAction(event);
@@ -75,6 +133,7 @@ export class WatchListService {
     this.handleNewAction(event);
     try {
       await this.firestore.removeDoc(id);
+      delete this.watchListCollection[id];
       return this.handleSuccess(event);
     } catch (error) {
       return this.handleFail(error, event);
@@ -82,11 +141,10 @@ export class WatchListService {
   }
 
   private handleNewAction(event: string) {
-    this.store.patch(
+    this.watchListStore.patch(
       {
         isLoading: true,
         isUpdated: false,
-        movies: [],
         errorMessage: undefined
       },
       `${this.storeId} ${event}`
@@ -94,17 +152,26 @@ export class WatchListService {
   }
 
   private handleSuccess(event: string) {
-    this.store.patch(
+    this.watchListStore.patch(
       {
         isLoading: false,
         isUpdated: true
       },
       `${this.storeId} ${event} success`
     );
+
+    setTimeout(() => {
+      this.watchListStore.patch(
+        {
+          isUpdated: false
+        },
+        `${this.storeId} ${event} reset updated status`
+      );
+    }, 2000);
   }
 
   private handleFail(error: Error, event: string) {
-    this.store.patch(
+    this.watchListStore.patch(
       {
         isLoading: false,
         errorMessage: error.message

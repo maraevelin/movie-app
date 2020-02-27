@@ -1,8 +1,8 @@
-import { WatchList } from '../../services/models/watch-list.model';
+import { WatchListCollection } from 'src/app/models/watch-list-collection.model';
 
 export interface WatchListState {
   isLoading: boolean;
   isUpdated: boolean;
-  movies: WatchList[];
+  movies: WatchListCollection;
   errorMessage: string | undefined;
 }

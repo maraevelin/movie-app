@@ -35,6 +35,10 @@ export abstract class FirestoreService<T> {
   }
 
   collection$(queryFn?: QueryFn): Observable<T[] | undefined> {
+    if (!this.userId) {
+      return of(undefined);
+    }
+
     return this.firestore
       .collection(this.mainCollection)
       .doc(this.userId)
