@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { WatchListService } from 'src/app/services/watch-list.service';
 import { WatchListCollection } from 'src/app/models/watch-list-collection.model';
+import { WatchListMovie } from 'src/app/models/watch-list-movie';
 
 @Component({
   selector: 'app-watch-list',
@@ -24,4 +25,13 @@ export class WatchListComponent implements OnInit {
   }
 
   ngOnInit() {}
+
+  onFinished(movie: WatchListMovie): void {
+    movie = { ...movie, isFinished: !movie.isFinished };
+    this.service.update(movie);
+  }
+
+  onRemove(movie: WatchListMovie): void {
+    this.service.remove(movie.imdbId);
+  }
 }

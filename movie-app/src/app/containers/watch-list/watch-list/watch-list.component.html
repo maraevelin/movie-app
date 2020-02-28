@@ -4,6 +4,28 @@
 <div *ngIf="isEmpty$ | async">is empty</div>
 <div *ngIf="movies$ | async as movies">
   <div *ngFor="let movie of movies | keyvalue">
-    <p>#{{ movie.value.imdbId }} {{ movie.value.title }}</p>
+    <div class="item">
+      <img
+        class="item item-poster"
+        [src]="movie.value.posterUrl"
+        [alt]="movie.value.title"
+      />
+      |
+      <div
+        class="item item-title"
+        routerLink="/movies/{{ movie.value.imdbId }}"
+      >
+        {{ movie.value.title }}({{ movie.value.year }})
+      </div>
+      |
+      <div class="item item-isFinished" (click)="onFinished(movie.value)">
+        {{ movie.value.isFinished ? 'finished' : 'in progress' }}
+      </div>
+      |
+
+      <div class="item item-remove" (click)="onRemove(movie.value)">
+        remove
+      </div>
+    </div>
   </div>
 </div>

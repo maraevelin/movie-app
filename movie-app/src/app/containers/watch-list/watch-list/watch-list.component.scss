@@ -1,0 +1,18 @@
+.item {
+  padding: 0px 8px;
+
+  display: flex;
+  justify-content: space-between;
+
+  &-title,
+  &-isFinished,
+  &-remove {
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  &-poster {
+    width: 80px;
+  }
+}

@@ -10,6 +10,7 @@ import { DetailedMovie } from '../models/detailed-movie.model';
 import { Store } from '@ngrx/store';
 import { AppState } from '../store';
 import { selectUser } from '../auth-module/store/auth/selectors/auth.selectors';
+import { WatchListMovie } from '../models/watch-list-movie';
 
 @Injectable({ providedIn: 'root' })
 export class WatchListService {
@@ -63,6 +64,12 @@ export class WatchListService {
         });
       }
     });
+  }
+
+  private updateWatchListCollection(movie: WatchListMovie) {
+    this.watchListCollection[movie.imdbId] = {
+      ...movie
+    };
   }
 
   private resetState() {
@@ -121,6 +128,23 @@ export class WatchListService {
     this.handleNewAction(event);
     try {
       await this.firestore.createDoc(movie);
+      return this.handleSuccess(event);
+    } catch (error) {
+      return this.handleFail(error, event);
+    }
+  }
+
+  async update(movie: WatchListMovie) {
+    const event = 'update document';
+
+    this.handleNewAction(event);
+    try {
+      await this.firestore.updateDoc({
+        id: movie.imdbId,
+        isFinished: movie.isFinished,
+        recommendation: movie.recommendation || ''
+      });
+      this.updateWatchListCollection(movie);
       return this.handleSuccess(event);
     } catch (error) {
       return this.handleFail(error, event);

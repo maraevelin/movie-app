@@ -95,6 +95,23 @@ export abstract class FirestoreService<T> {
       });
   }
 
+  async updateDoc(object: { id: string } & T): Promise<void> {
+    if (!this.collection) {
+      return;
+    }
+
+    return await this.collection
+      .doc<T>(object.id)
+      .set({ ...object }, { merge: true })
+      .then(() => {
+        if (!environment.production) {
+          console.groupCollapsed(`[${this.logId}] Update document`);
+          console.log(`[ID] ${object.id}`);
+          console.groupEnd();
+        }
+      });
+  }
+
   async removeDoc(id: string): Promise<void> {
     if (!this.collection) {
       return;
