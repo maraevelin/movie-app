@@ -12,15 +12,15 @@ export class WatchListMovie {
   readonly recommendation: string | undefined;
   readonly isFinished: boolean;
   readonly title: string;
-  readonly year: string;
   readonly posterUrl: string;
+  readonly plot: string;
 
   constructor(movie: WatchListResponse, detailedMovie: DetailedMovie) {
     this.imdbId = movie.id;
     this.recommendation = movie.recommendation;
     this.isFinished = movie.isFinished;
-    this.title = detailedMovie.title;
-    this.year = detailedMovie.year;
+    this.title = `${detailedMovie.title} (${detailedMovie.year})`;
     this.posterUrl = detailedMovie.posterUrl;
+    this.plot = detailedMovie.plot;
   }
 }
