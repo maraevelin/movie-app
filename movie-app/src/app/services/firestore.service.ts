@@ -16,7 +16,7 @@ export abstract class FirestoreService<T> {
 
   constructor(
     @Inject(AngularFirestore) protected firestore: AngularFirestore,
-    private store: Store<AppState>
+    @Inject(Store) private store: Store<AppState>
   ) {
     this.store.select(selectUser).subscribe(user => {
       this.userId = user ? user.id : undefined;
