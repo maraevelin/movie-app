@@ -6,7 +6,6 @@ import { Observable } from 'rxjs';
 import { WatchListResponse } from './models/watch-list-response.model';
 import { WatchListCollection } from '../models/watch-list-collection.model';
 import { OmdbApiService } from './omdb-api.service';
-import { DetailedMovie } from '../models/detailed-movie.model';
 import { Store } from '@ngrx/store';
 import { AppState } from '../store';
 import { selectUser } from '../auth-module/store/auth/selectors/auth.selectors';
@@ -25,77 +24,57 @@ export class WatchListService {
   ) {
     this.store.select(selectUser).subscribe({
       next: user => {
+        console.log(user);
         if (user) {
-          this.initCollection();
+          this.firestore
+            .collection$()
+            .pipe(
+              tap(movies => {
+                this.setWatchListCollection(movies).then(() => {
+                  this.watchListStore.patch(
+                    {
+                      isLoading: false,
+                      isUpdated: false,
+                      movies: this.watchListCollection,
+                      errorMessage: undefined
+                    },
+                    `${this.storeId} collection subscription`
+                  );
+                });
+              })
+            )
+            .subscribe();
         }
-      }
+      },
+      error: error => console.log(error),
+      complete: () => console.log('user$ subscription complete')
     });
   }
 
-  private initCollection() {
-    this.firestore
-      .collection$()
-      .pipe(
-        tap(movies => {
-          this.setWatchListCollection(movies);
-
-          this.resetState();
-        })
-      )
-      .subscribe();
-  }
-
-  private setWatchListCollection(
+  private async setWatchListCollection(
     movies: WatchListResponse[] | undefined
-  ): void {
+  ): Promise<void> {
     if (!movies || movies.length === 0) {
       this.watchListCollection = {};
       return;
     }
 
-    movies.forEach(movie => {
-      if (!this.watchListCollection.hasOwnProperty(movie.id)) {
-        this.omdbService.getMovieByImdbId(movie.id).subscribe({
-          next: detailedMovie => {
-            this.addMovieToWatchList(movie, detailedMovie);
-          },
-          error: (error: Error) => console.log(error),
-          complete: () => {}
-        });
+    for (const movie of movies) {
+      if (!this.watchListCollection[movie.id]) {
+        await this.omdbService
+          .getMovieByImdbId(movie.id, 'short')
+          .toPromise()
+          .then(detailedMovie => {
+            this.watchListCollection[movie.id] = new WatchListMovie(
+              movie,
+              detailedMovie
+            );
+          })
+          .catch(error => {
+            console.log(error);
+          });
       }
-    });
-  }
-
-  private updateWatchListCollection(movie: WatchListMovie) {
-    this.watchListCollection[movie.imdbId] = {
-      ...movie
-    };
-  }
-
-  private resetState() {
-    this.watchListStore.patch(
-      {
-        isLoading: false,
-        isUpdated: false,
-        movies: this.watchListCollection,
-        errorMessage: undefined
-      },
-      `${this.storeId} collection subscription`
-    );
-  }
-
-  private addMovieToWatchList(
-    movie: WatchListResponse,
-    detailedMovie: DetailedMovie
-  ) {
-    this.watchListCollection[movie.id] = {
-      imdbId: movie.id,
-      recommendation: movie.recommendation,
-      isFinished: movie.isFinished,
-      title: detailedMovie.title,
-      year: detailedMovie.year,
-      posterUrl: detailedMovie.posterUrl
-    };
+    }
   }
 
   get isLoading$(): Observable<boolean> {
@@ -104,7 +83,10 @@ export class WatchListService {
 
   get movies$(): Observable<WatchListCollection> {
     return this.watchListStore.state$.pipe(
-      map(state => (state.isLoading ? {} : state.movies))
+      map(state => {
+        const value: WatchListMovie | {} = state.isLoading ? {} : state.movies;
+        return value;
+      })
     );
   }
 
@@ -125,46 +107,48 @@ export class WatchListService {
   async create(movie: WatchListResponse) {
     const event = 'create document';
 
-    this.handleNewAction(event);
+    this.updateStateOnNewEvent(event);
     try {
       await this.firestore.createDoc(movie);
-      return this.handleSuccess(event);
+      return this.updateStateOnSuccess(event);
     } catch (error) {
-      return this.handleFail(error, event);
+      return this.updateStateOnFail(error, event);
     }
   }
 
   async update(movie: WatchListMovie) {
     const event = 'update document';
 
-    this.handleNewAction(event);
+    this.updateStateOnNewEvent(event);
     try {
       await this.firestore.updateDoc({
         id: movie.imdbId,
         isFinished: movie.isFinished,
         recommendation: movie.recommendation || ''
       });
-      this.updateWatchListCollection(movie);
-      return this.handleSuccess(event);
+      this.watchListCollection[movie.imdbId] = {
+        ...movie
+      };
+      return this.updateStateOnSuccess(event);
     } catch (error) {
-      return this.handleFail(error, event);
+      return this.updateStateOnFail(error, event);
     }
   }
 
   async remove(id: string) {
     const event = 'remove document';
 
-    this.handleNewAction(event);
+    this.updateStateOnNewEvent(event);
     try {
       await this.firestore.removeDoc(id);
       delete this.watchListCollection[id];
-      return this.handleSuccess(event);
+      return this.updateStateOnSuccess(event);
     } catch (error) {
-      return this.handleFail(error, event);
+      return this.updateStateOnFail(error, event);
     }
   }
 
-  private handleNewAction(event: string) {
+  private updateStateOnNewEvent(event: string) {
     this.watchListStore.patch(
       {
         isLoading: true,
@@ -175,7 +159,7 @@ export class WatchListService {
     );
   }
 
-  private handleSuccess(event: string) {
+  private updateStateOnSuccess(event: string) {
     this.watchListStore.patch(
       {
         isLoading: false,
@@ -191,10 +175,10 @@ export class WatchListService {
         },
         `${this.storeId} ${event} reset updated status`
       );
-    }, 2000);
+    }, 1000);
   }
 
-  private handleFail(error: Error, event: string) {
+  private updateStateOnFail(error: Error, event: string) {
     this.watchListStore.patch(
       {
         isLoading: false,
