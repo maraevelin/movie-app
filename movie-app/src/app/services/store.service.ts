@@ -16,30 +16,45 @@ export abstract class StoreService<T> {
   }
 
   patch(newValue: Partial<T>, event: string = 'Non-specified event') {
+    this.startLogging('PATCH', event, newValue);
+
     this.previous = this.state;
     const newState = { ...this.state, ...newValue };
     this.behaviorSubject.next(newState);
 
-    if (!environment.production) {
-      console.groupCollapsed(`[${this.store} STORE] [PATCH] [EVENT: ${event}]`);
-      console.log('Previous: ', this.previous);
-      console.log('Change: ', newValue);
-      console.log('New state: ', newState);
-      console.groupEnd();
-    }
+    this.finishLogging('PATCH', event, newState);
   }
 
   set(newValue: Partial<T>, event: string = 'Non-specified event') {
+    this.startLogging('SET', event, newValue);
+
     this.previous = this.state;
     const newState = { ...newValue } as T;
     this.behaviorSubject.next(newState);
 
-    if (!environment.production) {
-      console.groupCollapsed(`[${this.store} STORE] [SET] [EVENT: ${event}]`);
-      console.log('Previous: ', this.previous);
-      console.log('Change: ', newValue);
-      console.log('New state: ', newState);
-      console.groupEnd();
+    this.finishLogging('SET', event, newState);
+  }
+
+  private startLogging(section: string, event: string, newValue: Partial<T>) {
+    if (environment.production) {
+      return;
     }
+
+    console.groupCollapsed(`[${this.store}] [${section}] STARTED`);
+    console.log(`Triggered by: ${event}`);
+    console.log('Change: ', newValue);
+    console.groupEnd();
+  }
+
+  private finishLogging(section: string, event: string, newState: T) {
+    if (environment.production) {
+      return;
+    }
+
+    console.groupCollapsed(`[${this.store}] [${section}] FINISHED`);
+    console.log(`Triggered by: ${event}`);
+    console.log('Previous state: ', this.previous);
+    console.log('New state: ', newState);
+    console.groupEnd();
   }
 }
