@@ -1,31 +1,78 @@
 <p>watch-list works!</p>
-<div *ngIf="isLoading$ | async">is loading</div>
 <div *ngIf="isUpdated$ | async">is updated</div>
-<div *ngIf="isEmpty$ | async">is empty</div>
-<div *ngIf="movies$ | async as movies">
-  <div *ngFor="let movie of movies | keyvalue">
-    <div class="item">
-      <img
-        class="item item-poster"
-        [src]="movie.value.posterUrl"
-        [alt]="movie.value.title"
-      />
-      |
-      <div
-        class="item item-title"
-        routerLink="/movies/{{ movie.value.imdbId }}"
-      >
-        {{ movie.value.title }}({{ movie.value.year }})
-      </div>
-      |
-      <div class="item item-isFinished" (click)="onFinished(movie.value)">
-        {{ movie.value.isFinished ? 'finished' : 'in progress' }}
-      </div>
-      |
 
-      <div class="item item-remove" (click)="onRemove(movie.value)">
-        remove
-      </div>
-    </div>
-  </div>
+<div *ngIf="isLoading$ | async">
+  <mat-spinner color="accent"></mat-spinner>
 </div>
+
+<div *ngIf="isEmpty$ | async">is empty</div>
+
+<div class="table">
+  <mat-form-field>
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" />
+  </mat-form-field>
+
+  <table
+    mat-table
+    [dataSource]="dataSource"
+    matSort
+    multiTemplateDataRows
+    class="mat-elevation-z8"
+  >
+    <!-- Columns -->
+    <ng-container
+      matColumnDef="{{ column.key }}"
+      *ngFor="let column of columnDef"
+    >
+      <th mat-header-cell mat-sort-header *matHeaderCellDef>
+        {{ column.header }}
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element[column.key] }}</td>
+    </ng-container>
+
+    <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+    <ng-container matColumnDef="expandedDetail">
+      <td
+        mat-cell
+        *matCellDef="let element"
+        [attr.colspan]="columnsToDisplay.length"
+      >
+        <div
+          class="example-element-detail"
+          [@detailExpand]="
+            element == expandedElement ? 'expanded' : 'collapsed'
+          "
+        >
+          <div class="example-element-poster">
+            <img
+              class="item item-poster"
+              [src]="element.posterUrl"
+              [alt]="element.title"
+            />
+          </div>
+          <div>{{ element.plot }}</div>
+        </div>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></tr>
+    <tr
+      mat-row
+      *matRowDef="let element; columns: columnsToDisplay"
+      class="example-element-row"
+      [class.example-expanded-row]="expandedElement === element"
+      (click)="expandedElement = expandedElement === element ? null : element"
+    ></tr>
+    <tr
+      mat-row
+      *matRowDef="let row; columns: ['expandedDetail']"
+      class="example-detail-row"
+    ></tr>
+  </table>
+</div>
+
+<mat-paginator
+  [pageSizeOptions]="[5, 10, 15, 20]"
+  showFirstLastButtons
+></mat-paginator>
