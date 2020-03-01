@@ -33,10 +33,13 @@ export class OmdbApiService {
     );
   }
 
-  getMovieByImdbId(id: string): Observable<DetailedMovie> {
+  getMovieByImdbId(
+    id: string,
+    plotPref: string = environment.omdb.plotPreference
+  ): Observable<DetailedMovie> {
     const params = new HttpParams()
       .set(environment.omdb.paramImdbId, id)
-      .set(environment.omdb.paramPlot, environment.omdb.plotPreference);
+      .set(environment.omdb.paramPlot, plotPref);
     const response = this.http.get<DetailedMovieResponse>(
       environment.omdb.url,
       { params }
