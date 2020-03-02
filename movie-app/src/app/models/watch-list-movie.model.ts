@@ -15,12 +15,13 @@ export class WatchListMovie {
   readonly posterUrl: string;
   readonly plot: string;
 
-  constructor(movie: WatchListResponse, detailedMovie: DetailedMovie) {
+  constructor(movie: WatchListResponse, detailedMovie?: DetailedMovie) {
     this.imdbId = movie.id;
     this.recommendation = movie.recommendation;
     this.isFinished = movie.isFinished;
-    this.title = `${detailedMovie.title} (${detailedMovie.year})`;
-    this.posterUrl = detailedMovie.posterUrl;
-    this.plot = detailedMovie.plot;
+    this.title =
+      (detailedMovie && `${detailedMovie.title} (${detailedMovie.year})`) || '';
+    this.posterUrl = (detailedMovie && detailedMovie.posterUrl) || '';
+    this.plot = (detailedMovie && detailedMovie.plot) || '';
   }
 }

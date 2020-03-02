@@ -9,11 +9,12 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../store';
 import { selectUser } from '../auth-module/store/auth/selectors/auth.selectors';
 import { WatchListMovie } from '../models/watch-list-movie.model';
+import { Observable, forkJoin } from 'rxjs';
+import { DetailedMovie } from '../models/detailed-movie.model';
 
 @Injectable({ providedIn: 'root' })
 export class WatchListService {
   private readonly storeId = `[${this.watchListStore.store}]`;
-  private watchListCollection: WatchListCollection = {};
 
   constructor(
     private firestore: WatchListFirestore,
@@ -23,23 +24,53 @@ export class WatchListService {
   ) {
     this.store.select(selectUser).subscribe({
       next: user => {
-        console.log(user);
         if (user) {
           this.firestore
             .collection$()
             .pipe(
-              tap(movies => {
-                this.setWatchListCollection(movies).then(() => {
+              tap(watchList => {
+                if (!watchList || !watchList.length) {
                   this.watchListStore.patch(
                     {
                       isLoading: false,
                       isUpdated: false,
-                      movies: this.watchListCollection,
+                      movies: {},
                       errorMessage: undefined
                     },
                     `${this.storeId} collection subscription`
                   );
-                });
+                } else {
+                  const collection: WatchListCollection = {};
+
+                  const detailedMovies$: Observable<DetailedMovie>[] = [];
+                  watchList.forEach(movie => {
+                    collection[movie.id] = new WatchListMovie(movie);
+                    detailedMovies$.push(
+                      this.omdbService.getMovieByImdbId(movie.id, 'short')
+                    );
+                  });
+
+                  forkJoin(detailedMovies$).subscribe(result => {
+                    result.forEach(movie => {
+                      collection[movie.imdbId] = {
+                        ...collection[movie.imdbId],
+                        title: movie.title,
+                        posterUrl: movie.posterUrl,
+                        plot: movie.plot
+                      };
+                    });
+
+                    this.watchListStore.patch(
+                      {
+                        isLoading: false,
+                        isUpdated: false,
+                        movies: collection,
+                        errorMessage: undefined
+                      },
+                      `${this.storeId} collection subscription`
+                    );
+                  });
+                }
               })
             )
             .subscribe();
@@ -48,32 +79,6 @@ export class WatchListService {
       error: error => console.log(error),
       complete: () => console.log('user$ subscription complete')
     });
-  }
-
-  private async setWatchListCollection(
-    movies: WatchListResponse[] | undefined
-  ): Promise<void> {
-    if (!movies || movies.length === 0) {
-      this.watchListCollection = {};
-      return;
-    }
-
-    for (const movie of movies) {
-      if (!this.watchListCollection[movie.id]) {
-        await this.omdbService
-          .getMovieByImdbId(movie.id, 'short')
-          .toPromise()
-          .then(detailedMovie => {
-            this.watchListCollection[movie.id] = new WatchListMovie(
-              movie,
-              detailedMovie
-            );
-          })
-          .catch(error => {
-            console.log(error);
-          });
-      }
-    }
   }
 
   async create(movie: WatchListResponse) {
@@ -98,9 +103,6 @@ export class WatchListService {
         isFinished: movie.isFinished,
         recommendation: movie.recommendation || ''
       });
-      this.watchListCollection[movie.imdbId] = {
-        ...movie
-      };
       return this.updateStateOnSuccess(event);
     } catch (error) {
       return this.updateStateOnFail(error, event);
@@ -113,7 +115,6 @@ export class WatchListService {
     this.updateStateOnNewEvent(event);
     try {
       await this.firestore.removeDoc(id);
-      delete this.watchListCollection[id];
       return this.updateStateOnSuccess(event);
     } catch (error) {
       return this.updateStateOnFail(error, event);
