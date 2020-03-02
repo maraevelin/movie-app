@@ -67,6 +67,7 @@
         mat-cell
         *matCellDef="let element"
         [attr.colspan]="columnsToDisplay.length"
+        (click)="onNavigateToMovie(element.imdbId)"
       >
         <div
           class="example-element-detail"

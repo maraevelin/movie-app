@@ -15,6 +15,7 @@ import {
 } from '@angular/animations';
 import { Column } from 'src/app/models/column.model';
 import { WatchListStore } from 'src/app/services/watch-list.store.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-watch-list',
@@ -59,7 +60,8 @@ export class WatchListComponent implements OnInit {
 
   constructor(
     private service: WatchListService,
-    private store: WatchListStore
+    private store: WatchListStore,
+    private router: Router
   ) {
     this.isLoading$ = this.store.isLoading$;
     this.isUpdated$ = this.store.isUpdated$;
@@ -104,6 +106,10 @@ export class WatchListComponent implements OnInit {
 
   onRemove(imdbId: string): void {
     this.service.remove(imdbId);
+  }
+
+  onNavigateToMovie(imdbId: string): void {
+    this.router.navigate([`movies/${imdbId}`]);
   }
 
   applyFilter(event: Event) {
