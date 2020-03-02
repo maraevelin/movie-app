@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 import { WatchListService } from 'src/app/services/watch-list.service';
 import { WatchListCollection } from 'src/app/models/watch-list-collection.model';
-import { WatchListMovie } from 'src/app/models/watch-list-movie';
+import { WatchListMovie } from 'src/app/models/watch-list-movie.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -40,8 +40,11 @@ export class WatchListComponent implements OnInit {
     | undefined;
   @ViewChild(MatSort, { static: true }) sort: MatSort | undefined;
 
-  columnsToDisplay: string[] = ['title'];
-  columnDef: Column[] = [{ key: 'title', header: 'Title' }];
+  columnsToDisplay: string[] = ['title', 'options'];
+  columnDef: Column[] = [
+    { key: 'title', header: 'Title' },
+    { key: '_', header: 'Options' }
+  ];
   dataSource = new MatTableDataSource();
   expandedElement: WatchListMovie | undefined;
 

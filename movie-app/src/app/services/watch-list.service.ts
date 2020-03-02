@@ -9,7 +9,7 @@ import { OmdbApiService } from './omdb-api.service';
 import { Store } from '@ngrx/store';
 import { AppState } from '../store';
 import { selectUser } from '../auth-module/store/auth/selectors/auth.selectors';
-import { WatchListMovie } from '../models/watch-list-movie';
+import { WatchListMovie } from '../models/watch-list-movie.model';
 
 @Injectable({ providedIn: 'root' })
 export class WatchListService {
