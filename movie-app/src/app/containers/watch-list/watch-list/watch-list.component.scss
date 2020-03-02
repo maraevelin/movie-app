@@ -41,3 +41,63 @@ tr.example-element-row:not(.example-expanded-row):active {
   overflow: hidden;
   display: flex;
 }
+
+.material-icons.md-inactive {
+  cursor: default;
+
+  &.md-arrow {
+    color: rgba(#3d9970, 0.24);
+  }
+
+  &.md-trashcan {
+    color: rgba(#ff4136, 0.24);
+  }
+
+  transition: 0.2s;
+
+  &:hover {
+    cursor: pointer;
+
+    &.md-arrow {
+      color: #3d9970;
+    }
+
+    &.md-trashcan {
+      color: #ff4136;
+    }
+  }
+
+  &:active {
+    transform: translateY(10%);
+    transition: 0.2s;
+  }
+}
+
+.material-icons.md-active {
+  cursor: default;
+
+  &.md-arrow {
+    color: #3d9970;
+  }
+
+  &.md-trashcan {
+    color: #ff4136;
+  }
+
+  color: black;
+
+  transition: 0.2s;
+
+  &:hover {
+    cursor: pointer;
+
+    &.md-arrow {
+      color: rgba(#3d9970, 0.24);
+    }
+  }
+
+  &:active {
+    transform: translateY(10%);
+    transition: 0.2s;
+  }
+}

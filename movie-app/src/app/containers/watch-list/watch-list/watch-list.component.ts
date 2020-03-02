@@ -40,9 +40,10 @@ export class WatchListComponent implements OnInit {
     | undefined;
   @ViewChild(MatSort, { static: true }) sort: MatSort | undefined;
 
-  columnsToDisplay: string[] = ['title', 'options'];
+  columnsToDisplay: string[] = ['title', 'isFinished', 'options'];
   columnDef: Column[] = [
     { key: 'title', header: 'Title' },
+    { key: 'finished', header: 'Finished' },
     { key: '_', header: 'Options' }
   ];
   dataSource = new MatTableDataSource();
