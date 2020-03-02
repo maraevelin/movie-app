@@ -14,6 +14,7 @@ import { selectUser } from 'src/app/auth-module/store/auth/selectors/auth.select
 import { AuthConstants } from 'src/app/auth-module/shared/auth.shared';
 import { WatchListService } from 'src/app/services/watch-list.service';
 import { WatchListCollection } from 'src/app/models/watch-list-collection.model';
+import { WatchListStore } from 'src/app/services/watch-list.store.service';
 
 @Component({
   selector: 'app-movie',
@@ -33,6 +34,7 @@ export class MovieComponent implements OnInit {
 
   constructor(
     private store: Store<AppState>,
+    private watchListStore: WatchListStore,
     private service: WatchListService,
     private route: ActivatedRoute,
     private router: Router,
@@ -45,7 +47,7 @@ export class MovieComponent implements OnInit {
     this.errorMessage$ = this.store.select(MovieSelectors.selectErrorMessage);
 
     this.user$ = this.store.select(selectUser);
-    this.movies$ = this.service.movies$;
+    this.movies$ = this.watchListStore.movies$;
   }
 
   ngOnInit() {
@@ -53,7 +55,7 @@ export class MovieComponent implements OnInit {
       this.isSignedIn = !!user;
 
       if (this.isSignedIn) {
-        this.service.movies$.subscribe({
+        this.watchListStore.movies$.subscribe({
           next: movies => {
             this.isOnWatchList = movies.hasOwnProperty(this.id);
           }

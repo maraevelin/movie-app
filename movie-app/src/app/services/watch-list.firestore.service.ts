@@ -7,5 +7,5 @@ import { WatchListResponse } from './models/watch-list-response.model';
 export class WatchListFirestore extends FirestoreService<WatchListResponse> {
   mainCollection = environment.firebaseDb.mainCollection;
   subCollection = environment.firebaseDb.subCollection;
-  logId = 'WATCH LIST';
+  logId = 'WATCH LIST FIRESTORE';
 }

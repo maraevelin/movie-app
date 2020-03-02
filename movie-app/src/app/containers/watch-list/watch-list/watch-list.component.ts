@@ -14,6 +14,7 @@ import {
   animate
 } from '@angular/animations';
 import { Column } from 'src/app/models/column.model';
+import { WatchListStore } from 'src/app/services/watch-list.store.service';
 
 @Component({
   selector: 'app-watch-list',
@@ -56,12 +57,15 @@ export class WatchListComponent implements OnInit {
   errorMessage$: Observable<string | undefined>;
   movies$: Observable<WatchListCollection>;
 
-  constructor(private service: WatchListService) {
-    this.isLoading$ = this.service.isLoading$;
-    this.isUpdated$ = this.service.isUpdated$;
-    this.isEmpty$ = this.service.isEmpty$;
-    this.errorMessage$ = this.service.errorMessage$;
-    this.movies$ = this.service.movies$;
+  constructor(
+    private service: WatchListService,
+    private store: WatchListStore
+  ) {
+    this.isLoading$ = this.store.isLoading$;
+    this.isUpdated$ = this.store.isUpdated$;
+    this.isEmpty$ = this.store.isEmpty$;
+    this.errorMessage$ = this.store.errorMessage$;
+    this.movies$ = this.store.movies$;
   }
 
   ngOnInit() {

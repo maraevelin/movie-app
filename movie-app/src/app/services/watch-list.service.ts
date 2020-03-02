@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { WatchListFirestore } from './watch-list.firestore.service';
 import { WatchListStore } from './watch-list.store.service';
-import { tap, map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { WatchListResponse } from './models/watch-list-response.model';
 import { WatchListCollection } from '../models/watch-list-collection.model';
 import { OmdbApiService } from './omdb-api.service';
@@ -75,33 +74,6 @@ export class WatchListService {
           });
       }
     }
-  }
-
-  get isLoading$(): Observable<boolean> {
-    return this.watchListStore.state$.pipe(map(state => state.isLoading));
-  }
-
-  get movies$(): Observable<WatchListCollection> {
-    return this.watchListStore.state$.pipe(
-      map(state => {
-        const value: WatchListMovie | {} = state.isLoading ? {} : state.movies;
-        return value;
-      })
-    );
-  }
-
-  get isEmpty$(): Observable<boolean> {
-    return this.watchListStore.state$.pipe(
-      map(state => !state.isLoading && state.movies && state.movies === {})
-    );
-  }
-
-  get isUpdated$(): Observable<boolean> {
-    return this.watchListStore.state$.pipe(map(state => state.isUpdated));
-  }
-
-  get errorMessage$(): Observable<string | undefined> {
-    return this.watchListStore.state$.pipe(map(state => state.errorMessage));
   }
 
   async create(movie: WatchListResponse) {
