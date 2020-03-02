@@ -43,11 +43,34 @@ export class WatchListService {
                   const collection: WatchListCollection = {};
 
                   const detailedMovies$: Observable<DetailedMovie>[] = [];
+
                   watchList.forEach(movie => {
-                    collection[movie.id] = new WatchListMovie(movie);
-                    detailedMovies$.push(
-                      this.omdbService.getMovieByImdbId(movie.id, 'short')
-                    );
+                    const movieInState = this.watchListStore.state.movies[
+                      movie.id
+                    ];
+
+                    if (movieInState) {
+                      collection[movie.id] = {
+                        ...movieInState,
+                        ...{
+                          imdbId: movie.id,
+                          isFinished: movie.isFinished,
+                          recommendation: movie.recommendation
+                        }
+                      };
+                    } else {
+                      collection[movie.id] = {
+                        imdbId: movie.id,
+                        isFinished: movie.isFinished,
+                        recommendation: movie.recommendation,
+                        title: '',
+                        posterUrl: '',
+                        plot: ''
+                      };
+                      detailedMovies$.push(
+                        this.omdbService.getMovieByImdbId(movie.id, 'short')
+                      );
+                    }
                   });
 
                   forkJoin(detailedMovies$).subscribe(result => {
