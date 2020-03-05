@@ -37,7 +37,7 @@ export const getDetailed = createAction(
 );
 
 export const getDetailedSuccess = createAction(
-  MovieActionTypes.MOVIE_SEARCH_SUCCESS,
+  MovieActionTypes.MOVIE_GET_DETAILED_SUCCES,
   props<{ detailedMovie: DetailedMovie }>()
 );
 

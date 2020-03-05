@@ -11,7 +11,7 @@ export interface MovieState {
   readonly detailedMovie: DetailedMovie | undefined;
 }
 
-const initialState: MovieState = {
+export const initialState: MovieState = {
   title: '',
   isLoading: false,
   errorMessage: undefined,
@@ -19,7 +19,7 @@ const initialState: MovieState = {
   detailedMovie: undefined
 };
 
-export function reducer(state: MovieState | undefined, action: Action) {
+export function reducer(state: MovieState = initialState, action: Action) {
   return movieReducer(state, action);
 }
 
