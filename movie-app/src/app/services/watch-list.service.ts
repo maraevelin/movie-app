@@ -7,7 +7,7 @@ import { WatchListCollection } from '../models/watch-list-collection.model';
 import { OmdbApiService } from './omdb-api.service';
 import { Store } from '@ngrx/store';
 import { AppState } from '../store';
-import { selectUser } from '../auth-module/store/auth/selectors/auth.selectors';
+import { selectUser } from '../auth/store/auth/selectors/auth.selectors';
 import { WatchListMovie } from '../models/watch-list-movie.model';
 import { Observable, forkJoin } from 'rxjs';
 import { DetailedMovie } from '../models/detailed-movie.model';

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { User } from '../auth-module/models/user.model';
+import { User } from '../auth/models/user.model';
 import { Store } from '@ngrx/store';
 import { AppState } from '../store';
-import { selectUser } from '../auth-module/store/auth/selectors/auth.selectors';
+import { selectUser } from '../auth/store/auth/selectors/auth.selectors';
 import {
   Router,
   CanActivate,
@@ -12,7 +12,7 @@ import {
   RouterStateSnapshot
 } from '@angular/router';
 import { Location } from '@angular/common';
-import { AuthConstants } from '../auth-module/shared/auth.shared';
+import { AuthConstants } from '../auth/shared/auth.shared';
 
 @Injectable({ providedIn: 'root' })
 export class WatchListGuard implements CanActivate {

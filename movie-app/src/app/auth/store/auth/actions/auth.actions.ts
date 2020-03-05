@@ -1,7 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 
-import { Credentials } from 'src/app/auth-module/models/credentials.model';
-import { User } from 'src/app/auth-module/models/user.model';
+import { Credentials } from 'src/app/auth/models/credentials.model';
+import { User } from 'src/app/auth/models/user.model';
 
 export enum AuthActionTypes {
   AUTH_RESET = '[AUTH] Reset',

@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
-import { User } from 'src/app/auth-module/models/user.model';
-import { selectUser } from 'src/app/auth-module/store/auth/selectors/auth.selectors';
-import { signOut } from 'src/app/auth-module/store/auth/actions/auth.actions';
+import { User } from 'src/app/auth/models/user.model';
+import { selectUser } from 'src/app/auth/store/auth/selectors/auth.selectors';
+import { signOut } from 'src/app/auth/store/auth/actions/auth.actions';
 
 @Component({
   selector: 'app-navigation-bar',

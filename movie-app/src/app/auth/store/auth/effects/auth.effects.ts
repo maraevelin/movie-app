@@ -3,10 +3,10 @@ import * as AuthActions from '../actions/auth.actions';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 
-import { AuthService } from 'src/app/auth-module/services/auth.service';
+import { AuthService } from 'src/app/auth/services/auth.service';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { User } from 'src/app/auth-module/models/user.model';
+import { User } from 'src/app/auth/models/user.model';
 import { of } from 'rxjs';
 
 @Injectable()
