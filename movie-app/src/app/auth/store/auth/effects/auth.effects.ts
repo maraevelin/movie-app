@@ -8,14 +8,16 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from 'src/app/auth/models/user.model';
 import { of } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/store';
 
 @Injectable()
 export class AuthEffects {
   signUp$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.signUp),
-      switchMap(action =>
-        this.service.signup(action.credentials).pipe(
+      switchMap(action => {
+        return this.service.signup(action.credentials).pipe(
           map(() =>
             AuthActions.signUpSuccess({
               credentials: action.credentials,
@@ -23,8 +25,8 @@ export class AuthEffects {
             })
           ),
           catchError(error => of(AuthActions.signUpFail({ error })))
-        )
-      )
+        );
+      })
     )
   );
 
@@ -39,7 +41,9 @@ export class AuthEffects {
               returnUrl: action.returnUrl
             })
           ),
-          catchError(error => of(AuthActions.signInFail({ error })))
+          catchError(error => {
+            return of(AuthActions.signInFail({ error }));
+          })
         );
       })
     )
@@ -48,25 +52,29 @@ export class AuthEffects {
   signOut$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.signOut),
-      switchMap(() => {
-        return this.service.signout().pipe(
+      switchMap(() =>
+        this.service.signout().pipe(
           map(() => AuthActions.signOutSuccess()),
           catchError(error => of(AuthActions.signOutFail({ error })))
-        );
-      })
+        )
+      )
     )
   );
 
-  automaticSignIn$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(AuthActions.signUpSuccess),
-      tap(action =>
-        AuthActions.signIn({
-          credentials: action.credentials,
-          returnUrl: action.returnUrl
-        })
-      )
-    )
+  automaticSignIn$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.signUpSuccess),
+        tap(action =>
+          this.store.dispatch(
+            AuthActions.signIn({
+              credentials: action.credentials,
+              returnUrl: action.returnUrl
+            })
+          )
+        )
+      ),
+    { dispatch: false }
   );
 
   automaticRedirectOnSignInSuccess$ = createEffect(
@@ -93,6 +101,7 @@ export class AuthEffects {
   constructor(
     private actions$: Actions,
     private service: AuthService,
-    private router: Router
+    private router: Router,
+    private store: Store<AppState>
   ) {}
 }
