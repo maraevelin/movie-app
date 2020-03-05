@@ -1,10 +1,10 @@
 import { RouterModule, Routes } from '@angular/router';
 
-import { MovieComponent } from './containers/movie/movie.component';
+import { MovieComponent } from './core/containers/movie/movie.component';
 import { MoviesResolver } from './core/resolvers/movies.resolver';
 import { NgModule } from '@angular/core';
-import { SearchMoviesComponent } from './containers/search-movies/search-movies.component';
-import { WatchListComponent } from './containers/watch-list/watch-list.component';
+import { SearchMoviesComponent } from './core/containers/search-movies/search-movies.component';
+import { WatchListComponent } from './core/containers/watch-list/watch-list.component';
 import { WatchListGuard } from './core/guards/watch-list.guard';
 
 const routes: Routes = [

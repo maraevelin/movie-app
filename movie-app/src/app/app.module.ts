@@ -4,11 +4,11 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { SearchBarComponent } from './components/search-bar/search-bar.component';
-import { GalleryComponent } from './components/gallery/gallery.component';
-import { SearchMoviesComponent } from './containers/search-movies/search-movies.component';
-import { MovieComponent } from './containers/movie/movie.component';
-import { NavigationBarComponent } from './components/navigation-bar/navigation-bar.component';
+import { SearchBarComponent } from './core/components/search-bar/search-bar.component';
+import { GalleryComponent } from './core/components/gallery/gallery.component';
+import { SearchMoviesComponent } from './core/containers/search-movies/search-movies.component';
+import { MovieComponent } from './core/containers/movie/movie.component';
+import { NavigationBarComponent } from './core/components/navigation-bar/navigation-bar.component';
 import { MaterialDesignModule } from './material-design/material-design.module';
 import { StoreModule, ActionReducerMap } from '@ngrx/store';
 import { AppState, reducers, effects } from './core/store';
@@ -21,7 +21,7 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
-import { WatchListComponent } from './containers/watch-list/watch-list.component';
+import { WatchListComponent } from './core/containers/watch-list/watch-list.component';
 import { AuthModuleModule } from './auth/auth.module';
 
 @NgModule({

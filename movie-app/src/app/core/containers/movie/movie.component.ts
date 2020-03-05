@@ -4,7 +4,7 @@ import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
 import { AppState } from 'src/app/core/store';
-import { DetailedMovie } from '../../core/models/detailed-movie.model';
+import { DetailedMovie } from '../../models/detailed-movie.model';
 import { Location } from '@angular/common';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
