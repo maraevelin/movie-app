@@ -21,8 +21,8 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
-import { AuthModuleModule } from './auth-module/auth-module.module';
 import { WatchListComponent } from './containers/watch-list/watch-list/watch-list.component';
+import { AuthModuleModule } from './auth-module/auth.module';
 
 @NgModule({
   declarations: [
