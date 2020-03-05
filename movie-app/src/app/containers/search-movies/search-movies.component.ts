@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Movie } from '../../models/movie.model';
+import { Movie } from '../../core/models/movie.model';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/core/store';
 import { Observable } from 'rxjs';

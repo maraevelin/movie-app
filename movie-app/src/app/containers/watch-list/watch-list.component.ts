@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 import { WatchListService } from 'src/app/core/services/watch-list.service';
-import { WatchListCollection } from 'src/app/models/watch-list-collection.model';
-import { WatchListMovie } from 'src/app/models/watch-list-movie.model';
+import { WatchListCollection } from 'src/app/core/models/watch-list-collection.model';
+import { WatchListMovie } from 'src/app/core/models/watch-list-movie.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -13,7 +13,7 @@ import {
   transition,
   animate
 } from '@angular/animations';
-import { Column } from 'src/app/models/column.model';
+import { Column } from 'src/app/core/models/column.model';
 import { WatchListStore } from 'src/app/core/services/watch-list.store.service';
 import { Router } from '@angular/router';
 

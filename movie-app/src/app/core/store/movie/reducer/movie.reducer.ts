@@ -1,6 +1,6 @@
-import { Movie } from 'src/app/models/movie.model';
+import { Movie } from 'src/app/core/models/movie.model';
 import * as MovieActions from '../actions/movie.actions';
-import { DetailedMovie } from 'src/app/models/detailed-movie.model';
+import { DetailedMovie } from 'src/app/core/models/detailed-movie.model';
 import { createReducer, on, Action } from '@ngrx/store';
 
 export interface MovieState {

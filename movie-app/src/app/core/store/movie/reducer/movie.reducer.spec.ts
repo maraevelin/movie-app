@@ -1,6 +1,6 @@
 import { createAction } from '@ngrx/store';
-import { Movie } from '../../../../models/movie.model';
-import { DetailedMovie } from '../../../../models/detailed-movie.model';
+import { Movie } from '../../../models/movie.model';
+import { DetailedMovie } from '../../../models/detailed-movie.model';
 import { reducer, initialState, MovieState } from './movie.reducer';
 import {
   MovieActionTypes,

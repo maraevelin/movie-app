@@ -5,8 +5,8 @@ import { SearchResponse } from './models/search-response.model';
 import { DetailedMovieResponse } from './models/detailed-movie-response.model';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { Movie } from '../../models/movie.model';
-import { DetailedMovie } from '../../models/detailed-movie.model';
+import { Movie } from '../models/movie.model';
+import { DetailedMovie } from '../models/detailed-movie.model';
 
 @Injectable({
   providedIn: 'root'

@@ -4,7 +4,7 @@ import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
 import { AppState } from 'src/app/core/store';
-import { DetailedMovie } from '../../models/detailed-movie.model';
+import { DetailedMovie } from '../../core/models/detailed-movie.model';
 import { Location } from '@angular/common';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -13,7 +13,7 @@ import { getDetailed } from 'src/app/core/store/movie/actions/movie.actions';
 import { selectUser } from 'src/app/auth/store/selectors/auth.selectors';
 import { AuthConstants } from 'src/app/auth/shared/auth.shared';
 import { WatchListService } from 'src/app/core/services/watch-list.service';
-import { WatchListCollection } from 'src/app/models/watch-list-collection.model';
+import { WatchListCollection } from 'src/app/core/models/watch-list-collection.model';
 import { WatchListStore } from 'src/app/core/services/watch-list.store.service';
 
 @Component({
