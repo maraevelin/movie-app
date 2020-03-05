@@ -1,10 +1,10 @@
 import { CanActivate, Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppState } from '../store';
+import { AppState } from '../../store';
 import { Observable } from 'rxjs';
-import { User } from './models/user.model';
-import { selectUser } from './store/auth/selectors/auth.selectors';
+import { User } from '../models/user.model';
+import { selectUser } from '../store/auth/selectors/auth.selectors';
 
 @Injectable({
   providedIn: 'root'
