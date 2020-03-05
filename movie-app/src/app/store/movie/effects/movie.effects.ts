@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { OmdbApiService } from 'src/app/services/omdb-api.service';
+import { OmdbApiService } from 'src/app/core/services/omdb-api.service';
 import * as MovieActions from '../actions/movie.actions';
 import { switchMap, map, catchError } from 'rxjs/operators';
 

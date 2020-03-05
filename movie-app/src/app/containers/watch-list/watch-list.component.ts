@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
-import { WatchListService } from 'src/app/services/watch-list.service';
+import { WatchListService } from 'src/app/core/services/watch-list.service';
 import { WatchListCollection } from 'src/app/models/watch-list-collection.model';
 import { WatchListMovie } from 'src/app/models/watch-list-movie.model';
 import { MatTableDataSource } from '@angular/material/table';
@@ -14,7 +14,7 @@ import {
   animate
 } from '@angular/animations';
 import { Column } from 'src/app/models/column.model';
-import { WatchListStore } from 'src/app/services/watch-list.store.service';
+import { WatchListStore } from 'src/app/core/services/watch-list.store.service';
 import { Router } from '@angular/router';
 
 @Component({

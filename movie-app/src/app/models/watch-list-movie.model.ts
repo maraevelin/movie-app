@@ -1,4 +1,4 @@
-import { WatchListResponse } from '../services/models/watch-list-response.model';
+import { WatchListResponse } from '../core/services/models/watch-list-response.model';
 import { DetailedMovie } from './detailed-movie.model';
 
 export enum RecommendationTypes {

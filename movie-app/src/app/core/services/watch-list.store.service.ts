@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { StoreService } from 'src/app/services/store.service';
-import { WatchListState } from '../store/watch-list/watch-list.state';
+import { StoreService } from 'src/app/core/services/store.service';
+import { WatchListState } from '../../store/watch-list/watch-list.state';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { WatchListCollection } from '../models/watch-list-collection.model';
-import { WatchListMovie } from '../models/watch-list-movie.model';
+import { WatchListCollection } from '../../models/watch-list-collection.model';
+import { WatchListMovie } from '../../models/watch-list-movie.model';
 
 @Injectable({ providedIn: 'root' })
 export class WatchListStore extends StoreService<WatchListState> {

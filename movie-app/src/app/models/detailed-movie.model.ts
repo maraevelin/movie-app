@@ -1,4 +1,4 @@
-import { DetailedMovieResponse } from 'src/app/services/models/detailed-movie-response.model';
+import { DetailedMovieResponse } from 'src/app/core/services/models/detailed-movie-response.model';
 
 export class DetailedMovie {
   readonly imdbId: string;

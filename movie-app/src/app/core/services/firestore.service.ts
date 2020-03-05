@@ -4,8 +4,8 @@ import { Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Store } from '@ngrx/store';
-import { AppState } from '../store';
-import { selectUser } from '../auth/store/selectors/auth.selectors';
+import { AppState } from '../../store';
+import { selectUser } from '../../auth/store/selectors/auth.selectors';
 
 export abstract class FirestoreService<T> {
   protected abstract mainCollection: string;
