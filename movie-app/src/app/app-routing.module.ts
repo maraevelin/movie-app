@@ -1,7 +1,7 @@
 import { RouterModule, Routes } from '@angular/router';
 
 import { MovieComponent } from './containers/movie/movie.component';
-import { MoviesResolver } from './resolvers/movies.resolver';
+import { MoviesResolver } from './core/resolvers/movies.resolver';
 import { NgModule } from '@angular/core';
 import { SearchMoviesComponent } from './containers/search-movies/search-movies.component';
 import { WatchListComponent } from './containers/watch-list/watch-list.component';
