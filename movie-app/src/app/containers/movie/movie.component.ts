@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { User } from 'src/app/auth/models/user.model';
 import { getDetailed } from 'src/app/store/movie/actions/movie.actions';
-import { selectUser } from 'src/app/auth/store/auth/selectors/auth.selectors';
+import { selectUser } from 'src/app/auth/store/selectors/auth.selectors';
 import { AuthConstants } from 'src/app/auth/shared/auth.shared';
 import { WatchListService } from 'src/app/services/watch-list.service';
 import { WatchListCollection } from 'src/app/models/watch-list-collection.model';

@@ -1,8 +1,8 @@
-import * as AuthSelectors from '../../store/auth/selectors/auth.selectors';
+import * as AuthSelectors from '../../store/selectors/auth.selectors';
 
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { reset, signIn, signUp } from '../../store/auth/actions/auth.actions';
+import { reset, signIn, signUp } from '../../store/actions/auth.actions';
 
 import { ActivatedRoute } from '@angular/router';
 import { AppState } from 'src/app/store';

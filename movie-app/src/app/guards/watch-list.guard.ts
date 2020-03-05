@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { User } from '../auth/models/user.model';
 import { Store } from '@ngrx/store';
 import { AppState } from '../store';
-import { selectUser } from '../auth/store/auth/selectors/auth.selectors';
+import { selectUser } from '../auth/store/selectors/auth.selectors';
 import {
   Router,
   CanActivate,
