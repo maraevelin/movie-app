@@ -5,7 +5,7 @@ import { MoviesResolver } from './core/resolvers/movies.resolver';
 import { NgModule } from '@angular/core';
 import { SearchMoviesComponent } from './containers/search-movies/search-movies.component';
 import { WatchListComponent } from './containers/watch-list/watch-list.component';
-import { WatchListGuard } from './guards/watch-list.guard';
+import { WatchListGuard } from './core/guards/watch-list.guard';
 
 const routes: Routes = [
   { path: 'movies/:id', component: MovieComponent },
