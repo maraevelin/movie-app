@@ -8,7 +8,7 @@ export interface AuthState {
   readonly errorMessage: string | undefined;
 }
 
-const initialState: AuthState = {
+export const initialState: AuthState = {
   isLoading: false,
   errorMessage: undefined,
   user: undefined
