@@ -5,7 +5,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { reset, signIn, signUp } from '../../store/actions/auth.actions';
 
 import { ActivatedRoute } from '@angular/router';
-import { AppState } from 'src/app/store';
+import { AppState } from 'src/app/core/store';
 import { Credentials } from '../../models/credentials.model';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';

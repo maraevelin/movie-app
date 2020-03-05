@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Movie } from '../../models/movie.model';
 import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/store';
+import { AppState } from 'src/app/core/store';
 import { Observable } from 'rxjs';
-import * as MovieSelectors from 'src/app/store/movie/selectors/movie.selectors';
-import { search } from 'src/app/store/movie/actions/movie.actions';
+import * as MovieSelectors from 'src/app/core/store/movie/selectors/movie.selectors';
+import { search } from 'src/app/core/store/movie/actions/movie.actions';
 
 @Component({
   selector: 'app-search-movies',

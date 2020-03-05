@@ -1,15 +1,15 @@
-import * as MovieSelectors from 'src/app/store/movie/selectors/movie.selectors';
+import * as MovieSelectors from 'src/app/core/store/movie/selectors/movie.selectors';
 
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
-import { AppState } from 'src/app/store';
+import { AppState } from 'src/app/core/store';
 import { DetailedMovie } from '../../models/detailed-movie.model';
 import { Location } from '@angular/common';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { User } from 'src/app/auth/models/user.model';
-import { getDetailed } from 'src/app/store/movie/actions/movie.actions';
+import { getDetailed } from 'src/app/core/store/movie/actions/movie.actions';
 import { selectUser } from 'src/app/auth/store/selectors/auth.selectors';
 import { AuthConstants } from 'src/app/auth/shared/auth.shared';
 import { WatchListService } from 'src/app/core/services/watch-list.service';

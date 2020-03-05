@@ -1,7 +1,7 @@
 import { Resolve } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { AppState } from '../store';
-import { reset } from '../store/movie/actions/movie.actions';
+import { AppState } from '../core/store';
+import { reset } from '../core/store/movie/actions/movie.actions';
 import { Injectable } from '@angular/core';
 
 @Injectable({

@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 import { User } from 'src/app/auth/models/user.model';
 import { of } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/store';
+import { AppState } from 'src/app/core/store';
 
 @Injectable()
 export class AuthEffects {
