@@ -41,7 +41,6 @@ const authReducer = createReducer(
   on(AuthActions.signUpFail, AuthActions.signInFail, (state, { error }) => ({
     ...state,
     isLoading: false,
-    credentials: { email: '', password: '' },
     errorMessage: error.message
   })),
   on(AuthActions.signOut, state => ({

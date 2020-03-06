@@ -75,8 +75,50 @@ describe('Auth Reducer', () => {
       expect(result).toEqual({
         ...signUpState,
         isLoading: false,
-        errorMessage: error.message,
-        credentials: { email: '', password: '' }
+        errorMessage: error.message
+      });
+    });
+  });
+
+  describe(AuthActionTypes.AUTH_SIGN_IN, () => {
+    it('should toggle isLoading in state', () => {
+      const action = signIn({ credentials });
+      const result = reducer(initialState, action);
+      expect(result).toEqual({
+        ...initialState,
+        isLoading: true
+      });
+    });
+  });
+
+  const signInState: AuthState = {
+    isLoading: true,
+    errorMessage: undefined,
+    user: undefined
+  };
+
+  describe(AuthActionTypes.AUTH_SIGN_IN_SUCCES, () => {
+    it('it should toggle off isLoading and update user in state', () => {
+      const user: User = { id: 'id', email: credentials.email };
+      const action = signInSuccess({ user });
+      const result = reducer(signInState, action);
+      expect(result).toEqual({
+        ...signUpState,
+        isLoading: false,
+        user
+      });
+    });
+  });
+
+  describe(AuthActionTypes.AUTH_SIGN_IN_FAIL, () => {
+    it('it should toggle off isLoading and update error message and user in state', () => {
+      const error = new Error('an error occured');
+      const action = signInFail({ error });
+      const result = reducer(signInState, action);
+      expect(result).toEqual({
+        ...signUpState,
+        isLoading: false,
+        errorMessage: error.message
       });
     });
   });
