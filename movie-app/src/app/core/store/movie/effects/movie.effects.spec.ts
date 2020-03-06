@@ -66,7 +66,7 @@ describe('MovieEffects', () => {
 
       actions$ = hot('-a', { a: action });
 
-      const response$ = cold('-#|', {}, error);
+      const response$ = cold('-#', {}, error);
       const expected$ = cold('--b', { b: outcome });
 
       omdbApiService.searchMoviesByTitle = jest.fn(() => response$);
