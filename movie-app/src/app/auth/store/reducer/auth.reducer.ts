@@ -38,19 +38,19 @@ const authReducer = createReducer(
     isLoading: false,
     user
   })),
-  on(AuthActions.signUpFail, AuthActions.signInFail, (state, { error }) => ({
-    ...state,
-    isLoading: false,
-    errorMessage: error.message
-  })),
+  on(
+    AuthActions.signUpFail,
+    AuthActions.signInFail,
+    AuthActions.signOutFail,
+    (state, { error }) => ({
+      ...state,
+      isLoading: false,
+      errorMessage: error.message
+    })
+  ),
   on(AuthActions.signOut, state => ({
     ...state,
     isLoading: true,
     errorMessage: undefined
-  })),
-  on(AuthActions.signOutFail, (state, { error }) => ({
-    ...state,
-    isLoading: false,
-    errorMessage: error.message
   }))
 );
