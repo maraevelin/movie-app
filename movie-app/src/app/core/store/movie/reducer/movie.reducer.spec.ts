@@ -123,7 +123,7 @@ describe('Movie Reducer', () => {
   });
 
   describe(MovieActionTypes.MOVIE_GET_DETAILED, () => {
-    it('should toggle on isLoading and update error message and detailed movie in state', () => {
+    it('should toggle on isLoading and remove error message and detailed movie from state', () => {
       const state: MovieState = {
         title: '',
         isLoading: false,
