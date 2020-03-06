@@ -4,4 +4,3 @@
 - Watch lists (Firebase)
 - State management (NgRx)
 - Unit testing (Jest)
-- E2E testing (Cypress)
