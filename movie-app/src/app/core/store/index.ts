@@ -1,5 +1,4 @@
-import * as MovieStore from './movie/reducer/movie.reducer';
-import { MovieEffects } from './movie/effects/movie.effects';
+import * as MovieStore from './movie/';
 import * as AuthStore from '../../auth/store';
 
 export interface AppState {
@@ -12,4 +11,4 @@ export const reducers = {
   auth: AuthStore.reducer
 };
 
-export const effects = [MovieEffects, AuthStore.AuthEffects];
+export const effects = [MovieStore.MovieEffects, AuthStore.AuthEffects];

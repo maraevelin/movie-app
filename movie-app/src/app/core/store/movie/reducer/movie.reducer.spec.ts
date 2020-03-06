@@ -1,17 +1,7 @@
 import { createAction } from '@ngrx/store';
 import { Movie } from '../../../models/movie.model';
 import { DetailedMovie } from '../../../models/detailed-movie.model';
-import { reducer, initialState, MovieState } from './movie.reducer';
-import {
-  MovieActionTypes,
-  search,
-  reset,
-  searchSuccess,
-  searchFail,
-  getDetailed,
-  getDetailedSuccess,
-  getDetailedFail
-} from '../actions/movie.actions';
+import * as MovieStore from '../';
 
 describe('Movie Reducer', () => {
   const movies: Movie[] = [
@@ -36,22 +26,22 @@ describe('Movie Reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const action = createAction('NOOP');
-      const result = reducer(undefined, action);
-      expect(result).toBe(initialState);
+      const result = MovieStore.reducer(undefined, action);
+      expect(result).toBe(MovieStore.initialState);
     });
   });
 
-  describe(MovieActionTypes.MOVIE_RESET, () => {
+  describe(MovieStore.reset.type, () => {
     it('should return the default state', () => {
-      const state: MovieState = {
+      const state: MovieStore.MovieState = {
         title: 'title',
         isLoading: true,
         errorMessage: error.message,
         movies,
         detailedMovie
       };
-      const action = reset;
-      const result = reducer(state, action);
+      const action = MovieStore.reset;
+      const result = MovieStore.reducer(state, action);
       expect(result).toEqual({
         title: '',
         isLoading: false,
@@ -62,9 +52,9 @@ describe('Movie Reducer', () => {
     });
   });
 
-  describe(MovieActionTypes.MOVIE_SEARCH, () => {
+  describe(MovieStore.search.type, () => {
     it('should toggle on isLoading and update title in state', () => {
-      const state: MovieState = {
+      const state: MovieStore.MovieState = {
         title: '',
         isLoading: false,
         errorMessage: undefined,
@@ -72,8 +62,8 @@ describe('Movie Reducer', () => {
         detailedMovie: undefined
       };
       const title = 'title';
-      const action = search({ title });
-      const result = reducer(state, action);
+      const action = MovieStore.search({ title });
+      const result = MovieStore.reducer(state, action);
       expect(result).toEqual({
         ...state,
         isLoading: true,
@@ -82,17 +72,17 @@ describe('Movie Reducer', () => {
     });
   });
 
-  describe(MovieActionTypes.MOVIE_SEARCH_SUCCESS, () => {
+  describe(MovieStore.searchSuccess.type, () => {
     it('should toggle off isLoading and update movies in state', () => {
-      const state: MovieState = {
+      const state: MovieStore.MovieState = {
         title: '',
         isLoading: true,
         errorMessage: error.message,
         movies: [],
         detailedMovie: undefined
       };
-      const action = searchSuccess({ movies });
-      const result = reducer(state, action);
+      const action = MovieStore.searchSuccess({ movies });
+      const result = MovieStore.reducer(state, action);
       expect(result).toEqual({
         ...state,
         isLoading: false,
@@ -101,9 +91,9 @@ describe('Movie Reducer', () => {
     });
   });
 
-  describe(MovieActionTypes.MOVIE_GET_DETAILED, () => {
+  describe(MovieStore.getDetailed.type, () => {
     it('should toggle on isLoading and remove error message and detailed movie from state', () => {
-      const state: MovieState = {
+      const state: MovieStore.MovieState = {
         title: '',
         isLoading: false,
         errorMessage: error.message,
@@ -111,8 +101,8 @@ describe('Movie Reducer', () => {
         detailedMovie
       };
       const id = 'id';
-      const action = getDetailed({ id });
-      const result = reducer(state, action);
+      const action = MovieStore.getDetailed({ id });
+      const result = MovieStore.reducer(state, action);
       expect(result).toEqual({
         ...state,
         isLoading: true,
@@ -122,17 +112,17 @@ describe('Movie Reducer', () => {
     });
   });
 
-  describe(MovieActionTypes.MOVIE_GET_DETAILED_SUCCES, () => {
+  describe(MovieStore.getDetailedSuccess.type, () => {
     it('should toggle off isLoading and update detailed movie in state', () => {
-      const state: MovieState = {
+      const state: MovieStore.MovieState = {
         title: '',
         isLoading: true,
         errorMessage: undefined,
         movies: [],
         detailedMovie: undefined
       };
-      const action = getDetailedSuccess({ detailedMovie });
-      const result = reducer(state, action);
+      const action = MovieStore.getDetailedSuccess({ detailedMovie });
+      const result = MovieStore.reducer(state, action);
       expect(result).toEqual({
         ...state,
         isLoading: false,
@@ -141,9 +131,9 @@ describe('Movie Reducer', () => {
     });
   });
 
-  describe(`${MovieActionTypes.MOVIE_SEARCH_FAIL}, ${MovieActionTypes.MOVIE_GET_DETAILED_FAIL}`, () => {
+  describe(`${MovieStore.searchFail.type}, ${MovieStore.getDetailedFail.type}`, () => {
     it('should toggle off isLoading and update error in state', () => {
-      const state: MovieState = {
+      const state: MovieStore.MovieState = {
         title: '',
         isLoading: true,
         errorMessage: undefined,
@@ -151,11 +141,14 @@ describe('Movie Reducer', () => {
         detailedMovie: undefined
       };
 
-      const actionSearchFail = searchFail({ error });
-      const resultSearchFail = reducer(state, actionSearchFail);
+      const actionSearchFail = MovieStore.searchFail({ error });
+      const resultSearchFail = MovieStore.reducer(state, actionSearchFail);
 
-      const actionGetDetailedFail = getDetailedFail({ error });
-      const resultGetDetailedFail = reducer(state, actionGetDetailedFail);
+      const actionGetDetailedFail = MovieStore.getDetailedFail({ error });
+      const resultGetDetailedFail = MovieStore.reducer(
+        state,
+        actionGetDetailedFail
+      );
 
       [resultSearchFail, resultGetDetailedFail].forEach(result =>
         expect(result).toEqual({
