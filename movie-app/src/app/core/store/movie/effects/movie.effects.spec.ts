@@ -110,4 +110,22 @@ describe('MovieEffects', () => {
       expect(effects.getDetailedMovie$).toBeObservable(expected$);
     });
   });
+
+  describe('getDetailedMovie service call on fail', () => {
+    it(`should return an action of type ${MovieStore.getDetailedFail.type}`, () => {
+      const id = 'id';
+
+      const action = MovieStore.getDetailed({ id });
+      const outcome = MovieStore.getDetailedFail({ error });
+
+      actions$ = hot('-a', { a: action });
+
+      const response$ = cold('-#', {}, error);
+      const expected$ = cold('--b', { b: outcome });
+
+      omdbApiService.getMovieByImdbId = jest.fn(() => response$);
+
+      expect(effects.getDetailedMovie$).toBeObservable(expected$);
+    });
+  });
 });
