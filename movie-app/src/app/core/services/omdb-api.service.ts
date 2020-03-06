@@ -20,12 +20,11 @@ export class OmdbApiService {
       params
     });
     return response.pipe(
-      tap(searchResponse => {
+      map(searchResponse => {
         if (searchResponse.Error) {
           throw new Error(searchResponse.Error);
         }
-      }),
-      map(searchResponse => {
+
         return searchResponse.Search.filter(
           movie => movie.Poster !== 'N/A'
         ).map(movie => new Movie(movie));
