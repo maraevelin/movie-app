@@ -1,20 +1,7 @@
 import { createAction } from '@ngrx/store';
-import { reducer, initialState, AuthState } from './auth.reducer';
-import {
-  AuthActionTypes,
-  reset,
-  signUp,
-  signUpSuccess,
-  signUpFail,
-  signIn,
-  signInSuccess,
-  signInFail,
-  signOut,
-  signOutSuccess,
-  signOutFail
-} from '../actions/auth.actions';
 import { Credentials } from '../../models/credentials.model';
 import { User } from '../../models/user.model';
+import * as AuthStore from '../';
 
 describe('Auth Reducer', () => {
   const credentials: Credentials = {
@@ -27,24 +14,27 @@ describe('Auth Reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const action = createAction('NOOP');
-      const result = reducer(undefined, action);
-      expect(result).toBe(initialState);
+      const result = AuthStore.reducer(undefined, action);
+      expect(result).toBe(AuthStore.initialState);
     });
   });
 
-  describe(`${AuthActionTypes.AUTH_RESET}, ${AuthActionTypes.AUTH_SIGN_OUT_SUCCESS}`, () => {
+  describe(`${AuthStore.reset.type}, ${AuthStore.signOutSuccess.type}`, () => {
     it('should return the default state', () => {
-      const state: AuthState = {
+      const state: AuthStore.AuthState = {
         isLoading: true,
         errorMessage: error.message,
         user
       };
 
-      const actionReset = reset();
-      const resultReset = reducer(state, actionReset);
+      const actionReset = AuthStore.reset();
+      const resultReset = AuthStore.reducer(state, actionReset);
 
-      const actionSignOutSuccess = signOutSuccess();
-      const resultSignOutSuccess = reducer(state, actionSignOutSuccess);
+      const actionSignOutSuccess = AuthStore.signOutSuccess();
+      const resultSignOutSuccess = AuthStore.reducer(
+        state,
+        actionSignOutSuccess
+      );
 
       [resultReset, resultSignOutSuccess].forEach(result =>
         expect(result).toEqual({
@@ -56,19 +46,19 @@ describe('Auth Reducer', () => {
     });
   });
 
-  describe(`${AuthActionTypes.AUTH_SIGN_UP}, ${AuthActionTypes.AUTH_SIGN_IN}`, () => {
+  describe(`${AuthStore.signUp.type}, ${AuthStore.signIn.type}`, () => {
     it('should toggle isLoading in state', () => {
-      const state: AuthState = {
+      const state: AuthStore.AuthState = {
         isLoading: true,
         errorMessage: undefined,
         user: undefined
       };
 
-      const actionSignUp = signUp({ credentials });
-      const resultSignUp = reducer(state, actionSignUp);
+      const actionSignUp = AuthStore.signUp({ credentials });
+      const resultSignUp = AuthStore.reducer(state, actionSignUp);
 
-      const actionSignIn = signIn({ credentials });
-      const resultSignIn = reducer(state, actionSignIn);
+      const actionSignIn = AuthStore.signIn({ credentials });
+      const resultSignIn = AuthStore.reducer(state, actionSignIn);
 
       [resultSignUp, resultSignIn].forEach(result =>
         expect(result).toEqual({
@@ -79,15 +69,15 @@ describe('Auth Reducer', () => {
     });
   });
 
-  describe(AuthActionTypes.AUTH_SIGN_UP_SUCCES, () => {
+  describe(AuthStore.signUpSuccess.type, () => {
     it('it should toggle off isLoading', () => {
-      const state: AuthState = {
+      const state: AuthStore.AuthState = {
         isLoading: true,
         errorMessage: undefined,
         user: undefined
       };
-      const action = signUpSuccess({ credentials });
-      const result = reducer(state, action);
+      const action = AuthStore.signUpSuccess({ credentials });
+      const result = AuthStore.reducer(state, action);
       expect(result).toEqual({
         ...state,
         isLoading: false
@@ -95,15 +85,15 @@ describe('Auth Reducer', () => {
     });
   });
 
-  describe(AuthActionTypes.AUTH_SIGN_IN_SUCCES, () => {
+  describe(AuthStore.signInSuccess.type, () => {
     it('it should toggle off isLoading and update user in state', () => {
-      const state: AuthState = {
+      const state: AuthStore.AuthState = {
         isLoading: true,
         errorMessage: undefined,
         user
       };
-      const action = signInSuccess({ user });
-      const result = reducer(state, action);
+      const action = AuthStore.signInSuccess({ user });
+      const result = AuthStore.reducer(state, action);
       expect(result).toEqual({
         ...state,
         isLoading: false,
@@ -112,22 +102,22 @@ describe('Auth Reducer', () => {
     });
   });
 
-  describe(`${AuthActionTypes.AUTH_SIGN_UP_FAIL}, ${AuthActionTypes.AUTH_SIGN_IN_FAIL}, ${AuthActionTypes.AUTH_SIGN_OUT_FAIL}`, () => {
+  describe(`${AuthStore.signUpFail.type}, ${AuthStore.signInFail.type}, ${AuthStore.signOutFail.type}`, () => {
     it('it should toggle off isLoading and remove error message from state', () => {
-      const state: AuthState = {
+      const state: AuthStore.AuthState = {
         isLoading: true,
         errorMessage: undefined,
         user: undefined
       };
 
-      const actionSignUpFail = signUpFail({ error });
-      const resultSignUpFail = reducer(state, actionSignUpFail);
+      const actionSignUpFail = AuthStore.signUpFail({ error });
+      const resultSignUpFail = AuthStore.reducer(state, actionSignUpFail);
 
-      const actionSignInFail = signInFail({ error });
-      const resultSignInFail = reducer(state, actionSignInFail);
+      const actionSignInFail = AuthStore.signInFail({ error });
+      const resultSignInFail = AuthStore.reducer(state, actionSignInFail);
 
-      const actionSignOutFail = signOutFail({ error });
-      const resultSignOutFail = reducer(state, actionSignOutFail);
+      const actionSignOutFail = AuthStore.signOutFail({ error });
+      const resultSignOutFail = AuthStore.reducer(state, actionSignOutFail);
 
       [resultSignUpFail, resultSignInFail, resultSignOutFail].forEach(result =>
         expect(result).toEqual({
@@ -139,15 +129,15 @@ describe('Auth Reducer', () => {
     });
   });
 
-  describe(AuthActionTypes.AUTH_SIGN_OUT, () => {
+  describe(AuthStore.signOut.type, () => {
     it('it should toggle on isLoading and remove error message from state', () => {
-      const state: AuthState = {
+      const state: AuthStore.AuthState = {
         isLoading: false,
         errorMessage: error.message,
         user: undefined
       };
-      const action = signOut();
-      const result = reducer(state, action);
+      const action = AuthStore.signOut();
+      const result = AuthStore.reducer(state, action);
       expect(result).toEqual({
         ...state,
         isLoading: true,

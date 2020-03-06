@@ -1,7 +1,6 @@
 import * as MovieStore from './movie/reducer/movie.reducer';
 import { MovieEffects } from './movie/effects/movie.effects';
-import * as AuthStore from '../../auth/store/reducer/auth.reducer';
-import { AuthEffects } from '../../auth/store/effects/auth.effects';
+import * as AuthStore from '../../auth/store';
 
 export interface AppState {
   readonly movie: MovieStore.MovieState;
@@ -13,4 +12,4 @@ export const reducers = {
   auth: AuthStore.reducer
 };
 
-export const effects = [MovieEffects, AuthEffects];
+export const effects = [MovieEffects, AuthStore.AuthEffects];
