@@ -33,22 +33,6 @@ describe('Movie Reducer', () => {
 
   const error = new Error('an error occured');
 
-  const searchState: MovieState = {
-    title: 'title',
-    isLoading: true,
-    errorMessage: undefined,
-    movies: [],
-    detailedMovie: undefined
-  };
-
-  const getDetailedMovieState: MovieState = {
-    title: 'title',
-    isLoading: true,
-    errorMessage: undefined,
-    movies: [{ imdbId: 'imdbId', posterUrl: 'posterUrl' }],
-    detailedMovie: undefined
-  };
-
   describe('undefined action', () => {
     it('should return the default state', () => {
       const action = createAction('NOOP');
@@ -100,24 +84,19 @@ describe('Movie Reducer', () => {
 
   describe(MovieActionTypes.MOVIE_SEARCH_SUCCESS, () => {
     it('should toggle off isLoading and update movies in state', () => {
+      const state: MovieState = {
+        title: '',
+        isLoading: true,
+        errorMessage: error.message,
+        movies: [],
+        detailedMovie: undefined
+      };
       const action = searchSuccess({ movies });
-      const result = reducer(searchState, action);
+      const result = reducer(state, action);
       expect(result).toEqual({
-        ...searchState,
+        ...state,
         isLoading: false,
         movies
-      });
-    });
-  });
-
-  describe(MovieActionTypes.MOVIE_SEARCH_FAIL, () => {
-    it('should toggle off isLoading and update error in state', () => {
-      const action = searchFail({ error });
-      const result = reducer(searchState, action);
-      expect(result).toEqual({
-        ...searchState,
-        isLoading: false,
-        errorMessage: error.message
       });
     });
   });
@@ -145,25 +124,46 @@ describe('Movie Reducer', () => {
 
   describe(MovieActionTypes.MOVIE_GET_DETAILED_SUCCES, () => {
     it('should toggle off isLoading and update detailed movie in state', () => {
+      const state: MovieState = {
+        title: '',
+        isLoading: true,
+        errorMessage: undefined,
+        movies: [],
+        detailedMovie: undefined
+      };
       const action = getDetailedSuccess({ detailedMovie });
-      const result = reducer(getDetailedMovieState, action);
+      const result = reducer(state, action);
       expect(result).toEqual({
-        ...getDetailedMovieState,
+        ...state,
         isLoading: false,
         detailedMovie
       });
     });
   });
 
-  describe(MovieActionTypes.MOVIE_GET_DETAILED_FAIL, () => {
+  describe(`${MovieActionTypes.MOVIE_SEARCH_FAIL}, ${MovieActionTypes.MOVIE_GET_DETAILED_FAIL}`, () => {
     it('should toggle off isLoading and update error in state', () => {
-      const action = getDetailedFail({ error });
-      const result = reducer(getDetailedMovieState, action);
-      expect(result).toEqual({
-        ...getDetailedMovieState,
-        isLoading: false,
-        errorMessage: error.message
-      });
+      const state: MovieState = {
+        title: '',
+        isLoading: true,
+        errorMessage: undefined,
+        movies: [],
+        detailedMovie: undefined
+      };
+
+      const actionSearchFail = searchFail({ error });
+      const resultSearchFail = reducer(state, actionSearchFail);
+
+      const actionGetDetailedFail = getDetailedFail({ error });
+      const resultGetDetailedFail = reducer(state, actionGetDetailedFail);
+
+      [resultSearchFail, resultGetDetailedFail].forEach(result =>
+        expect(result).toEqual({
+          ...state,
+          isLoading: false,
+          errorMessage: error.message
+        })
+      );
     });
   });
 });
