@@ -39,11 +39,15 @@ const movieReducer = createReducer(
     isLoading: false,
     movies
   })),
-  on(MovieActions.searchFail, (state, { error }) => ({
-    ...state,
-    isLoading: false,
-    errorMessage: error.message
-  })),
+  on(
+    MovieActions.searchFail,
+    MovieActions.getDetailedFail,
+    (state, { error }) => ({
+      ...state,
+      isLoading: false,
+      errorMessage: error.message
+    })
+  ),
   on(MovieActions.getDetailed, state => ({
     ...state,
     isLoading: true,
@@ -54,10 +58,5 @@ const movieReducer = createReducer(
     ...state,
     isLoading: false,
     detailedMovie
-  })),
-  on(MovieActions.getDetailedFail, (state, { error }) => ({
-    ...state,
-    isLoading: false,
-    errorMessage: error.message
   }))
 );
