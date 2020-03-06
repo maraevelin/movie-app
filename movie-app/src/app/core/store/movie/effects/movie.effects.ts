@@ -32,5 +32,6 @@ export class MovieEffects {
       )
     )
   );
+
   constructor(private actions$: Actions, private service: OmdbApiService) {}
 }
