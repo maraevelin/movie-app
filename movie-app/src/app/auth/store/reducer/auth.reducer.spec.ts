@@ -8,7 +8,10 @@ import {
   signUpFail,
   signIn,
   signInSuccess,
-  signInFail
+  signInFail,
+  signOut,
+  signOutSuccess,
+  signOutFail
 } from '../actions/auth.actions';
 import { Credentials } from '../../models/credentials.model';
 import { User } from '../../models/user.model';
@@ -97,9 +100,10 @@ describe('Auth Reducer', () => {
     user: undefined
   };
 
+  const user: User = { id: 'id', email: credentials.email };
+
   describe(AuthActionTypes.AUTH_SIGN_IN_SUCCES, () => {
     it('it should toggle off isLoading and update user in state', () => {
-      const user: User = { id: 'id', email: credentials.email };
       const action = signInSuccess({ user });
       const result = reducer(signInState, action);
       expect(result).toEqual({
@@ -123,9 +127,44 @@ describe('Auth Reducer', () => {
     });
   });
 
-  /*
-  AUTH_SIGN_OUT = '[AUTH] Sign out',
-  AUTH_SIGN_OUT_SUCCESS = '[AUTH] Sign out Success',
-  AUTH_SIGN_OUT_FAIL = '[AUTH] Sign out Fail'
-*/
+  const signedInState: AuthState = {
+    isLoading: false,
+    errorMessage: undefined,
+    user
+  };
+
+  describe(AuthActionTypes.AUTH_SIGN_OUT, () => {
+    it('it should toggle isLoading and update error message in state', () => {
+      const action = signOut();
+      const result = reducer(signedInState, action);
+      expect(result).toEqual({
+        ...signedInState,
+        isLoading: true,
+        errorMessage: undefined
+      });
+    });
+  });
+
+  describe(AuthActionTypes.AUTH_SIGN_OUT_SUCCESS, () => {
+    it('it should return the default state', () => {
+      const action = signOutSuccess();
+      const result = reducer(signInState, action);
+      expect(result).toEqual({
+        ...initialState
+      });
+    });
+  });
+
+  describe(AuthActionTypes.AUTH_SIGN_OUT_FAIL, () => {
+    it('it should toggle off isLoading and update error message in state', () => {
+      const error = new Error('an error occured');
+      const action = signOutFail({ error });
+      const result = reducer(signedInState, action);
+      expect(result).toEqual({
+        ...signedInState,
+        isLoading: false,
+        errorMessage: error.message
+      });
+    });
+  });
 });
