@@ -23,11 +23,10 @@ const authReducer = createReducer(
   on(AuthActions.reset, AuthActions.signOutSuccess, () => ({
     ...initialState
   })),
-  on(AuthActions.signUp, AuthActions.signIn, (state, { credentials }) => ({
+  on(AuthActions.signUp, AuthActions.signIn, state => ({
     ...state,
     isLoading: true,
     errorMessage: undefined,
-    credentials,
     user: undefined
   })),
   on(AuthActions.signUpSuccess, state => ({

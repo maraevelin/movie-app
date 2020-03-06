@@ -1,6 +1,17 @@
 import { createAction } from '@ngrx/store';
-import { reducer, initialState } from './auth.reducer';
-import { AuthActionTypes, reset } from '../actions/auth.actions';
+import { reducer, initialState, AuthState } from './auth.reducer';
+import {
+  AuthActionTypes,
+  reset,
+  signUp,
+  signUpSuccess,
+  signUpFail,
+  signIn,
+  signInSuccess,
+  signInFail
+} from '../actions/auth.actions';
+import { Credentials } from '../../models/credentials.model';
+import { User } from '../../models/user.model';
 
 describe('Auth Reducer', () => {
   describe('undefined action', () => {
@@ -23,17 +34,54 @@ describe('Auth Reducer', () => {
     });
   });
 
+  const credentials: Credentials = {
+    email: 'user@domain.com',
+    password: 'pwd'
+  };
+
+  describe(AuthActionTypes.AUTH_SIGN_UP, () => {
+    it('should toggle isLoading in state', () => {
+      const action = signUp({ credentials });
+      const result = reducer(initialState, action);
+      expect(result).toEqual({
+        ...initialState,
+        isLoading: true
+      });
+    });
+  });
+
+  const signUpState: AuthState = {
+    isLoading: true,
+    errorMessage: undefined,
+    user: undefined
+  };
+
+  describe(AuthActionTypes.AUTH_SIGN_UP_SUCCES, () => {
+    it('it should toggle off isLoading', () => {
+      const action = signUpSuccess({ credentials });
+      const result = reducer(signUpState, action);
+      expect(result).toEqual({
+        ...signUpState,
+        isLoading: false
+      });
+    });
+  });
+
+  describe(AuthActionTypes.AUTH_SIGN_UP_FAIL, () => {
+    it('it should toggle off isLoading and update error message and user in state', () => {
+      const error = new Error('an error occured');
+      const action = signUpFail({ error });
+      const result = reducer(signUpState, action);
+      expect(result).toEqual({
+        ...signUpState,
+        isLoading: false,
+        errorMessage: error.message,
+        credentials: { email: '', password: '' }
+      });
+    });
+  });
+
   /*
-  AUTH_RESET = '[AUTH] Reset',
-
-  AUTH_SIGN_UP = '[AUTH] Sign up',
-  AUTH_SIGN_UP_SUCCES = '[AUTH] Sign up Success',
-  AUTH_SIGN_UP_FAIL = '[AUTH] Sign up Fail',
-
-  AUTH_SIGN_IN = '[AUTH] Sign in',
-  AUTH_SIGN_IN_SUCCES = '[AUTH] Sign in Success',
-  AUTH_SIGN_IN_FAIL = '[AUTH] Sign in Fail',
-
   AUTH_SIGN_OUT = '[AUTH] Sign out',
   AUTH_SIGN_OUT_SUCCESS = '[AUTH] Sign out Success',
   AUTH_SIGN_OUT_FAIL = '[AUTH] Sign out Fail'
