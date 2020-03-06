@@ -1,12 +1,10 @@
-<p>search-movies works!</p>
-
 <app-search-bar (keyword)="onSearch($event)"></app-search-bar>
 <div *ngIf="isLoading$ | async">
   <mat-spinner color="accent"></mat-spinner>
 </div>
 
 <div *ngIf="errorMessage$ | async as errorMessage">
-  {{errorMessage}}
+  {{ errorMessage }}
 </div>
 
 <div *ngIf="(movies$ | async)?.length > 0">
