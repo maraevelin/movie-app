@@ -9,7 +9,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 export class AuthService {
   constructor(private firebase: AngularFireAuth) {}
 
-  signup(credentials: Credentials): Observable<firebase.auth.UserCredential> {
+  signUp(credentials: Credentials): Observable<firebase.auth.UserCredential> {
     return from(
       this.firebase.auth.createUserWithEmailAndPassword(
         credentials.email,
@@ -18,7 +18,7 @@ export class AuthService {
     );
   }
 
-  signin(credentials: Credentials): Observable<firebase.auth.UserCredential> {
+  signIn(credentials: Credentials): Observable<firebase.auth.UserCredential> {
     return from(
       this.firebase.auth.signInWithEmailAndPassword(
         credentials.email,
@@ -27,7 +27,7 @@ export class AuthService {
     );
   }
 
-  signout(): Observable<void> {
+  signOut(): Observable<void> {
     return from(this.firebase.auth.signOut());
   }
 }

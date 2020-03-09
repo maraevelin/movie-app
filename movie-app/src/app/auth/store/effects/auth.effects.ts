@@ -17,7 +17,7 @@ export class AuthEffects {
     this.actions$.pipe(
       ofType(AuthActions.signUp),
       switchMap(action => {
-        return this.service.signup(action.credentials).pipe(
+        return this.service.signUp(action.credentials).pipe(
           map(() =>
             AuthActions.signUpSuccess({
               credentials: action.credentials,
@@ -34,7 +34,7 @@ export class AuthEffects {
     this.actions$.pipe(
       ofType(AuthActions.signIn),
       switchMap(action => {
-        return this.service.signin(action.credentials).pipe(
+        return this.service.signIn(action.credentials).pipe(
           map(response =>
             AuthActions.signInSuccess({
               user: new User(response),
@@ -53,7 +53,7 @@ export class AuthEffects {
     this.actions$.pipe(
       ofType(AuthActions.signOut),
       switchMap(() =>
-        this.service.signout().pipe(
+        this.service.signOut().pipe(
           map(() => AuthActions.signOutSuccess()),
           catchError(error => of(AuthActions.signOutFail({ error })))
         )
