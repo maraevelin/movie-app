@@ -36,19 +36,19 @@ describe('MovieEffects', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        MovieStore.MovieEffects,
-        provideMockActions(() => actions$),
         {
           provide: OmdbApiService,
           useValue: {
             searchMoviesByTitle: jest.fn(),
             getMovieByImdbId: jest.fn()
           }
-        }
+        },
+        MovieStore.MovieEffects,
+        provideMockActions(() => actions$)
       ]
     });
 
-    actions$ = TestBed.get(Actions);
+    actions$ = TestBed.get<Actions>(Actions);
     effects = TestBed.get<MovieStore.MovieEffects>(MovieStore.MovieEffects);
     omdbApiService = TestBed.get<OmdbApiService>(OmdbApiService);
   });
@@ -57,7 +57,7 @@ describe('MovieEffects', () => {
     expect(effects).toBeTruthy();
   });
 
-  describe('searchMoviesByTitle service call on success', () => {
+  describe('searchMoviesByTitle service call, success', () => {
     it(`should return an action of type ${MovieStore.searchSuccess.type} with movies`, () => {
       const title = 'Futurama';
 
@@ -75,7 +75,7 @@ describe('MovieEffects', () => {
     });
   });
 
-  describe('searchMoviesByTitle service call on fail', () => {
+  describe('searchMoviesByTitle service call, fail', () => {
     it(`should return an action of type ${MovieStore.searchFail.type}`, () => {
       const title = 'Futurama';
 
@@ -93,7 +93,7 @@ describe('MovieEffects', () => {
     });
   });
 
-  describe('getDetailedMovie service call on success', () => {
+  describe('getDetailedMovie service call, success', () => {
     it(`should return an action of type ${MovieStore.getDetailedSuccess.type} with detailed movie`, () => {
       const id = 'id';
 
@@ -111,7 +111,7 @@ describe('MovieEffects', () => {
     });
   });
 
-  describe('getDetailedMovie service call on fail', () => {
+  describe('getDetailedMovie service call, fail', () => {
     it(`should return an action of type ${MovieStore.getDetailedFail.type}`, () => {
       const id = 'id';
 
