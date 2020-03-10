@@ -6,9 +6,16 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 import { Actions } from '@ngrx/effects';
-import { Credentials } from '../../models/credentials.model';
 import { hot, cold } from 'jest-marbles';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Credentials } from '../../models/credentials.model';
+
+const credentials: Credentials = {
+  email: 'user@domain.com',
+  password: 'password'
+};
+
+const error = new Error('an error occured');
 
 describe('AuthEffects', () => {
   let actions$: Observable<Action>;
@@ -43,21 +50,31 @@ describe('AuthEffects', () => {
   });
 
   describe('signUp service call, success', () => {
-    it(`should return an action of type ${AuthStore.signUpSuccess.type} with `, () => {
-      const credentials: Credentials = {
-        email: 'user@domain.com',
-        password: 'password'
-      };
-
+    it(`should return an action of type ${AuthStore.signUpSuccess.type} with credentials`, () => {
       const action = AuthStore.signUp({ credentials });
       const outcome = AuthStore.signUpSuccess({ credentials });
 
       actions$ = hot('-a', { a: action });
 
       const response$ = cold('-a', { a: credentials });
-      const expected$ = cold('--b', { b: outcome });
-
       authService.signUp = jest.fn(() => response$);
+
+      const expected$ = cold('--b', { b: outcome });
+      expect(effects.signUp$).toBeObservable(expected$);
+    });
+  });
+
+  describe('signUp service call, fail', () => {
+    it(`should return an action of type ${AuthStore.signUpFail}`, () => {
+      const action = AuthStore.signUp({ credentials });
+
+      actions$ = hot('-a', { a: action });
+
+      const response$ = cold('-#', {}, error);
+      authService.signUp = jest.fn(() => response$);
+
+      const outcome = AuthStore.signUpFail({ error });
+      const expected$ = cold('--b', { b: outcome });
 
       expect(effects.signUp$).toBeObservable(expected$);
     });
