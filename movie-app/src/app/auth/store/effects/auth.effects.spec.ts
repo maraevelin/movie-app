@@ -147,4 +147,16 @@ describe('AuthEffects', () => {
       expect(effects.signOut$).toBeObservable(expected$);
     });
   });
+
+  describe('signUp success dispatched', () => {
+    it(`should return an action of type ${AuthStore.signOutSuccess.type}`, () => {
+      const action = AuthStore.signUpSuccess({ credentials });
+      const outcome = AuthStore.signIn({ credentials, returnUrl: undefined });
+
+      actions$ = hot('-a', { a: action });
+      const expected$ = cold('-b', { b: outcome });
+
+      expect(effects.automaticSignIn$).toBeObservable(expected$);
+    });
+  });
 });
