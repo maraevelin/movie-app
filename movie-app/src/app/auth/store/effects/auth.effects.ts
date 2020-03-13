@@ -8,8 +8,6 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from 'src/app/auth/models/user.model';
 import { of } from 'rxjs';
-import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/core/store';
 
 @Injectable()
 export class AuthEffects {
@@ -61,20 +59,16 @@ export class AuthEffects {
     )
   );
 
-  automaticSignIn$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(AuthActions.signUpSuccess),
-        tap(action =>
-          this.store.dispatch(
-            AuthActions.signIn({
-              credentials: action.credentials,
-              returnUrl: action.returnUrl
-            })
-          )
-        )
-      ),
-    { dispatch: false }
+  automaticSignIn$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.signUpSuccess),
+      map(action =>
+        AuthActions.signIn({
+          credentials: action.credentials,
+          returnUrl: action.returnUrl
+        })
+      )
+    )
   );
 
   automaticRedirectOnSignInSuccess$ = createEffect(
@@ -101,7 +95,6 @@ export class AuthEffects {
   constructor(
     private actions$: Actions,
     private service: AuthService,
-    private router: Router,
-    private store: Store<AppState>
+    private router: Router
   ) {}
 }
