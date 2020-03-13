@@ -117,4 +117,34 @@ describe('AuthEffects', () => {
       expect(effects.signIn$).toBeObservable(expected$);
     });
   });
+
+  describe('signOut service call, success', () => {
+    it(`should return an action of type ${AuthStore.signOutSuccess.type}`, () => {
+      const action = AuthStore.signOut();
+      const outcome = AuthStore.signOutSuccess();
+
+      actions$ = hot('-a', { a: action });
+
+      const response$ = cold('-b', { b: outcome });
+      authService.signOut = jest.fn(() => response$);
+
+      const expected$ = cold('--b', { b: outcome });
+      expect(effects.signOut$).toBeObservable(expected$);
+    });
+  });
+
+  describe('signOut service call, fail', () => {
+    it(`should return an action of type ${AuthStore.signOutFail.type} with error`, () => {
+      const action = AuthStore.signOut();
+      const outcome = AuthStore.signOutFail({ error });
+
+      actions$ = hot('-a', { a: action });
+
+      const response$ = cold('-#', {}, error);
+      authService.signOut = jest.fn(() => response$);
+
+      const expected$ = cold('--b', { b: outcome });
+      expect(effects.signOut$).toBeObservable(expected$);
+    });
+  });
 });
