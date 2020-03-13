@@ -51,7 +51,7 @@ describe('AuthEffects', () => {
   });
 
   describe('signUp service call, success', () => {
-    it(`should return an action of type ${AuthStore.signUpSuccess.type} with credentials`, () => {
+    it(`should dispatch an action of type ${AuthStore.signUpSuccess.type} with credentials`, () => {
       const action = AuthStore.signUp({ credentials });
       const outcome = AuthStore.signUpSuccess({ credentials });
 
@@ -66,7 +66,7 @@ describe('AuthEffects', () => {
   });
 
   describe('signUp service call, fail', () => {
-    it(`should return an action of type ${AuthStore.signUpFail.type} with error`, () => {
+    it(`should dispatch an action of type ${AuthStore.signUpFail.type} with error`, () => {
       const action = AuthStore.signUp({ credentials });
       const outcome = AuthStore.signUpFail({ error });
 
@@ -81,7 +81,7 @@ describe('AuthEffects', () => {
   });
 
   describe('signIn service call, ', () => {
-    it(`should return an action of type ${AuthStore.signInSuccess} with user`, () => {
+    it(`should dispatch an action of type ${AuthStore.signInSuccess} with user`, () => {
       const user: User = { id: 'id', email: 'user@domain.com' };
 
       const action = AuthStore.signIn({ credentials });
@@ -104,7 +104,7 @@ describe('AuthEffects', () => {
   });
 
   describe('signIn service call, fail', () => {
-    it(`should return an action of type ${AuthStore.signInFail.type} with error`, () => {
+    it(`should dispatch an action of type ${AuthStore.signInFail.type} with error`, () => {
       const action = AuthStore.signIn({ credentials });
       const outcome = AuthStore.signInFail({ error });
 
@@ -119,7 +119,7 @@ describe('AuthEffects', () => {
   });
 
   describe('signOut service call, success', () => {
-    it(`should return an action of type ${AuthStore.signOutSuccess.type}`, () => {
+    it(`should dispatch an action of type ${AuthStore.signOutSuccess.type}`, () => {
       const action = AuthStore.signOut();
       const outcome = AuthStore.signOutSuccess();
 
@@ -134,7 +134,7 @@ describe('AuthEffects', () => {
   });
 
   describe('signOut service call, fail', () => {
-    it(`should return an action of type ${AuthStore.signOutFail.type} with error`, () => {
+    it(`should dispatch an action of type ${AuthStore.signOutFail.type} with error`, () => {
       const action = AuthStore.signOut();
       const outcome = AuthStore.signOutFail({ error });
 
@@ -149,7 +149,7 @@ describe('AuthEffects', () => {
   });
 
   describe('signUp success dispatched', () => {
-    it(`should return an action of type ${AuthStore.signOutSuccess.type}`, () => {
+    it(`should dispatch an action of type ${AuthStore.signIn.type}`, () => {
       const action = AuthStore.signUpSuccess({ credentials });
       const outcome = AuthStore.signIn({ credentials, returnUrl: undefined });
 

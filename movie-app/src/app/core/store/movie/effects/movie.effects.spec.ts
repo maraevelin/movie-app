@@ -58,7 +58,7 @@ describe('MovieEffects', () => {
   });
 
   describe('searchMoviesByTitle service call, success', () => {
-    it(`should return an action of type ${MovieStore.searchSuccess.type} with movies`, () => {
+    it(`should dispatch an action of type ${MovieStore.searchSuccess.type} with movies`, () => {
       const title = 'Futurama';
 
       const action = MovieStore.search({ title });
@@ -76,7 +76,7 @@ describe('MovieEffects', () => {
   });
 
   describe('searchMoviesByTitle service call, fail', () => {
-    it(`should return an action of type ${MovieStore.searchFail.type}`, () => {
+    it(`should dispatch an action of type ${MovieStore.searchFail.type}`, () => {
       const title = 'Futurama';
 
       const action = MovieStore.search({ title });
@@ -94,7 +94,7 @@ describe('MovieEffects', () => {
   });
 
   describe('getDetailedMovie service call, success', () => {
-    it(`should return an action of type ${MovieStore.getDetailedSuccess.type} with detailed movie`, () => {
+    it(`should dispatch an action of type ${MovieStore.getDetailedSuccess.type} with detailed movie`, () => {
       const id = 'id';
 
       const action = MovieStore.getDetailed({ id });
@@ -112,7 +112,7 @@ describe('MovieEffects', () => {
   });
 
   describe('getDetailedMovie service call, fail', () => {
-    it(`should return an action of type ${MovieStore.getDetailedFail.type}`, () => {
+    it(`should dispatch an action of type ${MovieStore.getDetailedFail.type}`, () => {
       const id = 'id';
 
       const action = MovieStore.getDetailed({ id });
