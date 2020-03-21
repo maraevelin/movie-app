@@ -10,11 +10,15 @@ import { hot, cold } from 'jest-marbles';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Credentials } from '../../models/credentials.model';
 import { User } from '../../models/user.model';
+import { BlankComponent } from 'src/app/core/components/blank/blank.component';
+import { Location } from '@angular/common';
 
 const credentials: Credentials = {
   email: 'user@domain.com',
   password: 'password'
 };
+
+const user: User = { id: 'id', email: 'user@domain.com' };
 
 const error = new Error('an error occured');
 
@@ -22,10 +26,15 @@ describe('AuthEffects', () => {
   let actions$: Observable<Action>;
   let effects: AuthStore.AuthEffects;
   let authService: AuthService;
+  let location: Location;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [
+        RouterTestingModule.withRoutes([
+          { path: '**', component: BlankComponent }
+        ])
+      ],
       providers: [
         provideMockStore({}),
         {
@@ -38,12 +47,15 @@ describe('AuthEffects', () => {
         },
         AuthStore.AuthEffects,
         provideMockActions(() => actions$)
-      ]
+      ],
+      declarations: [BlankComponent]
     });
 
     actions$ = TestBed.get<Actions>(Actions);
     effects = TestBed.get<AuthStore.AuthEffects>(AuthStore.AuthEffects);
     authService = TestBed.get<AuthService>(AuthService);
+    location = TestBed.get<Location>(Location);
+    TestBed.createComponent(BlankComponent);
   });
 
   it('should be created', () => {
@@ -82,8 +94,6 @@ describe('AuthEffects', () => {
 
   describe('signIn service call, ', () => {
     it(`should dispatch an action of type ${AuthStore.signInSuccess} with user`, () => {
-      const user: User = { id: 'id', email: 'user@domain.com' };
-
       const action = AuthStore.signIn({ credentials });
       const outcome = AuthStore.signInSuccess({ user });
 
@@ -157,6 +167,43 @@ describe('AuthEffects', () => {
       const expected$ = cold('-b', { b: outcome });
 
       expect(effects.automaticSignIn$).toBeObservable(expected$);
+    });
+  });
+
+  describe('sigIn success without returnUrl dispatched', () => {
+    it(`should redirect to /movies`, () => {
+      const action = AuthStore.signInSuccess({ user });
+
+      actions$ = hot('-a', { a: action });
+
+      effects.automaticRedirectOnSignInSuccess$.subscribe(() => {
+        expect(location.path()).toBe('/movies');
+      });
+    });
+  });
+
+  describe('sigIn success with returnUrl dispatched', () => {
+    it(`should redirect to return url`, () => {
+      const action = AuthStore.signInSuccess({ user });
+
+      actions$ = hot('-a', { a: action, returnUrl: 'test' });
+
+      effects.automaticRedirectOnSignInSuccess$.subscribe(() => {
+        expect(location.path()).toBe('/test');
+      });
+    });
+  });
+
+  describe('sigOut success dispatched', () => {
+    it(`should redirect to home`, () => {
+      location.replaceState('/test');
+      const action = AuthStore.signOutSuccess();
+
+      actions$ = hot('-a', { a: action });
+
+      effects.automaticRedirectOnSignOutSuccess$.subscribe(() => {
+        expect(location.path()).toBe('/');
+      });
     });
   });
 });
