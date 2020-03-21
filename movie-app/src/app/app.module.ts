@@ -23,6 +23,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { WatchListComponent } from './core/containers/watch-list/watch-list.component';
 import { AuthModuleModule } from './auth/auth.module';
+import { BlankComponent } from './core/components/blank/blank.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { AuthModuleModule } from './auth/auth.module';
     SearchMoviesComponent,
     MovieComponent,
     NavigationBarComponent,
-    WatchListComponent
+    WatchListComponent,
+    BlankComponent
   ],
   imports: [
     BrowserModule,
