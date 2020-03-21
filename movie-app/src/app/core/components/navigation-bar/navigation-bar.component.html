@@ -1,15 +1,15 @@
 <mat-toolbar color="primary" class="container">
-  <button mat-stroked-button routerLink="/">
+  <button mat-button routerLink="/">
     <mat-icon aria-hidden="false" aria-label="home">home</mat-icon>
   </button>
-  <button mat-stroked-button routerLink="/movies">
+  <button mat-button routerLink="/movies">
     <span class="btn-text">movies</span>
   </button>
-  <button mat-stroked-button routerLink="/watchList">watch list</button>
+  <button mat-button routerLink="/watchList">watch list</button>
   <ng-container *ngIf="user$ | async; else visitor">
-    <button mat-stroked-button (click)="onSignOut()">sign out</button>
+    <button mat-button (click)="onSignOut()">sign out</button>
   </ng-container>
   <ng-template #visitor>
-    <button mat-stroked-button routerLink="/auth">sign in</button>
+    <button mat-button routerLink="/auth">sign in</button>
   </ng-template>
 </mat-toolbar>
