@@ -1,3 +1,4 @@
+$primary-light: rgb(211, 196, 219);
 @mixin light-transition {
   transition: 0.2s;
 }
@@ -7,11 +8,14 @@
 }
 
 .mat-stroked-button {
+  @include light-transition;
+
   width: 100%;
 
+  color: $primary-light;
+
   &:hover {
-    color: lightgrey;
-    @include light-transition;
+    color: whitesmoke;
   }
 }
 
