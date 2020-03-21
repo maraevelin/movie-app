@@ -1,5 +1,8 @@
 .form {
-  padding: 6.25vh 25vw 0vh 25vw;
+  margin: 6.25vh auto;
+
+  width: 100%;
+  max-width: 420px;
 
   display: flex;
   flex-direction: column;
@@ -13,7 +16,12 @@
 
 .form-actions {
   display: flex;
-  justify-content: space-between;
+
+  justify-content: space-evenly;
+  @media screen and (max-width: 800px) {
+    justify-content: space-between;
+  }
+
   align-items: flex-start;
 }
 
