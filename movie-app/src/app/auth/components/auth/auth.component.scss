@@ -1,0 +1,22 @@
+.form {
+  padding: 6.25vh 25vw 0vh 25vw;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.mat-spinner {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.mat-flat-button {
+  width: 50%;
+}

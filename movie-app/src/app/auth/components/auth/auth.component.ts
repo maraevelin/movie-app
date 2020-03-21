@@ -21,6 +21,7 @@ export class AuthComponent implements OnInit {
   isLoading$: Observable<boolean>;
   errorMessage$: Observable<string | undefined>;
   isSignIn = true;
+  hidePassword = true;
 
   form = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
