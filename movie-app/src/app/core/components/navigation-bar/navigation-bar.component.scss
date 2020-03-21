@@ -1,7 +1,4 @@
-$primary-light: rgb(211, 196, 219);
-@mixin light-transition {
-  transition: 0.2s;
-}
+@import 'src/app/app.component.scss';
 
 .mat-icon {
   transform: scale(0.75);
