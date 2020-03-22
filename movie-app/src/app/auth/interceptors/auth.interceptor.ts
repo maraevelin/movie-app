@@ -14,10 +14,11 @@ export class AuthInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    let request = req;
     const firebaseApiURl = environment.firebaseOld.url;
 
     if (req.url.startsWith(firebaseApiURl)) {
-      const request = req.clone({
+      request = req.clone({
         params: req.params
           .set(
             environment.firebaseOld.paramApiKey,
@@ -28,9 +29,8 @@ export class AuthInterceptor implements HttpInterceptor {
             environment.firebaseOld.returnSecureTokenPreference
           )
       });
-      return next.handle(request);
     }
 
-    return next.handle(req);
+    return next.handle(request);
   }
 }

@@ -1,6 +1,8 @@
+import * as AuthStore from '../';
+import * as SnackBarStore from '../../../core/store/snack-bar/';
+
 import { Observable } from 'rxjs';
 import { Action } from '@ngrx/store';
-import * as AuthStore from '../';
 import { AuthService } from '../../services/auth.service';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -65,14 +67,18 @@ describe('AuthEffects', () => {
   describe('signUp service call, success', () => {
     it(`should dispatch an action of type ${AuthStore.signUpSuccess.type} with credentials`, () => {
       const action = AuthStore.signUp({ credentials });
-      const outcome = AuthStore.signUpSuccess({ credentials });
-
       actions$ = hot('-a', { a: action });
+
+      const notification = SnackBarStore.notify({
+        message: 'Your account has been created',
+        cssClass: 'snack-bar-success'
+      });
+      const outcome = AuthStore.signUpSuccess({ credentials });
 
       const response$ = cold('-a', { a: credentials });
       authService.signUp = jest.fn(() => response$);
 
-      const expected$ = cold('--b', { b: outcome });
+      const expected$ = cold('--(nb)', { n: notification, b: outcome });
       expect(effects.signUp$).toBeObservable(expected$);
     });
   });

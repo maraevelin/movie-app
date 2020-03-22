@@ -1,4 +1,5 @@
 import * as AuthActions from '../actions/auth.actions';
+import * as SnackBarActions from 'src/app/core/store/snack-bar/actions/snack-bar.actions';
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
@@ -16,12 +17,18 @@ export class AuthEffects {
       ofType(AuthActions.signUp),
       switchMap(action => {
         return this.service.signUp(action.credentials).pipe(
-          map(() =>
-            AuthActions.signUpSuccess({
-              credentials: action.credentials,
-              returnUrl: action.returnUrl
-            })
-          ),
+          switchMap(() => {
+            return [
+              SnackBarActions.notify({
+                message: 'Your account has been created',
+                cssClass: 'snack-bar-success'
+              }),
+              AuthActions.signUpSuccess({
+                credentials: action.credentials,
+                returnUrl: action.returnUrl
+              })
+            ];
+          }),
           catchError(error => of(AuthActions.signUpFail({ error })))
         );
       })
@@ -33,15 +40,13 @@ export class AuthEffects {
       ofType(AuthActions.signIn),
       switchMap(action => {
         return this.service.signIn(action.credentials).pipe(
-          map(response =>
-            AuthActions.signInSuccess({
+          map(response => {
+            return AuthActions.signInSuccess({
               user: new User(response),
               returnUrl: action.returnUrl
-            })
-          ),
-          catchError(error => {
-            return of(AuthActions.signInFail({ error }));
-          })
+            });
+          }),
+          catchError(error => of(AuthActions.signInFail({ error })))
         );
       })
     )
