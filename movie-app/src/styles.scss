@@ -1,5 +1,59 @@
 @import '@angular/material/prebuilt-themes/deeppurple-amber.css';
 /* You can add global styles to this file, and also import other style files */
+$primary-light: rgb(211, 196, 219);
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+$grey-lightest: rgba(
+  $color: #000000,
+  $alpha: 0.1
+);
+
+$grey-lighter: rgba(
+  $color: #000000,
+  $alpha: 0.2
+);
+
+$grey-medium: rgb(
+  $color: #000000,
+  $alpha: 0.5
+);
+
+$grey-darker: rgb(
+  $color: #000000,
+  $alpha: 0.7
+);
+
+$grey-darkest: rgb(
+  $color: #000000,
+  $alpha: 0.9
+);
+
+$font-size-smallest: 8px;
+$font-size-smaller: 12px;
+$font-size-normal: 16px;
+$font-size-larger: 20px;
+$font-size-largest: 22px;
+
+@mixin transition-smooth {
+  transition: 0.2s;
+}
+
+@mixin border-light {
+  border: 1px solid $grey-lightest;
+  border-radius: 8px;
+}
+
+@mixin button-fonts-smaller {
+  text-transform: uppercase;
+  font-size: $font-size-smaller;
+}
+
+html,
+body {
+  height: 100%;
+  box-sizing: border-box;
+  font-size: $font-size-normal;
+}
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue Light', sans-serif;
+}
