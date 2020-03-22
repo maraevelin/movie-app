@@ -1,37 +1,21 @@
 @import '@angular/material/prebuilt-themes/deeppurple-amber.css';
-/* You can add global styles to this file, and also import other style files */
+
 $primary-light: rgb(211, 196, 219);
 
-$grey-lightest: rgba(
-  $color: #000000,
-  $alpha: 0.1
-);
-
-$grey-lighter: rgba(
-  $color: #000000,
-  $alpha: 0.2
-);
-
-$grey-medium: rgb(
-  $color: #000000,
-  $alpha: 0.5
-);
-
-$grey-darker: rgb(
-  $color: #000000,
-  $alpha: 0.7
-);
-
-$grey-darkest: rgb(
-  $color: #000000,
-  $alpha: 0.9
-);
+$grey-lightest: rgba(225, 225, 225);
+$grey-lighter: rgba(175, 175, 175);
+$grey-medium: rgb(125, 125, 125);
+$grey-darker: rgb(75, 75, 75);
+$grey-darkest: rgb(25, 25, 25);
 
 $font-size-smallest: 8px;
 $font-size-smaller: 12px;
 $font-size-normal: 16px;
 $font-size-larger: 20px;
 $font-size-largest: 22px;
+
+$warn-solarized: #c4241c;
+$success-solarized: #6db676;
 
 @mixin transition-smooth {
   transition: 0.2s;
@@ -56,4 +40,16 @@ body {
 body {
   margin: 0;
   font-family: Roboto, 'Helvetica Neue Light', sans-serif;
+}
+
+.snack-bar-success {
+  background: $success-solarized;
+  font-size: $font-size-larger;
+  color: white;
+}
+
+.snack-bar-error {
+  background: $warn-solarized;
+  font-size: $font-size-larger;
+  color: white;
 }
