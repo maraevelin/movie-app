@@ -1,8 +1,13 @@
-.form {
-  margin: 6.25vh auto;
+.container {
+  box-sizing: border-box;
 
-  width: 100%;
-  max-width: 420px;
+  border: 1px solid rgba($color: #000000, $alpha: 0.1);
+  border-radius: 8px;
+
+  margin: 6.25vh auto;
+  padding: 48px 40px 32px;
+
+  width: 420px;
 
   display: flex;
   flex-direction: column;
@@ -16,16 +21,6 @@
 
 .form-actions {
   display: flex;
-
-  justify-content: space-evenly;
-  @media screen and (max-width: 800px) {
-    justify-content: space-between;
-  }
-
-  align-items: flex-start;
-}
-
-.mat-flat-button {
-  width: 50%;
-  max-width: 160px;
+  justify-content: space-between;
+  align-items: baseline;
 }

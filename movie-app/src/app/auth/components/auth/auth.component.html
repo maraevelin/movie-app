@@ -1,58 +1,54 @@
-<ng-container class="container">
-  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form">
-    <mat-form-field appearance="outline" class="from form-email">
-      <mat-label>Enter your e-mail</mat-label>
-      <input matInput formControlName="email" />
-    </mat-form-field>
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="container">
+  <mat-form-field appearance="outline" class="from form-email">
+    <mat-label>Enter your e-mail</mat-label>
+    <input matInput formControlName="email" />
+  </mat-form-field>
 
-    <br />
+  <br />
 
-    <mat-form-field appearance="outline" class="from form-password">
-      <mat-label>Enter your password</mat-label>
-      <input
-        matInput
-        formControlName="password"
-        [type]="hidePassword ? 'password' : 'text'"
-      />
-      <button
-        type="button"
-        mat-icon-button
-        matSuffix
-        (click)="hidePassword = !hidePassword"
-        [attr.aria-label]="'Hide password'"
-        [attr.aria-pressed]="hidePassword"
-      >
-        <mat-icon>{{
-          hidePassword ? 'visibility_off' : 'visibility'
-        }}</mat-icon>
-      </button>
-    </mat-form-field>
+  <mat-form-field appearance="outline" class="from form-password">
+    <mat-label>Enter your password</mat-label>
+    <input
+      matInput
+      formControlName="password"
+      [type]="hidePassword ? 'password' : 'text'"
+    />
+    <button
+      type="button"
+      mat-icon-button
+      matSuffix
+      (click)="hidePassword = !hidePassword"
+      [attr.aria-label]="'Hide password'"
+      [attr.aria-pressed]="hidePassword"
+    >
+      <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+    </button>
+  </mat-form-field>
 
-    <br />
+  <br />
 
-    <div class="form-actions">
-      <button
-        mat-flat-button
-        color="primary"
-        type="submit"
-        [disabled]="form.invalid"
-      >
-        {{ isSignIn ? 'Sign in' : 'Sign up' }}
-      </button>
+  <div class="form-actions">
+    <mat-slide-toggle color="accent" (click)="onSwitch()">
+      Switch to {{ isSignIn ? ' Sign up ' : 'Sign in' }}
+    </mat-slide-toggle>
 
-      <mat-slide-toggle color="accent" (click)="onSwitch()">
-        Switch to {{ isSignIn ? ' Sign up ' : 'Sign in' }}
-      </mat-slide-toggle>
-    </div>
+    <button
+      mat-flat-button
+      color="primary"
+      type="submit"
+      [disabled]="form.invalid"
+    >
+      {{ isSignIn ? 'Sign in' : 'Sign up' }}
+    </button>
+  </div>
 
-    <br />
+  <br />
 
-    <div *ngIf="isLoading$ | async">
-      <mat-spinner color="accent"></mat-spinner>
-    </div>
+  <div *ngIf="isLoading$ | async">
+    <mat-spinner color="accent"></mat-spinner>
+  </div>
 
-    <mat-error *ngIf="errorMessage$ | async as errorMessage">
-      {{ errorMessage }}
-    </mat-error>
-  </form>
-</ng-container>
+  <mat-error *ngIf="errorMessage$ | async as errorMessage">
+    {{ errorMessage }}
+  </mat-error>
+</form>
