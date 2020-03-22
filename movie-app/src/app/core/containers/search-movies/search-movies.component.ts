@@ -14,12 +14,10 @@ import { search } from 'src/app/core/store/movie/actions/movie.actions';
 export class SearchMoviesComponent implements OnInit {
   isLoading$: Observable<boolean>;
   movies$: Observable<Movie[]>;
-  errorMessage$: Observable<string | undefined>;
 
   constructor(private store: Store<AppState>) {
     this.isLoading$ = this.store.select(MovieSelectors.selectIsLoading);
     this.movies$ = this.store.select(MovieSelectors.selectMovies);
-    this.errorMessage$ = this.store.select(MovieSelectors.selectErrorMessage);
   }
 
   ngOnInit() {}
