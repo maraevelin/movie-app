@@ -23,8 +23,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatSortModule,
     MatToolbarModule,
     MatButtonModule,
-    MatIconModule,
-    MatSlideToggleModule
+    MatIconModule
   ],
   exports: [
     MatProgressSpinnerModule,
