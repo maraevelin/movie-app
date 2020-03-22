@@ -1,4 +1,8 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()" class="container">
+  <div class="title">
+    {{ isSignIn ? 'Sign in' : 'Sign up' }}
+  </div>
+
   <mat-form-field appearance="outline" class="from form-email">
     <mat-label>Enter your e-mail</mat-label>
     <input matInput formControlName="email" />
@@ -28,14 +32,14 @@
   <br />
 
   <div class="form-actions">
-    <mat-slide-toggle color="accent" (click)="onSwitch()">
-      Switch to {{ isSignIn ? ' Sign up ' : 'Sign in' }}
-    </mat-slide-toggle>
+    <button type="button" mat-button color="primary" (click)="onSwitch()">
+      {{ isSignIn ? ' Create account ' : 'Already have an account?' }}
+    </button>
 
     <button
+      type="submit"
       mat-flat-button
       color="primary"
-      type="submit"
       [disabled]="form.invalid"
     >
       {{ isSignIn ? 'Sign in' : 'Sign up' }}
@@ -45,7 +49,7 @@
   <br />
 
   <div *ngIf="isLoading$ | async">
-    <mat-spinner color="accent"></mat-spinner>
+    <mat-spinner color="primary"></mat-spinner>
   </div>
 
   <mat-error *ngIf="errorMessage$ | async as errorMessage">

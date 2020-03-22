@@ -9,7 +9,6 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [],
@@ -35,8 +34,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatSortModule,
     MatToolbarModule,
     MatButtonModule,
-    MatIconModule,
-    MatSlideToggleModule
+    MatIconModule
   ]
 })
 export class MaterialDesignModule {}
