@@ -1,0 +1,24 @@
+@import 'src/styles.scss';
+
+.search-bar {
+  padding: 8px 16px;
+
+  &::placeholder {
+    color: $grey-lighter;
+  }
+
+  border: none;
+  border-radius: 100px;
+
+  color: $grey-darker;
+
+  width: 100%;
+
+  &:focus {
+    outline: none;
+
+    &::placeholder {
+      color: transparent;
+    }
+  }
+}

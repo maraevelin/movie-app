@@ -1,4 +1,8 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../store';
+import { search } from '../../store/movie';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-search-bar',
@@ -6,15 +10,21 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./search-bar.component.scss']
 })
 export class SearchBarComponent implements OnInit {
-  @Output() keyword: EventEmitter<string> = new EventEmitter();
+  constructor(
+    private store: Store<AppState>,
+    private ngZone: NgZone,
+    private router: Router
+  ) {}
 
-  constructor() { }
+  ngOnInit() {}
 
-  ngOnInit() {
+  onSearch(title: string) {
+    this.store.dispatch(search({ title }));
+
+    this.ngZone.run(() => {
+      this.ngZone.run(() => {
+        this.router.navigate(['/movies']);
+      });
+    });
   }
-
-  onEnter(keyword: string) {
-    this.keyword.emit(keyword);
-  }
-
 }

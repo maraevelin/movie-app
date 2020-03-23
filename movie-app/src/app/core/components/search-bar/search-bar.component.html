@@ -1,7 +1,7 @@
 <input
-  class="search-bar"
+  type="search"
   #box
-  (keyup.enter)="onEnter(box.value)"
-  matInput
+  (keyup.enter)="onSearch(box.value)"
   placeholder="Search for movies by title"
+  class="search-bar"
 />
