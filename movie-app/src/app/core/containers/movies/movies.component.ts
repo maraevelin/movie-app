@@ -7,11 +7,11 @@ import * as MovieSelectors from 'src/app/core/store/movie/selectors/movie.select
 import { reset } from '../../store/movie';
 
 @Component({
-  selector: 'app-search-movies',
-  templateUrl: './search-movies.component.html',
-  styleUrls: ['./search-movies.component.scss']
+  selector: 'app-movies',
+  templateUrl: './movies.component.html',
+  styleUrls: ['./movies.component.scss']
 })
-export class SearchMoviesComponent implements OnInit, OnDestroy {
+export class MoviesComponent implements OnInit, OnDestroy {
   isLoading$: Observable<boolean>;
   title$: Observable<string>;
   movies$: Observable<Movie[]>;

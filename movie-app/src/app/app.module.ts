@@ -6,7 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SearchBarComponent } from './core/components/search-bar/search-bar.component';
 import { GalleryComponent } from './core/components/gallery/gallery.component';
-import { SearchMoviesComponent } from './core/containers/search-movies/search-movies.component';
+import { MoviesComponent } from './core/containers/movies/movies.component';
 import { MovieComponent } from './core/containers/movie/movie.component';
 import { NavigationBarComponent } from './core/components/navigation-bar/navigation-bar.component';
 import { MaterialDesignModule } from './material-design/material-design.module';
@@ -30,7 +30,7 @@ import { BlankComponent } from './core/components/blank/blank.component';
     AppComponent,
     SearchBarComponent,
     GalleryComponent,
-    SearchMoviesComponent,
+    MoviesComponent,
     MovieComponent,
     NavigationBarComponent,
     WatchListComponent,
