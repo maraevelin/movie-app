@@ -1,50 +1,81 @@
+@import 'src/styles.scss';
+
 .container {
-  padding: 64px;
+  width: 75%;
+  margin: auto;
 
   display: grid;
   justify-content: space-evenly;
-  grid-template-columns: repeat(auto-fit, 15vw);
   gap: 16px;
+  grid-template-columns: repeat(5, 12vw);
 
-  @media screen and (max-width: 593px) {
-    padding: 16px;
+  padding: 32px 64px;
 
-    grid-template-columns: repeat(auto-fit, 25vw);
+  @media screen and (max-width: $resolution-larger) {
+    grid-template-columns: repeat(4, 16vw);
+    padding: 24px 48px;
+  }
+
+  @media screen and (max-width: $resolution-medium) {
+    grid-template-columns: repeat(3, 20vw);
+    padding: 20px 40px;
+  }
+
+  @media screen and (max-width: $resolution-smaller) {
+    grid-template-columns: repeat(2, 32vw);
+    padding: 16px 32px;
+  }
+
+  @media screen and (max-width: $resolution-smallest) {
+    grid-template-columns: repeat(1, 50vw);
+    padding: 8px 16px;
   }
 }
 
 .card {
-  height: 20vw;
+  height: 18vw;
+
+  @media screen and (max-width: $resolution-larger) {
+    height: 24vw;
+  }
+
+  @media screen and (max-width: $resolution-medium) {
+    height: 30vw;
+  }
+
+  @media screen and (max-width: $resolution-smaller) {
+    height: 48vw;
+  }
+
+  @media screen and (max-width: $resolution-smallest) {
+    height: 75vw;
+  }
 
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
-  border-top-left-radius: 10%;
-  border-bottom-right-radius: 10%;
+
+  border-radius: 16px;
 
   cursor: default;
 
-  filter: brightness(1.2) contrast(0.9);
+  filter: brightness(1.125) contrast(0.8);
   transform: translateY(0);
-  transition: 0.4s;
+  @include transition-smooth-slow;
 
   &:hover {
     cursor: pointer;
 
     transform: translateY(-5%);
-    transition: 0.4s;
+    @include transition-smooth-slow;
 
-    box-shadow: 8px 12px 8px grey;
+    box-shadow: 8px 12px 8px $grey-medium;
   }
 
   &:active {
     transform: translateY(-3%);
-    transition: 0.2s;
+    @include transition-smooth;
 
-    box-shadow: 4px 8px 4px grey;
-  }
-
-  @media screen and (max-width: 593px) {
-    height: 33.33vw;
+    box-shadow: 4px 8px 4px $grey-medium;
   }
 }
