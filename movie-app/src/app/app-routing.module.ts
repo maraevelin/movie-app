@@ -18,6 +18,11 @@ const routes: Routes = [
     path: 'watchList',
     component: WatchListComponent,
     canActivate: [WatchListGuard]
+  },
+  {
+    path: '',
+    redirectTo: '/movies',
+    pathMatch: 'full'
   }
 ];
 
