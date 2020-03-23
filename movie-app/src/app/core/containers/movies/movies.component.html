@@ -1,11 +1,16 @@
-<div *ngIf="isLoading$ | async">
-  <mat-spinner color="primary"></mat-spinner>
-</div>
-
-<div *ngIf="(movies$ | async)?.length > 0">
-  <div>
-    Results for
-    <span>{{ title$ | async }}</span>
+<div class="container">
+  <div *ngIf="isLoading$ | async">
+    <mat-spinner color="primary"></mat-spinner>
   </div>
-  <app-gallery [movies]="movies$ | async"></app-gallery>
+
+  <div *ngIf="(movies$ | async)?.length > 0">
+    <div class="header">
+      {{ (movies$ | async)?.length }} results for
+      <span class="keyword">{{ title$ | async }}</span>
+    </div>
+
+    <mat-divider class="divider"></mat-divider>
+
+    <app-gallery [movies]="movies$ | async"></app-gallery>
+  </div>
 </div>
