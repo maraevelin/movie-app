@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, NgZone } from '@angular/core';
 import { Observable } from 'rxjs';
 import { WatchListService } from 'src/app/core/services/watch-list.service';
 import { WatchListCollection } from 'src/app/core/models/watch-list-collection.model';
@@ -61,7 +61,8 @@ export class WatchListComponent implements OnInit {
   constructor(
     private service: WatchListService,
     private store: WatchListStore,
-    private router: Router
+    private router: Router,
+    private ngZone: NgZone
   ) {
     this.isLoading$ = this.store.isLoading$;
     this.isUpdated$ = this.store.isUpdated$;
@@ -109,7 +110,9 @@ export class WatchListComponent implements OnInit {
   }
 
   onNavigateToMovie(imdbId: string): void {
-    this.router.navigate([`movies/${imdbId}`]);
+    this.ngZone.run(() => {
+      this.router.navigate([`movies/${imdbId}`]);
+    });
   }
 
   applyFilter(event: Event) {

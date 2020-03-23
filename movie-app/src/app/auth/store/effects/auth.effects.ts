@@ -5,7 +5,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 
 import { AuthService } from 'src/app/auth/services/auth.service';
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from 'src/app/auth/models/user.model';
 import { of } from 'rxjs';
@@ -82,7 +82,9 @@ export class AuthEffects {
         ofType(AuthActions.signInSuccess),
         tap(action => {
           const returnUrl: string = action.returnUrl || '/movies';
-          this.router.navigate([returnUrl]);
+          this.ngZone.run(() => {
+            this.router.navigate([returnUrl]);
+          });
         })
       ),
     { dispatch: false }
@@ -92,7 +94,11 @@ export class AuthEffects {
     () =>
       this.actions$.pipe(
         ofType(AuthActions.signOutSuccess),
-        tap(() => this.router.navigate(['/']))
+        tap(() => {
+          this.ngZone.run(() => {
+            this.router.navigate(['/']);
+          });
+        })
       ),
     { dispatch: false }
   );
@@ -100,6 +106,7 @@ export class AuthEffects {
   constructor(
     private actions$: Actions,
     private service: AuthService,
-    private router: Router
+    private router: Router,
+    private ngZone: NgZone
   ) {}
 }

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from '../../auth/models/user.model';
 import { Store } from '@ngrx/store';
@@ -21,7 +21,8 @@ export class WatchListGuard implements CanActivate {
   constructor(
     private store: Store<AppState>,
     private router: Router,
-    private location: Location
+    private location: Location,
+    private ngZone: NgZone
   ) {
     this.user$ = this.store.select(selectUser);
   }
@@ -44,8 +45,10 @@ export class WatchListGuard implements CanActivate {
       skipLocationChange: true
     };
 
-    this.router.navigate(['/auth'], redirectTo).then(() => {
-      this.location.replaceState(redirectUrl);
+    this.ngZone.run(() => {
+      this.router.navigate(['/auth'], redirectTo).then(() => {
+        this.location.replaceState(redirectUrl);
+      });
     });
     return false;
   }

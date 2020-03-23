@@ -1,5 +1,5 @@
 import { CanActivate, Router } from '@angular/router';
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../core/store';
 import { Observable } from 'rxjs';
@@ -12,7 +12,11 @@ import { selectUser } from '../store/selectors/auth.selectors';
 export class AuthGuard implements CanActivate {
   user$: Observable<User | undefined>;
 
-  constructor(private store: Store<AppState>, private router: Router) {
+  constructor(
+    private store: Store<AppState>,
+    private router: Router,
+    private ngZone: NgZone
+  ) {
     this.user$ = this.store.select(selectUser);
   }
 
@@ -21,7 +25,9 @@ export class AuthGuard implements CanActivate {
     this.user$.subscribe(user => (isSignedIn = !!user));
 
     if (isSignedIn) {
-      this.router.navigate(['/movies']);
+      this.ngZone.run(() => {
+        this.router.navigate(['/movies']);
+      });
       return false;
     }
 

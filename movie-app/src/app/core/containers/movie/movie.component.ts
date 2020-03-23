@@ -1,7 +1,7 @@
 import * as MovieSelectors from 'src/app/core/store/movie/selectors/movie.selectors';
 
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 
 import { AppState } from 'src/app/core/store';
 import { DetailedMovie } from '../../models/detailed-movie.model';
@@ -38,7 +38,8 @@ export class MovieComponent implements OnInit {
     private service: WatchListService,
     private route: ActivatedRoute,
     private router: Router,
-    private location: Location
+    private location: Location,
+    private ngZone: NgZone
   ) {
     this.id = this.route.snapshot.paramMap.get('id') || '';
     this.store.dispatch(getDetailed({ id: this.id }));
@@ -87,7 +88,10 @@ export class MovieComponent implements OnInit {
         queryParamsHandling: 'merge',
         skipLocationChange: true
       };
-      this.router.navigate(['/auth'], redirectTo);
+
+      this.ngZone.run(() => {
+        this.router.navigate(['/auth'], redirectTo);
+      });
     }
   }
 }
