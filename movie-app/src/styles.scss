@@ -21,6 +21,10 @@ $success-solarized: #6db676;
   transition: 0.2s;
 }
 
+@mixin transition-smooth-slow {
+  transition: 0.4s;
+}
+
 @mixin border-light {
   border: 1px solid $grey-lightest;
   border-radius: 8px;

@@ -1,21 +1,25 @@
 @import 'src/styles.scss';
 
 .search-bar {
-  padding: 8px 16px;
+  @include transition-smooth-slow;
 
-  &::placeholder {
-    color: $grey-lighter;
-  }
+  padding: 8px 16px;
 
   border: none;
   border-radius: 100px;
 
   color: $grey-darker;
 
-  width: 100%;
+  width: 80%;
+
+  &::placeholder {
+    color: $grey-lighter;
+  }
 
   &:focus {
     outline: none;
+
+    width: 100%;
 
     &::placeholder {
       color: transparent;
