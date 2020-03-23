@@ -1,10 +1,15 @@
 @import 'src/styles.scss';
+
 .container {
   margin: 8px 16px;
 }
 
 .header {
-  padding: 8px 0px 12px 0px;
+  @media screen and (max-width: $resolution-medium) {
+    padding: 8px 0px 12px 0px;
+  }
+
+  padding: 12px 0px 12px 0px;
 
   color: $grey-medium;
   text-align: center;

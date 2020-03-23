@@ -17,6 +17,9 @@ $font-size-largest: 22px;
 $warn-solarized: #c4241c;
 $success-solarized: #6db676;
 
+$resolution-small: 375px;
+$resolution-medium: 800px;
+
 @mixin transition-smooth {
   transition: 0.2s;
 }
