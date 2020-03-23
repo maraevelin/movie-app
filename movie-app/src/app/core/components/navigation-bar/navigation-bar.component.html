@@ -2,13 +2,15 @@
   <button mat-button routerLink="/">
     <mat-icon aria-hidden="false" aria-label="home">home</mat-icon>
   </button>
-  <button mat-button routerLink="/movies">
-    <span class="btn-text">Movies</span>
-  </button>
+
+  <app-search-bar></app-search-bar>
+
   <button mat-button routerLink="/watchList">Watch list</button>
+
   <ng-container *ngIf="user$ | async; else visitor">
     <button mat-button (click)="onSignOut()">Sign out</button>
   </ng-container>
+
   <ng-template #visitor>
     <button mat-button routerLink="/auth">Sign in</button>
   </ng-template>
