@@ -4,7 +4,6 @@ import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/core/store';
 import { Observable } from 'rxjs';
 import * as MovieSelectors from 'src/app/core/store/movie/selectors/movie.selectors';
-import { search } from 'src/app/core/store/movie/actions/movie.actions';
 
 @Component({
   selector: 'app-search-movies',
@@ -13,16 +12,14 @@ import { search } from 'src/app/core/store/movie/actions/movie.actions';
 })
 export class SearchMoviesComponent implements OnInit {
   isLoading$: Observable<boolean>;
+  title$: Observable<string>;
   movies$: Observable<Movie[]>;
 
   constructor(private store: Store<AppState>) {
     this.isLoading$ = this.store.select(MovieSelectors.selectIsLoading);
     this.movies$ = this.store.select(MovieSelectors.selectMovies);
+    this.title$ = this.store.select(MovieSelectors.selectTitle);
   }
 
   ngOnInit() {}
-
-  onSearch(title: string) {
-    this.store.dispatch(search({ title }));
-  }
 }

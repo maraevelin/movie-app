@@ -1,8 +1,11 @@
-<app-search-bar (keyword)="onSearch($event)"></app-search-bar>
 <div *ngIf="isLoading$ | async">
   <mat-spinner color="primary"></mat-spinner>
 </div>
 
 <div *ngIf="(movies$ | async)?.length > 0">
+  <div>
+    Results for
+    <span>{{ title$ | async }}</span>
+  </div>
   <app-gallery [movies]="movies$ | async"></app-gallery>
 </div>
