@@ -1,7 +1,8 @@
 <input
+  #searchBar
   type="search"
-  #box
-  (keyup.enter)="onSearch(box.value)"
+  [formControl]="title"
+  (keyup.enter)="onSearch()"
   placeholder="Search for movies by title"
   class="search-bar"
 />
