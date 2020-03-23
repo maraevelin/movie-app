@@ -1,7 +1,7 @@
 .container {
   padding: 64px;
 
-  display: grid;  
+  display: grid;
   justify-content: space-evenly;
   grid-template-columns: repeat(auto-fit, 15vw);
   gap: 16px;
@@ -24,23 +24,22 @@
 
   cursor: default;
 
-  filter: brightness(1) contrast(1);
+  filter: brightness(1.2) contrast(0.9);
   transform: translateY(0);
-  transition: .4s;
+  transition: 0.4s;
 
   &:hover {
     cursor: pointer;
 
-    filter: brightness(1.4) contrast(.85);
     transform: translateY(-5%);
-    transition: .4s;
+    transition: 0.4s;
 
     box-shadow: 8px 12px 8px grey;
   }
 
   &:active {
     transform: translateY(-3%);
-    transition: .2s;
+    transition: 0.2s;
 
     box-shadow: 4px 8px 4px grey;
   }

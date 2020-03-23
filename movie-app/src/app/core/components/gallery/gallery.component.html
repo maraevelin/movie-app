@@ -1,9 +1,11 @@
 <div class="container">
   <div *ngFor="let movie of movies">
     <div
+      matRipple
+      matRippleCentered="true"
       class="card"
       [style.background-image]="'url(' + movie.posterUrl + ')'"
-      routerLink="/movies/{{ movie.imdbId }}"
+      (click)="onSelect(movie.imdbId)"
     ></div>
   </div>
 </div>

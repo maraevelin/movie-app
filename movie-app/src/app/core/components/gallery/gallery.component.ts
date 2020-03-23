@@ -1,5 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, NgZone } from '@angular/core';
 import { Movie } from 'src/app/core/models/movie.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-gallery',
@@ -9,7 +10,15 @@ import { Movie } from 'src/app/core/models/movie.model';
 export class GalleryComponent implements OnInit {
   @Input() movies: Movie[] = [];
 
-  constructor() {}
+  constructor(private ngZone: NgZone, private router: Router) {}
 
   ngOnInit() {}
+
+  onSelect(id: string) {
+    setTimeout(() => {
+      this.ngZone.run(() => {
+        this.router.navigate([`/movies/${id}`]);
+      });
+    }, 125);
+  }
 }
