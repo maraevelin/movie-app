@@ -22,8 +22,9 @@ import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { WatchListComponent } from './core/containers/watch-list/watch-list.component';
-import { AuthModuleModule } from './auth/auth.module';
+import { AuthModule } from './auth/auth.module';
 import { BlankComponent } from './core/components/blank/blank.component';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { BlankComponent } from './core/components/blank/blank.component';
     AngularFireDatabaseModule,
     AngularFireAuthModule,
     AngularFirestoreModule,
-    AuthModuleModule
+    AuthModule,
+    SharedModule
   ],
   providers: [...interceptorProviders],
   bootstrap: [AppComponent]
