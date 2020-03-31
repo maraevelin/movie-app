@@ -1,85 +1,61 @@
-.movie {
-  padding: 0vw 15vw;
-}
+@import 'src/styles.scss';
+
+$title-width: 80px;
 
 .container {
-  display: grid;
-  row-gap: 8px;
-  grid-template-rows: 5vh max-content max-content 5vh;
-  grid-template-columns: repeat(3, 1fr);
+  margin: 16px auto;
 
-  @media screen and (max-width: 593px) {
-    padding: 0px;
+  width: 85vw;
+
+  display: grid;
+  grid-auto-flow: row;
+  gap: 8px;
+
+  @media screen and (max-width: $resolution-medium) {
+    width: 90vw;
+  }
+
+  @media screen and (max-width: $resolution-smallest) {
+    width: 95vw;
   }
 }
 
 .header {
-  grid-row: 1/2;
-  align-self: end;
-}
+  display: flex;
+  justify-content: space-between;
 
-.title {
-  grid-column: 1/2;
-}
-
-.watch-list {
-  grid-column: 3/4;
-  justify-self: end;
-
-  color: black;
-
-  transition: 0.2s;
-
-  &:hover {
-    cursor: pointer;
-
-    color: teal;
-
-    transition: 0.2s;
+  @media screen and (max-width: $resolution-smaller) {
+    flex-direction: column;
   }
 
-  &:active {
-    transform: translateY(10%);
-    transition: 0.2s;
-  }
+  color: $grey-darkest;
+  font-size: $font-size-smaller;
 }
 
-.main {
-  grid-row: 2/3;
-  align-self: start;
-  text-align: center;
+.card {
+  display: grid;
+  justify-content: center;
+  grid-auto-flow: column;
+  gap: 16px;
+
+  &-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    text-align: justify;
+    color: $grey-darkest;
+  }
 }
 
 .poster {
-  max-width: 30vw;
+  width: 200px;
 
-  grid-column: 0/1;
+  border-radius: 20px;
 }
 
-.writers {
-  grid-column: 2/3;
-}
+.btn_watch-list {
+  max-width: 300px;
 
-.actors {
-  grid-column: 3/4;
-}
-
-.plot {
-  grid-row: 3/4;
-  grid-column: 1/-1;
-  align-self: start;
-}
-
-.footer {
-  grid-row: 4/5;
-  align-self: start;
-}
-
-.run-time {
-  grid-column: 1/2;
-}
-
-.year {
-  grid-column: 3/4;
-  justify-self: end;
+  align-self: flex-end;
 }

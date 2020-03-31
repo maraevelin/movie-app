@@ -2,39 +2,45 @@
   <app-spinner></app-spinner>
 </div>
 
-<div class="movie">
+<div class="container">
   <div *ngIf="movie$ | async as movie">
     <div class="container">
-      <div class="header title">{{ movie.title }} ({{ movie.rating }})</div>
+      <div class="card">
+        <img class="poster" [src]="movie.posterUrl" [alt]="movie.title" />
+        <div class="card-details">
+          <div class="card-info">
+            <div class="header">
+              <span> {{ movie.title }} ( {{ movie.year }}) </span>
+              <span>{{ movie.runTime }} | {{ movie.rating }}/10 </span>
+            </div>
+            <p class="plot">
+              {{ movie.plot }}
+            </p>
+          </div>
 
-      <ng-container *ngIf="isOnWatchList; else isNotOnWatchList">
-        <div class="header watch-list" (click)="onRemoveFromWatchList(movie)">
-          Remove from watch list
-        </div>
-      </ng-container>
+          <ng-container *ngIf="isOnWatchList; else isNotOnWatchList">
+            <button
+              class="btn_watch-list"
+              mat-stroked-button
+              color="warn"
+              (click)="onRemoveFromWatchList(movie)"
+            >
+              REMOVE FROM WATCH LIST
+            </button>
+          </ng-container>
 
-      <ng-template #isNotOnWatchList>
-        <div class="header watch-list" (click)="onAddToWatchList(movie)">
-          Add to watch list
-        </div>
-      </ng-template>
-
-      <img class="main poster" [src]="movie.posterUrl" />
-      <div class="main writers">
-        <div *ngFor="let writer of movie.writers">
-          {{ writer }}
+          <ng-template #isNotOnWatchList>
+            <button
+              class="btn_watch-list"
+              mat-stroked-button
+              color="primary"
+              (click)="onAddToWatchList(movie)"
+            >
+              ADD TO WATCH LIST
+            </button>
+          </ng-template>
         </div>
       </div>
-      <div class="main actors">
-        <div *ngFor="let actor of movie.actors">
-          {{ actor }}
-        </div>
-      </div>
-      <div class="plot">
-        {{ movie.plot }}
-      </div>
-      <div class="footer run-time">{{ movie.runTime }}</div>
-      <div class="footer year">{{ movie.year }}</div>
     </div>
   </div>
 </div>

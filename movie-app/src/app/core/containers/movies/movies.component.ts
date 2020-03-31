@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Movie } from '../../models/movie.model';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/core/store';
@@ -11,7 +11,7 @@ import { reset } from '../../store/movie';
   templateUrl: './movies.component.html',
   styleUrls: ['./movies.component.scss']
 })
-export class MoviesComponent implements OnInit, OnDestroy {
+export class MoviesComponent implements OnInit {
   isLoading$: Observable<boolean>;
   title$: Observable<string>;
   movies$: Observable<Movie[]>;
@@ -22,9 +22,7 @@ export class MoviesComponent implements OnInit, OnDestroy {
     this.title$ = this.store.select(MovieSelectors.selectTitle);
   }
 
-  ngOnInit() {}
-
-  ngOnDestroy() {
+  ngOnInit() {
     this.store.dispatch(reset());
   }
 }
