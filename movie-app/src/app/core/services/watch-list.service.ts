@@ -11,6 +11,7 @@ import { selectUser } from '../../auth/store/selectors/auth.selectors';
 import { WatchListMovie } from '../models/watch-list-movie.model';
 import { Observable, forkJoin } from 'rxjs';
 import { DetailedMovie } from '../models/detailed-movie.model';
+import { notify } from '../store/snack-bar';
 
 @Injectable({ providedIn: 'root' })
 export class WatchListService {
@@ -153,6 +154,10 @@ export class WatchListService {
   }
 
   private updateStateOnFail(error: Error, event: string) {
+    this.store.dispatch(
+      notify({ message: error.message, cssClass: 'snack-bar-error' })
+    );
+
     this.watchListStore.patch(
       {
         isLoading: false,
