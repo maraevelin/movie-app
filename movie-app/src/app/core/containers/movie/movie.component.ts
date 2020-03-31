@@ -25,7 +25,6 @@ export class MovieComponent implements OnInit {
   id: string;
   movie$?: Observable<DetailedMovie | undefined>;
   isLoading$: Observable<boolean>;
-  errorMessage$: Observable<string | undefined>;
   user$: Observable<User | undefined>;
   isSignedIn = false;
 
@@ -45,7 +44,6 @@ export class MovieComponent implements OnInit {
     this.store.dispatch(getDetailed({ id: this.id }));
     this.movie$ = this.store.select(MovieSelectors.selectDetailedMovie);
     this.isLoading$ = this.store.select(MovieSelectors.selectIsLoading);
-    this.errorMessage$ = this.store.select(MovieSelectors.selectErrorMessage);
 
     this.user$ = this.store.select(selectUser);
     this.movies$ = this.watchListStore.movies$;
