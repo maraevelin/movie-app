@@ -1,8 +1,8 @@
-<div class="container">
-  <div *ngIf="isLoading$ | async">
-    <mat-spinner color="primary"></mat-spinner>
-  </div>
+<div *ngIf="isLoading$ | async">
+  <app-spinner></app-spinner>
+</div>
 
+<div class="container">
   <div *ngIf="(movies$ | async)?.length > 0">
     <div class="header">
       {{ (movies$ | async)?.length }} results for
