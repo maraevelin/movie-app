@@ -1,18 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { AuthModuleRoutingModule } from './auth-routing.module';
+import { AuthRoutingModule } from './auth-routing.module';
 import { AuthComponent } from './components/auth/auth.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialDesignModule } from '../material-design/material-design.module';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [AuthComponent],
   imports: [
     CommonModule,
-    AuthModuleRoutingModule,
+    AuthRoutingModule,
     ReactiveFormsModule,
-    MaterialDesignModule
+    MaterialDesignModule,
+    SharedModule
   ]
 })
-export class AuthModuleModule {}
+export class AuthModule {}

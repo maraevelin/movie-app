@@ -1,3 +1,7 @@
+<div *ngIf="isLoading$ | async">
+  <app-spinner></app-spinner>
+</div>
+
 <form [formGroup]="form" (ngSubmit)="onSubmit()" class="container">
   <div class="title">
     {{ isSignIn ? 'Sign in' : 'Sign up' }}
@@ -47,10 +51,6 @@
   </div>
 
   <br />
-
-  <div *ngIf="isLoading$ | async">
-    <mat-spinner color="primary"></mat-spinner>
-  </div>
 
   <mat-error *ngIf="errorMessage$ | async as errorMessage">
     {{ errorMessage }}
