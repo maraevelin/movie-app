@@ -1,0 +1,87 @@
+@import 'src/styles.scss';
+
+img {
+  height: 100%;
+  max-width: 100%;
+  object-fit: cover;
+}
+
+.container {
+  width: 75%;
+  margin: auto;
+
+  display: grid;
+  justify-content: space-evenly;
+  gap: 16px;
+  grid-template-columns: repeat(5, 12vw);
+
+  padding: 32px 64px;
+
+  @media screen and (max-width: $resolution-larger) {
+    grid-template-columns: repeat(4, 16vw);
+    padding: 24px 48px;
+  }
+
+  @media screen and (max-width: $resolution-medium) {
+    grid-template-columns: repeat(3, 20vw);
+    padding: 20px 40px;
+  }
+
+  @media screen and (max-width: $resolution-smaller) {
+    grid-template-columns: repeat(2, 32vw);
+    padding: 16px 32px;
+  }
+
+  @media screen and (max-width: $resolution-smallest) {
+    grid-template-columns: repeat(1, 50vw);
+    padding: 8px 16px;
+  }
+}
+
+.card {
+  height: 18vw;
+
+  @media screen and (max-width: $resolution-larger) {
+    height: 24vw;
+  }
+
+  @media screen and (max-width: $resolution-medium) {
+    height: 30vw;
+  }
+
+  @media screen and (max-width: $resolution-smaller) {
+    height: 48vw;
+  }
+
+  @media screen and (max-width: $resolution-smallest) {
+    height: 75vw;
+  }
+
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+
+  border-radius: 16px;
+
+  cursor: default;
+
+  filter: brightness(1.125) contrast(0.8);
+  transform: translateY(0);
+  @include transition-smooth-slow;
+
+  &:hover {
+    cursor: pointer;
+
+    transform: translateY(-5%);
+    @include transition-smooth-slow;
+
+    box-shadow: 8px 12px 8px $grey-medium;
+  }
+
+  &:active {
+    transform: translateY(-3%);
+    @include transition-smooth;
+
+    box-shadow: 4px 8px 4px $grey-medium;
+  }
+}

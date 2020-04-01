@@ -4,13 +4,13 @@ import { WatchListStore } from './watch-list.store.service';
 import { tap } from 'rxjs/operators';
 import { WatchListResponse } from '../models/watch-list-response.model';
 import { WatchListCollection } from '../models/watch-list-collection.model';
-import { OmdbApiService } from '../../core/services/omdb-api.service';
+import { OmdbApiService } from '../../movie/services/omdb-api.service';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../core/store';
 import { selectUser } from '../../auth/store/selectors/auth.selectors';
 import { WatchListMovie } from '../models/watch-list-movie.model';
 import { Observable, forkJoin } from 'rxjs';
-import { DetailedMovie } from '../../core/models/detailed-movie.model';
+import { DetailedMovie } from '../../movie/models/detailed-movie.model';
 import { notify } from '../../core/store/snack-bar';
 
 @Injectable({ providedIn: 'root' })

@@ -1,6 +1,6 @@
 import { Provider } from '@angular/core';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { OmdbInterceptor } from './omdb.interceptor';
+import { OmdbInterceptor } from '../../movie/interceptors/omdb.interceptor';
 import { AuthInterceptor } from '../../auth/interceptors/auth.interceptor';
 
 export const interceptorProviders: Provider[] = [

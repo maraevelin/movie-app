@@ -1,4 +1,4 @@
-import * as MovieStore from './movie/';
+import * as MovieStore from '../../movie/store/movie';
 import * as AuthStore from '../../auth/store';
 import * as SnackBarStore from './snack-bar/';
 

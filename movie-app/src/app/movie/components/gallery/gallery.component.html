@@ -1,0 +1,12 @@
+<div class="container">
+  <div *ngFor="let movie of movies" class="card-container">
+    <img
+      matRipple
+      matRippleCentered="true"
+      [src]="movie.posterUrl"
+      [alt]="movie.title"
+      (click)="onSelect(movie.imdbId)"
+      class="card"
+    />
+  </div>
+</div>

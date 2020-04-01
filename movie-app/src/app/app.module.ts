@@ -4,11 +4,11 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { SearchBarComponent } from './core/components/search-bar/search-bar.component';
-import { GalleryComponent } from './core/components/gallery/gallery.component';
-import { MoviesComponent } from './core/containers/movies/movies.component';
-import { MovieComponent } from './core/containers/movie/movie.component';
-import { NavigationBarComponent } from './core/components/navigation-bar/navigation-bar.component';
+import { SearchBarComponent } from './movie/containers/search-bar/search-bar.component';
+import { GalleryComponent } from './movie/components/gallery/gallery.component';
+import { MoviesComponent } from './movie/containers/movies/movies.component';
+import { MovieComponent } from './movie/containers/movie/movie.component';
+import { NavigationBarComponent } from './core/containers/navigation-bar/navigation-bar.component';
 import { MaterialDesignModule } from './material-design/material-design.module';
 import { StoreModule, ActionReducerMap } from '@ngrx/store';
 import { AppState, reducers, effects } from './core/store';
@@ -26,6 +26,7 @@ import { AuthModule } from './auth/auth.module';
 import { BlankComponent } from './core/components/blank/blank.component';
 import { SharedModule } from './shared/shared.module';
 import { WatchListModule } from './watch-list/watch-list.module';
+import { MovieModule } from './movie/movie.module';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { WatchListModule } from './watch-list/watch-list.module';
     AngularFirestoreModule,
     AuthModule,
     SharedModule,
-    WatchListModule
+    WatchListModule,
+    MovieModule
   ],
   providers: [...interceptorProviders],
   bootstrap: [AppComponent]
