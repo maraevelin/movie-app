@@ -3,6 +3,8 @@
 .search-bar {
   @include transition-smooth-slow;
 
+  box-shadow: inset 1px 1px 8px $grey-lightest;
+
   padding: 8px 16px;
 
   border: none;
