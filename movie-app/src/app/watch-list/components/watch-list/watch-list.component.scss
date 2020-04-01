@@ -1,3 +1,59 @@
+@import 'src/styles.scss';
+.container {
+  margin: 8px 48px;
+}
+
+.container-filter {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.filter {
+  @include transition-smooth-slow;
+
+  width: 35%;
+
+  padding: 8px 16px;
+  margin: 8px 0px;
+
+  border-radius: 20px;
+
+  background-color: $grey-lightest;
+
+  font-size: $font-size-smaller;
+
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: flex-start;
+  gap: 8px;
+
+  &:hover,
+  &:active {
+    box-shadow: inset 1px 1px 8px $grey-lightest;
+
+    width: 40%;
+
+    background-color: $grey-lightest-extra;
+
+    .filter-icon {
+      color: $primary;
+    }
+  }
+
+  &-icon {
+    color: $grey-lighter;
+  }
+
+  &-input {
+    outline: none;
+    border: none;
+    background: none;
+
+    color: $grey-darkest;
+    text-transform: uppercase;
+  }
+}
+
 .item {
   padding: 0px 8px;
 
