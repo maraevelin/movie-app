@@ -15,8 +15,8 @@ describe('MovieEffects', () => {
   let omdbApiService: OmdbApiService;
 
   const movies: Movie[] = [
-    { imdbId: 'imdbId1', posterUrl: 'posterUrl1' },
-    { imdbId: 'imdbId2', posterUrl: 'posterUrl2' }
+    { imdbId: 'imdbId1', posterUrl: 'posterUrl1', title: 'title1' },
+    { imdbId: 'imdbId2', posterUrl: 'posterUrl2', title: 'title2' }
   ];
 
   const detailedMovie: DetailedMovie = {
