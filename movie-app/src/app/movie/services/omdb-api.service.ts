@@ -25,13 +25,9 @@ export class OmdbApiService {
           throw new Error(searchResponse.Error);
         }
 
-        return searchResponse.Search.filter(movie => {
-          if (movie.imdbID === 'tt0296852') {
-            console.log({ posterUrl: movie.Poster });
-          }
-
-          return movie.Poster !== 'N/A';
-        }).map(movie => new Movie(movie));
+        return searchResponse.Search.filter(
+          movie => movie.Poster !== 'N/A'
+        ).map(movie => new Movie(movie));
       })
     );
   }
