@@ -1,4 +1,4 @@
-import { WatchListCollection } from 'src/app/core/models/watch-list-collection.model';
+import { WatchListCollection } from 'src/app/watch-list/models/watch-list-collection.model';
 
 export interface WatchListState {
   isLoading: boolean;

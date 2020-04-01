@@ -1,5 +1,5 @@
-import { WatchListResponse } from '../services/models/watch-list-response.model';
-import { DetailedMovie } from './detailed-movie.model';
+import { WatchListResponse } from './watch-list-response.model';
+import { DetailedMovie } from '../../core/models/detailed-movie.model';
 
 export enum RecommendationTypes {
   NA = 'N/A',

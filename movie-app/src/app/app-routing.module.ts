@@ -1,11 +1,8 @@
 import { RouterModule, Routes } from '@angular/router';
-
-import { MovieComponent } from './core/containers/movie/movie.component';
 import { NgModule } from '@angular/core';
-import { MoviesComponent } from './core/containers/movies/movies.component';
-import { WatchListComponent } from './core/containers/watch-list/watch-list.component';
-import { WatchListGuard } from './core/guards/watch-list.guard';
 import { MoviesGuard } from './core/guards/movies.guard';
+import { MoviesComponent } from './core/containers/movies/movies.component';
+import { MovieComponent } from './core/containers/movie/movie.component';
 
 const routes: Routes = [
   { path: 'movies/:id', component: MovieComponent },
@@ -13,11 +10,6 @@ const routes: Routes = [
     path: 'movies',
     component: MoviesComponent,
     canActivate: [MoviesGuard]
-  },
-  {
-    path: 'watchList',
-    component: WatchListComponent,
-    canActivate: [WatchListGuard]
   },
   {
     path: '',

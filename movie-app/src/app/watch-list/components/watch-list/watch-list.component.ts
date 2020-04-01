@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild, NgZone } from '@angular/core';
 import { Observable } from 'rxjs';
-import { WatchListService } from 'src/app/core/services/watch-list.service';
-import { WatchListCollection } from 'src/app/core/models/watch-list-collection.model';
-import { WatchListMovie } from 'src/app/core/models/watch-list-movie.model';
+import { WatchListService } from 'src/app/watch-list/services/watch-list.service';
+import { WatchListCollection } from 'src/app/watch-list/models/watch-list-collection.model';
+import { WatchListMovie } from 'src/app/watch-list/models/watch-list-movie.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -14,7 +14,7 @@ import {
   animate
 } from '@angular/animations';
 import { Column } from 'src/app/core/models/column.model';
-import { WatchListStore } from 'src/app/core/services/watch-list.store.service';
+import { WatchListStore } from 'src/app/watch-list/services/watch-list.store.service';
 import { Router } from '@angular/router';
 
 @Component({

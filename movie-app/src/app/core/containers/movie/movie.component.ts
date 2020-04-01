@@ -12,9 +12,9 @@ import { User } from 'src/app/auth/models/user.model';
 import { getDetailed } from 'src/app/core/store/movie/actions/movie.actions';
 import { selectUser } from 'src/app/auth/store/selectors/auth.selectors';
 import { AuthConstants } from 'src/app/auth/shared/auth.shared';
-import { WatchListService } from 'src/app/core/services/watch-list.service';
-import { WatchListCollection } from 'src/app/core/models/watch-list-collection.model';
-import { WatchListStore } from 'src/app/core/services/watch-list.store.service';
+import { WatchListService } from 'src/app/watch-list/services/watch-list.service';
+import { WatchListCollection } from 'src/app/watch-list/models/watch-list-collection.model';
+import { WatchListStore } from 'src/app/watch-list/services/watch-list.store.service';
 
 @Component({
   selector: 'app-movie',

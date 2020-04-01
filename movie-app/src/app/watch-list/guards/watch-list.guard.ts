@@ -2,7 +2,7 @@ import { Injectable, NgZone } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from '../../auth/models/user.model';
 import { Store } from '@ngrx/store';
-import { AppState } from '../store';
+import { AppState } from '../../core/store';
 import { selectUser } from '../../auth/store/selectors/auth.selectors';
 import {
   Router,
