@@ -1,9 +1,11 @@
 @import 'src/styles.scss';
 
 img {
+  overflow: hidden;
+  object-fit: cover;
+
   height: 100%;
   max-width: 100%;
-  object-fit: cover;
 }
 
 .container {
@@ -39,6 +41,8 @@ img {
 }
 
 .card {
+  @include transition-smooth-slow;
+
   height: 18vw;
 
   @media screen and (max-width: $resolution-larger) {
@@ -64,24 +68,17 @@ img {
   border-radius: 16px;
 
   cursor: default;
-
-  filter: brightness(1.125) contrast(0.8);
+  transform: scale(0);
   transform: translateY(0);
-  @include transition-smooth-slow;
+  filter: brightness(1.125) contrast(0.8) grayscale(0.01);
+  box-shadow: 2px 2px 4px $grey-lightest;
 
-  &:hover {
-    cursor: pointer;
-
-    transform: translateY(-5%);
-    @include transition-smooth-slow;
-
-    box-shadow: 8px 12px 8px $grey-medium;
-  }
-
+  &:hover,
   &:active {
-    transform: translateY(-3%);
-    @include transition-smooth;
-
-    box-shadow: 4px 8px 4px $grey-medium;
+    cursor: pointer;
+    transform: scale(1.05);
+    transform: translateY(-4px);
+    filter: grayscale(0);
+    box-shadow: 4px 8px 12px $grey-lighter;
   }
 }
