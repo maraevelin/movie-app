@@ -19,14 +19,8 @@
     </div>
   </div>
 
-  <div class="table">
-    <table
-      mat-table
-      [dataSource]="dataSource"
-      matSort
-      multiTemplateDataRows
-      class="mat-elevation-z8"
-    >
+  <div class="mat-elevation-z8 table">
+    <table mat-table [dataSource]="dataSource" matSort multiTemplateDataRows>
       <!-- Columns -->
       <ng-container
         matColumnDef="{{ column.key }}"
@@ -47,6 +41,7 @@
         </td>
       </ng-container>
 
+      <!-- Column: isFinshed -->
       <ng-container matColumnDef="isFinished">
         <th mat-header-cell mat-sort-header *matHeaderCellDef></th>
         <td
@@ -65,6 +60,7 @@
         </td>
       </ng-container>
 
+      <!-- Column: remove -->
       <ng-container matColumnDef="options">
         <th mat-header-cell mat-sort-header *matHeaderCellDef></th>
         <td
@@ -114,12 +110,12 @@
         class="detail-row"
       ></tr>
     </table>
-  </div>
 
-  <mat-paginator
-    [pageSizeOptions]="[5, 10, 15, 20]"
-    showFirstLastButtons
-  ></mat-paginator>
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 15, 20]"
+      showFirstLastButtons
+    ></mat-paginator>
+  </div>
 
   <div *ngIf="isUpdated$ | async">updated</div>
 </div>
