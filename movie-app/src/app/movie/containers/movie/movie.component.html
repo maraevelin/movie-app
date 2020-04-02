@@ -4,14 +4,14 @@
 
 <div class="container">
   <div *ngIf="movie$ | async as movie">
-    <div class="container">
+    <div class="container-card">
       <div class="card">
         <img class="poster" [src]="movie.posterUrl" [alt]="movie.title" />
         <div class="card-details">
           <div class="card-info">
             <div class="header">
-              <span> {{ movie.title }} ( {{ movie.year }}) </span>
-              <span>{{ movie.runTime }} | {{ movie.rating }}/10 </span>
+              <span> {{ movie.title }} ({{ movie.year }}) </span>
+              <span> {{ movie.runTime }} | {{ movie.rating }} /10 </span>
             </div>
             <p class="plot">
               {{ movie.plot }}
