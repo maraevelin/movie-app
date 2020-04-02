@@ -77,23 +77,23 @@ table {
   width: 100%;
 }
 
-tr.example-detail-row {
+tr.detail-row {
   height: 0;
 }
 
-tr.example-element-row:not(.example-expanded-row):hover {
+tr.element-row:not(.expanded-row):hover {
   background: whitesmoke;
 }
 
-tr.example-element-row:not(.example-expanded-row):active {
+tr.element-row:not(.expanded-row):active {
   background: #efefef;
 }
 
-.example-element-row td {
+.element-row td {
   border-bottom-width: 0;
 }
 
-.example-element-detail {
+.element-detail {
   overflow: hidden;
   display: flex;
 }
@@ -101,8 +101,8 @@ tr.example-element-row:not(.example-expanded-row):active {
 .material-icons.md-inactive {
   cursor: default;
 
-  &.md-arrow {
-    color: rgba(#3d9970, 0.24);
+  &.md-check {
+    color: #3d9970;
   }
 
   &.md-trashcan {
@@ -114,8 +114,8 @@ tr.example-element-row:not(.example-expanded-row):active {
   &:hover {
     cursor: pointer;
 
-    &.md-arrow {
-      color: #3d9970;
+    &.md-check {
+      color: rgba(#3d9970, 0.5);
     }
 
     &.md-trashcan {
@@ -132,7 +132,7 @@ tr.example-element-row:not(.example-expanded-row):active {
 .material-icons.md-active {
   cursor: default;
 
-  &.md-arrow {
+  &.md-check {
     color: #3d9970;
   }
 
@@ -147,8 +147,8 @@ tr.example-element-row:not(.example-expanded-row):active {
   &:hover {
     cursor: pointer;
 
-    &.md-arrow {
-      color: rgba(#3d9970, 0.24);
+    &.md-check {
+      color: rgba(#3d9970, 0.5);
     }
   }
 
