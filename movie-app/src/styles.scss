@@ -12,6 +12,7 @@ $grey-darkest: rgb(25, 25, 25);
 
 $font-size-smallest: 8px;
 $font-size-smaller: 12px;
+$font-size-normal-sub: 14.5px;
 $font-size-normal: 16px;
 $font-size-larger: 20px;
 $font-size-largest: 22px;
@@ -19,7 +20,8 @@ $font-size-largest: 22px;
 $warn-solarized: #c4241c;
 $success-solarized: #6db676;
 
-$resolution-smallest: 590px;
+$resolution-smallest-extra: 450px;
+$resolution-smallest: 600px;
 $resolution-smaller: 680px;
 $resolution-medium: 800px;
 $resolution-larger: 1280px;

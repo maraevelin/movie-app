@@ -4,37 +4,39 @@
 
 <div class="container">
   <div *ngIf="movie$ | async as movie">
-    <div class="container-card">
-      <div class="card">
+    <div class="card">
+      <div class="header">
+        <div class="header-left">
+          <span class="header-left-title">{{ movie.title }} </span>
+          <span>({{ movie.year }})</span>
+        </div>
+        <div class="header-right">
+          <span>{{ movie.runTime }}</span>
+          |
+          <span>{{ movie.rating }}</span>
+          <span class="header-right-rating-scale">/10</span>
+        </div>
+      </div>
+      <div class="content">
         <img class="poster" [src]="movie.posterUrl" [alt]="movie.title" />
-        <div class="card-details">
-          <div class="card-info">
-            <div class="header">
-              <span> {{ movie.title }} ({{ movie.year }}) </span>
-              <span> {{ movie.runTime }} | {{ movie.rating }} /10 </span>
-            </div>
-            <p class="plot">
-              {{ movie.plot }}
-            </p>
-          </div>
-
+        <span class="content-text plot">{{ movie.plot }}</span>
+        <div class="content-text button">
           <ng-container *ngIf="isOnWatchList; else isNotOnWatchList">
             <button
-              class="btn_watch-list"
               mat-stroked-button
               color="warn"
               (click)="onRemoveFromWatchList(movie)"
+              class="button"
             >
               REMOVE FROM WATCH LIST
             </button>
           </ng-container>
-
           <ng-template #isNotOnWatchList>
             <button
-              class="btn_watch-list"
-              mat-stroked-button
+              mat-flat-button
               color="primary"
               (click)="onAddToWatchList(movie)"
+              class="button"
             >
               ADD TO WATCH LIST
             </button>
