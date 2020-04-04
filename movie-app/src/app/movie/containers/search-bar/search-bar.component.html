@@ -1,9 +1,18 @@
-<input
-  #searchBar
-  type="search"
-  [formControl]="title"
-  (keyup.enter)="onSearch()"
-  placeholder="Search"
-  matTooltip="Search for movies by title"
-  class="search-bar"
-/>
+<div class="container">
+  <div class="search-bar">
+    <mat-icon
+      aria-hidden="false"
+      aria-label="Search bar to search for movies"
+      class="search-bar-icon"
+    >
+      search
+    </mat-icon>
+    <input
+      matInput
+      placeholder="Search"
+      [formControl]="title"
+      (keyup.enter)="onSearch()"
+      class="search-bar-input"
+    />
+  </div>
+</div>

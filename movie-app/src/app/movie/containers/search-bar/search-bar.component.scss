@@ -1,30 +1,50 @@
 @import 'src/styles.scss';
 
+.container {
+  display: flex;
+}
+
 .search-bar {
   @include transition-smooth-slow;
 
-  box-shadow: inset 1px 1px 8px $grey-lightest;
+  width: 30vw;
 
-  padding: 8px 16px;
+  border-radius: 20px;
 
-  border: none;
-  border-radius: 100px;
+  padding: 6px 12px;
 
-  color: $grey-darker;
+  background-color: $grey-lightest-extra;
 
-  width: 80%;
+  font-size: $font-size-smaller;
 
-  &::placeholder {
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: flex-start;
+  gap: 8px;
+
+  &:hover,
+  &:active {
+    box-shadow: inset 1px 1px 8px $grey-lightest-extra;
+
+    width: 35vw;
+
+    background-color: white;
+
+    .search-bar-icon {
+      color: $primary;
+    }
+  }
+
+  &-icon {
     color: $grey-lighter;
   }
 
-  &:focus {
+  &-input {
     outline: none;
+    border: none;
+    background: none;
 
-    width: 85%;
-
-    &::placeholder {
-      color: transparent;
-    }
+    color: $grey-darkest;
+    text-transform: uppercase;
   }
 }
