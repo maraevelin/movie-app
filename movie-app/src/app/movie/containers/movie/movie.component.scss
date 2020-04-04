@@ -111,7 +111,7 @@ $poster-height: 200px;
 }
 
 .plot {
-  z-index: 2;
+  z-index: 1;
 
   justify-self: start;
 
@@ -137,7 +137,7 @@ $poster-height: 200px;
 }
 
 .button {
-  z-index: 1;
+  z-index: 2;
   margin: 0 8px 8px 0;
 
   justify-self: end;
