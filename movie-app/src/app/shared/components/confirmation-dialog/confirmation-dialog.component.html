@@ -1,10 +1,15 @@
-<p mat-dialog-title class="title">Confirm</p>
-<p lang="en" class="question">{{ data.question }}</p>
+<p mat-dialog-title class="title">Confirmation required</p>
+<div class="content">
+  <mat-icon aria-hidden="false" aria-label="warning" color="accent" class="icon"
+    >warning</mat-icon
+  >
+  <span lang="en" class="question">{{ data.question }}</span>
+</div>
 <div mat-dialog-actions class="actions">
-  <button mat-flat-button (click)="onNoClick()">
+  <button mat-button (click)="onNoClick()">
     {{ data.answerNo }}
   </button>
-  <button mat-flat-button [mat-dialog-close]="true" cdkFocusInitial>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>
     {{ data.answerYes }}
   </button>
 </div>

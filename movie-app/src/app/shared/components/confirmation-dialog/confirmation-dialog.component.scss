@@ -4,16 +4,31 @@
   text-align: center;
 }
 
+.content {
+  margin: 8px 16px;
+
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  grid-template-rows: 1fr;
+}
+
+.icon {
+  grid-column: 1/1;
+  vertical-align: center;
+  text-align: center;
+
+  font-size: 50px;
+}
+
 .question {
-  padding: 4px 0px 8px 0px;
+  grid-column: 2/-1;
+  vertical-align: center;
+
+  text-align: justify;
   hyphens: auto;
 }
 
 .actions {
   display: flex;
   justify-content: space-between;
-}
-
-.mat-flat-button {
-  background-color: $grey-lightest-extra;
 }

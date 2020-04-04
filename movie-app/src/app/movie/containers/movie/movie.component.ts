@@ -92,13 +92,13 @@ export class MovieComponent implements OnInit {
   private confirmRedirection(): void {
     const data: ConfirmationDialogData = {
       question:
-        'You have to be signed in to edit your watch list. Do you want to be redirected to sign in?',
+        'You have to be signed in to edit your watch list. Do you want to sign in now?',
       answerYes: 'Yes',
       answerNo: 'No, continue as guest',
     };
 
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '325px',
+      width: '400px',
       minHeight: 'max-content',
       data,
     });
