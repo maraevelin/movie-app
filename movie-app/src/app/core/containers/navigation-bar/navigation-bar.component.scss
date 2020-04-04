@@ -1,31 +1,55 @@
 @import 'src/styles.scss';
 
-.mat-toolbar {
-  max-height: 48px;
-}
-
-.mat-icon {
-  transform: scale(0.75);
-}
-
-.mat-button {
-  @include transition-smooth;
-
-  @include button-fonts-smaller;
-
-  width: 100%;
-  height: 100%;
-
-  &:hover {
-    color: $primary-light;
-  }
-}
+$unit: 48px;
 
 .container {
+  height: $unit;
+
+  background: $primary;
   box-shadow: 0px 0px 10px 4px $grey-lightest;
 
   display: grid;
-  grid-auto-flow: column;
-  grid-template-columns: 1fr 3fr 1fr 1fr;
-  justify-content: space-around;
+  grid-template-columns: $unit 1fr $unit;
+  grid-template-rows: $unit;
+  justify-content: stretch;
+}
+
+.nav-element {
+  justify-self: stretch;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: white;
+}
+
+.nav-button {
+  &:hover {
+    cursor: pointer;
+
+    color: $grey-lightest-extra;
+  }
+
+  &:hover {
+    .icon-text {
+      display: inline-block;
+    }
+  }
+}
+
+.nav-router-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.icon-text {
+  display: none;
+  font-variant: small-caps;
+  font-size: $font-size-smaller-sub;
 }

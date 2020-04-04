@@ -1,17 +1,36 @@
-<mat-toolbar color="primary" class="container">
-  <button mat-button routerLink="/">
-    <mat-icon aria-hidden="false" aria-label="home">home</mat-icon>
-  </button>
+<div class="container">
+  <div class="nav-element nav-button">
+    <span routerLink="/" class="nav-router-link">
+      <mat-icon aria-hidden="false" aria-label="Navigate to home page">
+        home
+      </mat-icon>
+      <span class="icon-text">home</span>
+    </span>
+  </div>
 
-  <app-search-bar></app-search-bar>
-
-  <button mat-button routerLink="/watchList">Watch list</button>
+  <div class="nav-element">
+    <span>search bar here</span>
+  </div>
 
   <ng-container *ngIf="user$ | async; else isGuest">
-    <button mat-button (click)="onSignOut()">Sign out</button>
+    <div class="nav-element nav-button">
+      <span (click)="onSignOut()" class="nav-router-link">
+        <mat-icon aria-hidden="false" aria-label="Sign out">
+          input
+        </mat-icon>
+        <span class="icon-text">sign out</span>
+      </span>
+    </div>
   </ng-container>
 
   <ng-template #isGuest>
-    <button mat-button routerLink="/auth">Sign in</button>
+    <div class="nav-element nav-button">
+      <span routerLink="/auth" class="nav-router-link">
+        <mat-icon aria-hidden="false" aria-label="Navigate to sign in page">
+          input
+        </mat-icon>
+        <span class="icon-text">sign in</span>
+      </span>
+    </div>
   </ng-template>
-</mat-toolbar>
+</div>
