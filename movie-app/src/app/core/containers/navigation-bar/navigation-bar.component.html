@@ -14,11 +14,11 @@
 
   <ng-container *ngIf="user$ | async; else isGuest">
     <div class="nav-element nav-button">
-      <span (click)="onSignOut()" class="nav-router-link">
-        <mat-icon aria-hidden="false" aria-label="Sign out">
-          input
+      <span [matMenuTriggerFor]="userMenu" class="nav-router-link">
+        <mat-icon aria-hidden="false" aria-label="User menu">
+          menu
         </mat-icon>
-        <span class="icon-text">sign out</span>
+        <span class="icon-text">menu</span>
       </span>
     </div>
   </ng-container>
@@ -34,3 +34,14 @@
     </div>
   </ng-template>
 </div>
+
+<mat-menu #userMenu="matMenu">
+  <button mat-menu-item routerLink="/watchList" class="menu-router-link">
+    <mat-icon>movie_filter</mat-icon>
+    <span>Watch list</span>
+  </button>
+  <button mat-menu-item>
+    <mat-icon>input</mat-icon>
+    <span (click)="onSignOut()">Sign out</span>
+  </button>
+</mat-menu>

@@ -43,7 +43,8 @@ $unit: 48px;
   flex-direction: column;
   align-items: center;
 
-  &:focus {
+  &:focus,
+  .menu-router-link:focus {
     outline: none;
   }
 }
