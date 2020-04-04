@@ -12,6 +12,7 @@ $unit: 48px;
   grid-template-columns: $unit 1fr $unit;
   grid-template-rows: $unit;
   justify-content: stretch;
+  column-gap: $unit;
 }
 
 .nav-element {
@@ -53,4 +54,8 @@ $unit: 48px;
   display: none;
   font-variant: small-caps;
   font-size: $font-size-smaller-sub;
+}
+
+.nav-search-bar {
+  justify-self: flex-start;
 }

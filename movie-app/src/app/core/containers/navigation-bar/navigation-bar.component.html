@@ -8,8 +8,8 @@
     </span>
   </div>
 
-  <div class="nav-element">
-    <span>search bar here</span>
+  <div class="nav-element nav-search-bar">
+    <app-search-bar></app-search-bar>
   </div>
 
   <ng-container *ngIf="user$ | async; else isGuest">
