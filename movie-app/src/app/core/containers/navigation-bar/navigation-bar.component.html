@@ -7,11 +7,11 @@
 
   <button mat-button routerLink="/watchList">Watch list</button>
 
-  <ng-container *ngIf="user$ | async; else visitor">
+  <ng-container *ngIf="user$ | async; else isGuest">
     <button mat-button (click)="onSignOut()">Sign out</button>
   </ng-container>
 
-  <ng-template #visitor>
+  <ng-template #isGuest>
     <button mat-button routerLink="/auth">Sign in</button>
   </ng-template>
 </mat-toolbar>
