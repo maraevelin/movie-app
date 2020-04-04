@@ -15,11 +15,14 @@ import { AuthConstants } from 'src/app/auth/shared/auth.shared';
 import { WatchListService } from 'src/app/watch-list/services/watch-list.service';
 import { WatchListCollection } from 'src/app/watch-list/models/watch-list-collection.model';
 import { WatchListStore } from 'src/app/watch-list/services/watch-list.store.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialogData } from 'src/app/shared/models/confirmation-dialog.model';
 
 @Component({
   selector: 'app-movie',
   templateUrl: './movie.component.html',
-  styleUrls: ['./movie.component.scss']
+  styleUrls: ['./movie.component.scss'],
 })
 export class MovieComponent implements OnInit {
   id: string;
@@ -38,7 +41,8 @@ export class MovieComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private location: Location,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    public dialog: MatDialog
   ) {
     this.id = this.route.snapshot.paramMap.get('id') || '';
     this.store.dispatch(getDetailed({ id: this.id }));
@@ -50,14 +54,14 @@ export class MovieComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.user$.subscribe(user => {
+    this.user$.subscribe((user) => {
       this.isSignedIn = !!user;
 
       if (this.isSignedIn) {
         this.watchListStore.movies$.subscribe({
-          next: movies => {
+          next: (movies) => {
             this.isOnWatchList = movies.hasOwnProperty(this.id);
-          }
+          },
         });
       } else {
         this.isOnWatchList = false;
@@ -66,30 +70,55 @@ export class MovieComponent implements OnInit {
   }
 
   onAddToWatchList(movie: DetailedMovie): void {
-    this.redirectVisitor();
-    this.service.create({
-      id: movie.imdbId,
-      isFinished: false,
-      recommendation: ''
-    });
+    if (!this.isSignedIn) {
+      this.confirmRedirection();
+    } else {
+      this.service.create({
+        id: movie.imdbId,
+        isFinished: false,
+        recommendation: '',
+      });
+    }
   }
 
   onRemoveFromWatchList(movie: DetailedMovie): void {
-    this.redirectVisitor();
-    this.service.remove(movie.imdbId);
+    if (!this.isSignedIn) {
+      this.confirmRedirection();
+    } else {
+      this.service.remove(movie.imdbId);
+    }
   }
 
-  private redirectVisitor() {
-    if (!this.isSignedIn) {
-      const redirectTo: NavigationExtras = {
-        queryParams: { [AuthConstants.REDIRECT_URL]: this.location.path() },
-        queryParamsHandling: 'merge',
-        skipLocationChange: true
-      };
+  private confirmRedirection(): void {
+    const data: ConfirmationDialogData = {
+      question:
+        'You have to be signed in to edit your watch list. Do you want to be redirected to sign in?',
+      answerYes: 'Yes',
+      answerNo: 'No, continue as guest',
+    };
 
-      this.ngZone.run(() => {
-        this.router.navigate(['/auth'], redirectTo);
-      });
-    }
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '325px',
+      minHeight: 'max-content',
+      data,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.redirectGuest();
+      }
+    });
+  }
+
+  private redirectGuest() {
+    const redirectTo: NavigationExtras = {
+      queryParams: { [AuthConstants.REDIRECT_URL]: this.location.path() },
+      queryParamsHandling: 'merge',
+      skipLocationChange: true,
+    };
+
+    this.ngZone.run(() => {
+      this.router.navigate(['/auth'], redirectTo);
+    });
   }
 }

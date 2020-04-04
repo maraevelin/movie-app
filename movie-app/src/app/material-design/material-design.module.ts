@@ -13,6 +13,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatRippleModule } from '@angular/material/core';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [],
@@ -31,7 +32,8 @@ import { MatRippleModule } from '@angular/material/core';
     MatSnackBarModule,
     MatDividerModule,
     MatTooltipModule,
-    MatRippleModule
+    MatRippleModule,
+    MatDialogModule,
   ],
   exports: [
     MatProgressSpinnerModule,
@@ -45,7 +47,8 @@ import { MatRippleModule } from '@angular/material/core';
     MatSnackBarModule,
     MatDividerModule,
     MatTooltipModule,
-    MatRippleModule
-  ]
+    MatRippleModule,
+    MatDialogModule,
+  ],
 })
 export class MaterialDesignModule {}

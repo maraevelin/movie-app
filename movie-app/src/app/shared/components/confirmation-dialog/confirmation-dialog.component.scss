@@ -1,0 +1,19 @@
+@import 'src/styles.scss';
+
+.title {
+  text-align: center;
+}
+
+.question {
+  padding: 4px 0px 8px 0px;
+  hyphens: auto;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.mat-flat-button {
+  background-color: $grey-lightest-extra;
+}
