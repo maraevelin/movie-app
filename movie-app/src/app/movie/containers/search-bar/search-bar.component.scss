@@ -33,6 +33,10 @@
     .search-bar-icon {
       color: $primary;
     }
+
+    .search-bar-input {
+      width: 30vw;
+    }
   }
 
   &-icon {
@@ -40,6 +44,8 @@
   }
 
   &-input {
+    width: 25vw;
+
     outline: none;
     border: none;
     background: none;
