@@ -16,7 +16,7 @@ export const initialState: MovieState = {
   isLoading: false,
   errorMessage: undefined,
   movies: [],
-  detailedMovie: undefined
+  detailedMovie: undefined,
 };
 
 export function reducer(state: MovieState = initialState, action: Action) {
@@ -32,12 +32,12 @@ const movieReducer = createReducer(
     errorMessage: undefined,
     movies: [],
     detailedMovie: undefined,
-    title
+    title,
   })),
   on(MovieActions.searchSuccess, (state, { movies }) => ({
     ...state,
     isLoading: false,
-    movies
+    movies,
   })),
   on(
     MovieActions.searchFail,
@@ -45,18 +45,18 @@ const movieReducer = createReducer(
     (state, { error }) => ({
       ...state,
       isLoading: false,
-      errorMessage: error.message
+      errorMessage: error.message,
     })
   ),
-  on(MovieActions.getDetailed, state => ({
+  on(MovieActions.getDetailed, (state) => ({
     ...state,
     isLoading: true,
     errorMessage: undefined,
-    detailedMovie: undefined
+    detailedMovie: undefined,
   })),
   on(MovieActions.getDetailedSuccess, (state, { detailedMovie }) => ({
     ...state,
     isLoading: false,
-    detailedMovie
+    detailedMovie,
   }))
 );

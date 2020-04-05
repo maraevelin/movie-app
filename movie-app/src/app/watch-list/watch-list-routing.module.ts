@@ -7,12 +7,12 @@ const routes: Routes = [
   {
     path: 'watchList',
     component: WatchListComponent,
-    canActivate: [WatchListGuard]
-  }
+    canActivate: [WatchListGuard],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class WatchListRoutingModule {}

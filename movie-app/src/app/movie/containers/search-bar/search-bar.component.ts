@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'app-search-bar',
   templateUrl: './search-bar.component.html',
-  styleUrls: ['./search-bar.component.scss']
+  styleUrls: ['./search-bar.component.scss'],
 })
 export class SearchBarComponent implements OnInit {
   title = new FormControl('');
@@ -33,7 +33,7 @@ export class SearchBarComponent implements OnInit {
 
     let isAlreadyShown = false;
     this.title$.subscribe(
-      t => (isAlreadyShown = title.toLowerCase() === t.toLowerCase())
+      (t) => (isAlreadyShown = title.toLowerCase() === t.toLowerCase())
     );
     if (isAlreadyShown) {
       return;
