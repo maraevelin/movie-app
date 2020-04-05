@@ -7,6 +7,8 @@
 .search-bar {
   @include transition-smooth-slow;
 
+  overflow: hidden;
+
   width: 30vw;
 
   border-radius: 20px;
@@ -33,10 +35,6 @@
     .search-bar-icon {
       color: $primary;
     }
-
-    .search-bar-input {
-      width: 30vw;
-    }
   }
 
   &-icon {
@@ -44,7 +42,7 @@
   }
 
   &-input {
-    width: 25vw;
+    width: 100vw;
 
     outline: none;
     border: none;

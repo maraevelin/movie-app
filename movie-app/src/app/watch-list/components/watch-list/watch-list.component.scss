@@ -11,6 +11,8 @@
 .filter {
   @include transition-smooth-slow;
 
+  overflow: hidden;
+
   width: 35%;
 
   padding: 8px 16px;
@@ -45,6 +47,8 @@
   }
 
   &-input {
+    width: 100vw;
+
     outline: none;
     border: none;
     background: none;
