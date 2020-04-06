@@ -21,4 +21,11 @@
   <button mat-flat-button color="warn" (click)="delete()">
     Delete from document
   </button>
+
+  <button mat-stroked-button color="warn" (click)="load()">
+    Load document
+  </button>
+  <div *ngIf="data$ | async as data">
+    <div *ngFor="let d of data">{{ d.key }} : {{ d.value }}</div>
+  </div>
 </div>

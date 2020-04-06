@@ -4,6 +4,8 @@ import { AppState } from 'src/app/core/store';
 import { Store } from '@ngrx/store';
 
 import * as WatchListActions from '../../../watch-list/store/actions/watch-list.actions';
+import { selectData, WatchList2Data } from 'src/app/watch-list/store';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-watch-list2',
@@ -13,8 +15,11 @@ import * as WatchListActions from '../../../watch-list/store/actions/watch-list.
 export class WatchList2Component {
   id = new FormControl('imdbId3');
   isFinished = new FormControl(false);
+  data$: Observable<WatchList2Data[]>;
 
-  constructor(private store: Store<AppState>) {}
+  constructor(private store: Store<AppState>) {
+    this.data$ = this.store.select(selectData);
+  }
 
   add() {
     const data = {
@@ -37,5 +42,9 @@ export class WatchList2Component {
   delete() {
     const id = this.id.value;
     this.store.dispatch(WatchListActions.deleteMovie({ id }));
+  }
+
+  load() {
+    this.store.dispatch(WatchListActions.load());
   }
 }
