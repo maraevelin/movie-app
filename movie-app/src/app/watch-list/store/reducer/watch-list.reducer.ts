@@ -9,13 +9,13 @@ export interface WatchList2Data {
 export interface WatchListState {
   readonly isLoading: boolean;
   readonly errorMessage: string | undefined;
-  readonly data: WatchList2Data[];
+  readonly data: Record<string, WatchList2Data>;
 }
 
 export const initialState: WatchListState = {
   isLoading: false,
   errorMessage: undefined,
-  data: [],
+  data: {},
 };
 
 export function reducer(state: WatchListState = initialState, action: Action) {
@@ -24,12 +24,16 @@ export function reducer(state: WatchListState = initialState, action: Action) {
 
 const watchListReducer = createReducer(
   initialState,
+
+  on(WatchListActions.reset, () => initialState),
+
   on(WatchListActions.load, (state) => ({
     ...state,
     isLoading: true,
     errorMessage: undefined,
-    datas: undefined,
+    data: {},
   })),
+
   on(
     WatchListActions.addMovie,
     WatchListActions.updateMovie,
@@ -45,8 +49,9 @@ const watchListReducer = createReducer(
     ...state,
     isLoading: false,
     errorMessage: undefined,
-    data: (data && [data]) || [],
+    data: { ...data },
   })),
+
   on(
     WatchListActions.addMovieSuccess,
     WatchListActions.updateMovieSuccess,
@@ -54,15 +59,21 @@ const watchListReducer = createReducer(
       ...state,
       isLoading: false,
       errorMessage: undefined,
-      data: (data && [...state.data, ...[data]]) || state.data,
+      data: { ...state.data, ...{ [data.id]: data } },
     })
   ),
-  on(WatchListActions.deleteMovieSuccess, (state) => ({
-    ...state,
-    isLoading: false,
-    errorMessage: undefined,
-    datas: undefined,
-  })),
+
+  on(WatchListActions.deleteMovieSuccess, (state, { id }) => {
+    const updatedData = { ...state.data };
+    delete updatedData[id];
+
+    return {
+      ...state,
+      isLoading: false,
+      errorMessage: undefined,
+      data: { ...updatedData },
+    };
+  }),
 
   on(
     WatchListActions.addMovieFail,
