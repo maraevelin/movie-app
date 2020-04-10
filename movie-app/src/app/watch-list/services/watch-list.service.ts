@@ -75,8 +75,8 @@ export class WatchListService {
     );
   }
 
-  addMovie(data: WatchListData): Observable<WatchListDataDetailed> {
-    data = { id: data.id, isFinished: data.isFinished };
+  addMovie(id: string): Observable<WatchListDataDetailed> {
+    const data = { id, isFinished: false };
 
     return from(
       this.angularFirestore
@@ -109,8 +109,8 @@ export class WatchListService {
     });
   }
 
-  updateMovie(data: WatchListData): Observable<void> {
-    data = { id: data.id, isFinished: data.isFinished };
+  updateMovie(dataDetailed: WatchListDataDetailed): Observable<void> {
+    const data = { id: dataDetailed.id, isFinished: dataDetailed.isFinished };
 
     return from(
       this.angularFirestore.firestore
@@ -122,10 +122,11 @@ export class WatchListService {
 
   deleteMovie(id: string): Observable<void> {
     if (id === undefined) {
-      throw Error('Error deleting movie, id not specified!');
+      throw Error('Error deleting movie!');
     }
 
     const FieldValue = firebase.firestore.FieldValue;
+
     return from(
       this.angularFirestore.firestore
         .collection(environment.firebaseConfig.testCollection)

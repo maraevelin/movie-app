@@ -61,7 +61,7 @@
       <!-- Column: remove -->
       <ng-container matColumnDef="options">
         <th mat-header-cell mat-sort-header *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let element" (click)="onRemove(element.id)">
+        <td mat-cell *matCellDef="let element" (click)="onRemove(element)">
           <i class="material-icons md-24 md-inactive md-trashcan">delete</i>
         </td>
       </ng-container>

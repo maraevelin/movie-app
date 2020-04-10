@@ -10,6 +10,11 @@ export const selectIsLoading = createSelector(
   (state: WatchListStore.WatchListState) => state.isLoading
 );
 
+export const selectIsUpdating = createSelector(
+  selectWatchList,
+  (state: WatchListStore.WatchListState) => state.isUpdating
+);
+
 export const selectErrorMessage = createSelector(
   selectWatchList,
   (state: WatchListStore.WatchListState) => state.errorMessage

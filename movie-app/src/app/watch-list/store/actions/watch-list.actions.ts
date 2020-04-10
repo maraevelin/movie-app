@@ -1,6 +1,5 @@
 import { createAction, props } from '@ngrx/store';
 import { WatchListDataDetailed } from '../../models/watch-list-data-detailed.model';
-import { WatchListData } from '../../models/watch-list-data.model';
 
 export const reset = createAction('[WATCH LIST] Reset');
 
@@ -16,7 +15,7 @@ export const loadFail = createAction(
 
 export const addMovie = createAction(
   '[WATCH LIST] Add',
-  props<{ data: WatchListData }>()
+  props<{ id: string }>()
 );
 export const addMovieSuccess = createAction(
   '[WATCH LIST] Add Success',
@@ -29,11 +28,11 @@ export const addMovieFail = createAction(
 
 export const updateMovie = createAction(
   '[WATCH LIST] Update',
-  props<{ data: WatchListData }>()
+  props<{ data: WatchListDataDetailed }>()
 );
 export const updateMovieSuccess = createAction(
   '[WATCH LIST] Update Success',
-  props<{ data: WatchListData }>()
+  props<{ data: WatchListDataDetailed }>()
 );
 export const updateMovieFail = createAction(
   '[WATCH LIST] Update Fail',
@@ -42,11 +41,11 @@ export const updateMovieFail = createAction(
 
 export const deleteMovie = createAction(
   '[WATCH LIST] Delete',
-  props<{ id: string }>()
+  props<{ id: string; title: string }>()
 );
 export const deleteMovieSuccess = createAction(
   '[WATCH LIST] Delete Success',
-  props<{ id: string }>()
+  props<{ id: string; title: string }>()
 );
 export const deleteMovieFail = createAction(
   '[WATCH LIST] Delete Fail',

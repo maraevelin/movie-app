@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, map, switchMap, concatMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import { WatchListService } from '../../services/watch-list.service';
@@ -53,11 +53,11 @@ export class WatchListEffects {
           }),
           catchError((error) =>
             of(
+              WatchListActions.loadFail({ error }),
               SnackBarActions.notify({
                 message: error,
                 cssClass: SnackBarActions.SnackBarCSS.error,
-              }),
-              WatchListActions.loadFail({ error })
+              })
             )
           )
         )
@@ -69,19 +69,25 @@ export class WatchListEffects {
     this.actions$.pipe(
       ofType(WatchListActions.addMovie),
       switchMap((action) => {
-        return this.service.addMovie(action.data).pipe(
-          map((dataDetailed) =>
-            WatchListActions.addMovieSuccess({
-              data: dataDetailed,
-            })
-          ),
+        return this.service.addMovie(action.id).pipe(
+          concatMap((dataDetailed) => {
+            return [
+              WatchListActions.addMovieSuccess({
+                data: dataDetailed,
+              }),
+              SnackBarActions.notify({
+                message: `${dataDetailed.title} has been added to your watch list`,
+                cssClass: SnackBarActions.SnackBarCSS.success,
+              }),
+            ];
+          }),
           catchError((error) =>
             of(
+              WatchListActions.addMovieFail({ error }),
               SnackBarActions.notify({
                 message: error,
                 cssClass: SnackBarActions.SnackBarCSS.error,
-              }),
-              WatchListActions.addMovieFail({ error })
+              })
             )
           )
         );
@@ -93,16 +99,26 @@ export class WatchListEffects {
     this.actions$.pipe(
       ofType(WatchListActions.updateMovie),
       switchMap((action) => {
-        const data = action.data;
+        let data = action.data;
+        data = { ...data, isFinished: !data.isFinished };
+
         return this.service.updateMovie(data).pipe(
-          map(() => WatchListActions.updateMovieSuccess({ data })),
+          concatMap(() => {
+            return [
+              WatchListActions.updateMovieSuccess({ data }),
+              SnackBarActions.notify({
+                message: `${action.data.title} has been updated`,
+                cssClass: SnackBarActions.SnackBarCSS.success,
+              }),
+            ];
+          }),
           catchError((error) =>
             of(
+              WatchListActions.updateMovieFail({ error }),
               SnackBarActions.notify({
                 message: error,
                 cssClass: SnackBarActions.SnackBarCSS.error,
-              }),
-              WatchListActions.updateMovieFail({ error })
+              })
             )
           )
         );
@@ -114,16 +130,24 @@ export class WatchListEffects {
     this.actions$.pipe(
       ofType(WatchListActions.deleteMovie),
       switchMap((action) => {
-        const id = action.id;
-        return this.service.deleteMovie(id).pipe(
-          map(() => WatchListActions.deleteMovieSuccess({ id })),
+        return this.service.deleteMovie(action.id).pipe(
+          concatMap(() => [
+            WatchListActions.deleteMovieSuccess({
+              id: action.id,
+              title: action.title,
+            }),
+            SnackBarActions.notify({
+              message: `${action.title} has removed from your watch list`,
+              cssClass: SnackBarActions.SnackBarCSS.success,
+            }),
+          ]),
           catchError((error) =>
             of(
+              WatchListActions.deleteMovieFail({ error }),
               SnackBarActions.notify({
                 message: error,
                 cssClass: SnackBarActions.SnackBarCSS.error,
-              }),
-              WatchListActions.deleteMovieFail({ error })
+              })
             )
           )
         );

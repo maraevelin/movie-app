@@ -17,7 +17,6 @@ import { ConfirmationDialogComponent } from 'src/app/shared/components/confirmat
 import { ConfirmationDialogData } from 'src/app/shared/models/confirmation-dialog.model';
 import * as WatchListStore from '../../../watch-list/store/';
 import { WatchListDataDetailed } from 'src/app/watch-list/models/watch-list-data-detailed.model';
-import { WatchListData } from 'src/app/watch-list/models/watch-list-data.model';
 
 @Component({
   selector: 'app-movie',
@@ -70,11 +69,7 @@ export class MovieComponent implements OnInit {
     if (!this.isSignedIn) {
       this.confirmRedirection();
     } else {
-      const data: WatchListData = {
-        id: movie.imdbId,
-        isFinished: false,
-      };
-      this.store.dispatch(WatchListStore.addMovie({ data }));
+      this.store.dispatch(WatchListStore.addMovie({ id: movie.imdbId }));
     }
   }
 
@@ -82,7 +77,9 @@ export class MovieComponent implements OnInit {
     if (!this.isSignedIn) {
       this.confirmRedirection();
     } else {
-      this.store.dispatch(WatchListStore.deleteMovie({ id: movie.imdbId }));
+      this.store.dispatch(
+        WatchListStore.deleteMovie({ id: movie.imdbId, title: movie.title })
+      );
     }
   }
 

@@ -4,12 +4,14 @@ import { WatchListDataDetailed } from '../../models/watch-list-data-detailed.mod
 
 export interface WatchListState {
   readonly isLoading: boolean;
+  readonly isUpdating: boolean;
   readonly errorMessage: string | undefined;
   readonly data: Record<string, WatchListDataDetailed>;
 }
 
 export const initialState: WatchListState = {
   isLoading: false,
+  isUpdating: false,
   errorMessage: undefined,
   data: {},
 };
@@ -26,6 +28,7 @@ const watchListReducer = createReducer(
   on(WatchListActions.load, (state) => ({
     ...state,
     isLoading: true,
+    isUpdating: true,
     errorMessage: undefined,
     data: {},
   })),
@@ -36,7 +39,7 @@ const watchListReducer = createReducer(
     WatchListActions.deleteMovie,
     (state) => ({
       ...state,
-      isLoading: true,
+      isUpdating: true,
       errorMessage: undefined,
     })
   ),
@@ -44,13 +47,14 @@ const watchListReducer = createReducer(
   on(WatchListActions.loadSuccess, (state, { data }) => ({
     ...state,
     isLoading: false,
+    isUpdating: false,
     errorMessage: undefined,
     data: { ...data },
   })),
 
   on(WatchListActions.addMovieSuccess, (state, { data }) => ({
     ...state,
-    isLoading: false,
+    isUpdating: false,
     errorMessage: undefined,
     data: { ...state.data, ...{ [data.id]: data } },
   })),
@@ -60,7 +64,7 @@ const watchListReducer = createReducer(
     const updatedData = { ...state.data[id], isFinished: data.isFinished };
     return {
       ...state,
-      isLoading: false,
+      isUpdating: false,
       errorMessage: undefined,
       data: { ...state.data, ...{ [id]: updatedData } },
     };
@@ -72,7 +76,7 @@ const watchListReducer = createReducer(
 
     return {
       ...state,
-      isLoading: false,
+      isUpdating: false,
       errorMessage: undefined,
       data: { ...updatedData },
     };
@@ -84,7 +88,7 @@ const watchListReducer = createReducer(
     WatchListActions.deleteMovieFail,
     (state, { error }) => ({
       ...state,
-      isLoading: false,
+      isUpdating: false,
       errorMessage: error.message,
     })
   )

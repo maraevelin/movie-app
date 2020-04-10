@@ -17,7 +17,6 @@ import { WatchListDataDetailed } from '../../models/watch-list-data-detailed.mod
 import { AppState } from 'src/app/core/store';
 
 import * as WatchListStore from '../../store';
-import { WatchListData } from '../../models/watch-list-data.model';
 
 @Component({
   selector: 'app-watch-list',
@@ -91,17 +90,14 @@ export class WatchListComponent implements OnInit {
     }
   }
 
-  toggleFinished(movie: WatchListDataDetailed): void {
-    const data: WatchListData = {
-      id: movie.id,
-      isFinished: !movie.isFinished,
-    };
+  toggleFinished(data: WatchListDataDetailed): void {
     this.store.dispatch(WatchListStore.updateMovie({ data }));
   }
 
-  onRemove(id: string): void {
-    console.log('Removing movie by id: ', id);
-    this.store.dispatch(WatchListStore.deleteMovie({ id }));
+  onRemove(data: WatchListDataDetailed): void {
+    this.store.dispatch(
+      WatchListStore.deleteMovie({ id: data.id, title: data.title })
+    );
   }
 
   onNavigateToMovie(imdbId: string): void {
