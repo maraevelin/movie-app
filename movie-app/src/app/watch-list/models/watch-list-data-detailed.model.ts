@@ -1,7 +1,7 @@
-export interface WatchList2DataDetailed {
+export interface WatchListDataDetailed {
   id: string;
   isFinished: boolean;
-  title: string | undefined;
-  posterUrl: string | undefined;
-  plot: string | undefined;
+  title: string;
+  posterUrl: string;
+  plot: string;
 }

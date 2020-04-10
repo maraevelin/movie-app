@@ -1,4 +1,4 @@
-export interface WatchList2Data {
+export interface WatchListData {
   id: string;
   isFinished: boolean;
 }
