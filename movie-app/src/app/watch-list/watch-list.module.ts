@@ -4,6 +4,6 @@ import { WatchListRoutingModule } from './watch-list-routing.module';
 
 @NgModule({
   declarations: [],
-  imports: [CommonModule, WatchListRoutingModule]
+  imports: [CommonModule, WatchListRoutingModule],
 })
 export class WatchListModule {}
