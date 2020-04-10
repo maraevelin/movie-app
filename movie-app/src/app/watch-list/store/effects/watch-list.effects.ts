@@ -107,7 +107,7 @@ export class WatchListEffects {
             return [
               WatchListActions.updateMovieSuccess({ data }),
               SnackBarActions.notify({
-                message: `${action.data.title} has been updated`,
+                message: `${action.data.title}'s status has been updated`,
                 cssClass: SnackBarActions.SnackBarCSS.success,
               }),
             ];
@@ -137,7 +137,7 @@ export class WatchListEffects {
               title: action.title,
             }),
             SnackBarActions.notify({
-              message: `${action.title} has removed from your watch list`,
+              message: `${action.title} has been removed from your watch list`,
               cssClass: SnackBarActions.SnackBarCSS.success,
             }),
           ]),
