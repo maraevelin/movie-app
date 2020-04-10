@@ -1,18 +1,6 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import * as WatchListActions from '../actions/watch-list.actions';
-
-export interface WatchList2Data {
-  id: string;
-  isFinished: boolean;
-}
-
-export interface WatchList2DataDetailed {
-  id: string;
-  isFinished: boolean;
-  title: string | undefined;
-  posterUrl: string | undefined;
-  plot: string | undefined;
-}
+import { WatchList2DataDetailed } from '../../models/watch-list-data-detailed.model';
 
 export interface WatchListState {
   readonly isLoading: boolean;

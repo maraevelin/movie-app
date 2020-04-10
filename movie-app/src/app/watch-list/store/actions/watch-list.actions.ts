@@ -1,8 +1,6 @@
 import { createAction, props } from '@ngrx/store';
-import {
-  WatchList2DataDetailed,
-  WatchList2Data,
-} from '../reducer/watch-list.reducer';
+import { WatchList2DataDetailed } from '../../models/watch-list-data-detailed.model';
+import { WatchList2Data } from '../../models/watch-list-data.model';
 
 export const reset = createAction('[WATCH LIST] Reset');
 
