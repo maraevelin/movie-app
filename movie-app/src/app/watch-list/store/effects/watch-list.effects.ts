@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 
-import { WatchList2Service } from '../../services/watch-list-2.service';
+import { WatchListService } from '../../services/watch-list.service';
 
 import * as WatchListActions from '../actions/watch-list.actions';
 import * as AuthActions from '../../../auth/store/actions/auth.actions';
@@ -11,7 +11,7 @@ import * as SnackBarActions from '../../../core/store/snack-bar/actions/snack-ba
 
 @Injectable()
 export class WatchListEffects {
-  constructor(private actions$: Actions, private service: WatchList2Service) {}
+  constructor(private actions$: Actions, private service: WatchListService) {}
 
   loadOnSignInSuccess$ = createEffect(() =>
     this.actions$.pipe(

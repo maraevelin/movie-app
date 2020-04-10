@@ -1,11 +1,11 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import * as WatchListActions from '../actions/watch-list.actions';
-import { WatchList2DataDetailed } from '../../models/watch-list-data-detailed.model';
+import { WatchListDataDetailed } from '../../models/watch-list-data-detailed.model';
 
 export interface WatchListState {
   readonly isLoading: boolean;
   readonly errorMessage: string | undefined;
-  readonly data: Record<string, WatchList2DataDetailed>;
+  readonly data: Record<string, WatchListDataDetailed>;
 }
 
 export const initialState: WatchListState = {

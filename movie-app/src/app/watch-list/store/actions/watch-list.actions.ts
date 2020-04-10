@@ -1,13 +1,13 @@
 import { createAction, props } from '@ngrx/store';
-import { WatchList2DataDetailed } from '../../models/watch-list-data-detailed.model';
-import { WatchList2Data } from '../../models/watch-list-data.model';
+import { WatchListDataDetailed } from '../../models/watch-list-data-detailed.model';
+import { WatchListData } from '../../models/watch-list-data.model';
 
 export const reset = createAction('[WATCH LIST] Reset');
 
 export const load = createAction('[WATCH LIST] Load');
 export const loadSuccess = createAction(
   '[WATCH LIST] Load Success',
-  props<{ data: Record<string, WatchList2DataDetailed> }>()
+  props<{ data: Record<string, WatchListDataDetailed> }>()
 );
 export const loadFail = createAction(
   '[WATCH LIST] Load Fail',
@@ -16,11 +16,11 @@ export const loadFail = createAction(
 
 export const addMovie = createAction(
   '[WATCH LIST] Add',
-  props<{ data: WatchList2Data }>()
+  props<{ data: WatchListData }>()
 );
 export const addMovieSuccess = createAction(
   '[WATCH LIST] Add Success',
-  props<{ data: WatchList2DataDetailed }>()
+  props<{ data: WatchListDataDetailed }>()
 );
 export const addMovieFail = createAction(
   '[WATCH LIST] Add Fail',
@@ -29,11 +29,11 @@ export const addMovieFail = createAction(
 
 export const updateMovie = createAction(
   '[WATCH LIST] Update',
-  props<{ data: WatchList2Data }>()
+  props<{ data: WatchListData }>()
 );
 export const updateMovieSuccess = createAction(
   '[WATCH LIST] Update Success',
-  props<{ data: WatchList2Data }>()
+  props<{ data: WatchListData }>()
 );
 export const updateMovieFail = createAction(
   '[WATCH LIST] Update Fail',
