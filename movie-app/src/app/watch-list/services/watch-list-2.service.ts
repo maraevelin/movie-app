@@ -1,71 +1,109 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { Observable, from, forkJoin, of } from 'rxjs';
+import { concatMap, map } from 'rxjs/operators';
 import * as firebase from 'firebase/app';
-import { Observable, from } from 'rxjs';
-import { WatchList2Data } from '../store';
+
+import { WatchList2Data, WatchList2DataDetailed } from '../store';
 import { environment } from 'src/environments/environment';
+import { DetailedMovie } from 'src/app/movie/models/detailed-movie.model';
+import { OmdbApiService } from 'src/app/movie/services/omdb-api.service';
 
 @Injectable({ providedIn: 'root' })
 export class WatchList2Service {
   watchList = {};
   converter = {
-    toFirestore: (data: WatchList2Data): WatchList2Data => ({
-      id: data.id,
-      isFinished: data.isFinished,
-    }),
-    fromFirestore: (snapshot: any, options: any): WatchList2Data => {
+    toFirestore: (
+      data: Record<string, WatchList2Data>
+    ): Record<string, WatchList2Data> => data,
+    fromFirestore: (
+      snapshot: any,
+      options: any
+    ): Record<string, WatchList2Data> => {
       return snapshot.data(options);
     },
   };
 
-  constructor(private angularFirestore: AngularFirestore) {}
+  constructor(
+    private angularFirestore: AngularFirestore,
+    private omdbService: OmdbApiService
+  ) {}
 
-  // getDocument(docId: string): Promise<void> {
-  //   return this.angularFirestore.firestore
-  //     .collection(environment.firebaseConfig.testCollection)
-  //     .doc(environment.firebaseConfig.testDocument)
-  //     .withConverter(this.converter)
-  //     .get()
-  //     .then((doc) => {
-  //       if (!doc.exists) {
-  //         console.log('Document does not exist!');
-  //       } else {
-  //         const w2d = doc.data();
-
-  //         if (w2d !== undefined) {
-  //           const movies$: Observable<DetailedMovie>[] = [];
-  //           Object.keys(w2d).forEach((id) => {
-  //             if (!id.startsWith('imdbId')) {
-  //               movies$.push(this.omdbService.getMovieByImdbId(id, 'short'));
-  //             }
-  //           });
-
-  //           forkJoin(movies$).subscribe((result) => console.table(result));
-  //         }
-  //       }
-  //     })
-  //     .catch((e) => {
-  //       console.log('Error getting document: ', e);
-  //     });
-  // }
-
-  load(): Observable<firebase.firestore.DocumentSnapshot<WatchList2Data>> {
+  load(): Observable<Record<string, WatchList2DataDetailed>> {
     return from(
       this.angularFirestore.firestore
         .collection(environment.firebaseConfig.testCollection)
         .doc(environment.firebaseConfig.testDocument)
         .withConverter(this.converter)
         .get()
+    ).pipe(
+      concatMap((doc) => {
+        const data = doc.data();
+
+        if (data === undefined) {
+          throw Error('Error getting document: ');
+        }
+
+        const movies: Observable<DetailedMovie>[] = Object.keys(data)
+          .filter((id) => id.startsWith('tt'))
+          .map((id) => this.omdbService.getMovieByImdbId(id, 'short'));
+
+        return forkJoin(movies).pipe(
+          map((detailedMovies) =>
+            detailedMovies.reduce(
+              (
+                record: Record<string, WatchList2DataDetailed>,
+                detailedMovie
+              ) => {
+                const id = detailedMovie.imdbId as keyof WatchList2Data;
+                record[id] = {
+                  id,
+                  isFinished: data[id].isFinished,
+                  title: detailedMovie.title,
+                  posterUrl: detailedMovie.posterUrl,
+                  plot: detailedMovie.plot,
+                };
+
+                return record;
+              },
+              {}
+            )
+          )
+        );
+      })
     );
   }
 
-  addMovie(data: WatchList2Data): Observable<void> {
+  addMovie(data: WatchList2Data): Observable<WatchList2DataDetailed> {
     return from(
       this.angularFirestore
         .collection(environment.firebaseConfig.testCollection)
         .doc(environment.firebaseConfig.testDocument)
         .set({ [data.id]: data }, { merge: true })
-    );
+    ).pipe(() => {
+      if (data.id.startsWith('tt')) {
+        return this.omdbService.getMovieByImdbId(data.id, 'short').pipe(
+          concatMap((detailedMovie) =>
+            of({
+              id: data.id,
+              isFinished: data.isFinished,
+              title: detailedMovie.title,
+              plot: detailedMovie.plot,
+              posterUrl: detailedMovie.posterUrl,
+            })
+          )
+        );
+      }
+      const now = new Date();
+      const timestamp = `${now.getFullYear()}.${now.getMonth()}.${now.getDay()}. ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
+      return of({
+        id: data.id,
+        isFinished: data.isFinished,
+        title: 'testTitle' + timestamp,
+        plot: 'testPlot',
+        posterUrl: 'testPosterUrl',
+      });
+    });
   }
 
   updateMovie(data: WatchList2Data): Observable<void> {

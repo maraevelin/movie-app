@@ -1,12 +1,15 @@
 import { createAction, props } from '@ngrx/store';
-import { WatchList2Data } from '../reducer/watch-list.reducer';
+import {
+  WatchList2DataDetailed,
+  WatchList2Data,
+} from '../reducer/watch-list.reducer';
 
 export const reset = createAction('[WATCH LIST] Reset');
 
 export const load = createAction('[WATCH LIST] Load');
 export const loadSuccess = createAction(
   '[WATCH LIST] Load Success',
-  props<{ data: WatchList2Data | undefined }>()
+  props<{ data: Record<string, WatchList2DataDetailed> }>()
 );
 export const loadFail = createAction(
   '[WATCH LIST] Load Fail',
@@ -19,7 +22,7 @@ export const addMovie = createAction(
 );
 export const addMovieSuccess = createAction(
   '[WATCH LIST] Add Success',
-  props<{ data: WatchList2Data }>()
+  props<{ data: WatchList2DataDetailed }>()
 );
 export const addMovieFail = createAction(
   '[WATCH LIST] Add Fail',

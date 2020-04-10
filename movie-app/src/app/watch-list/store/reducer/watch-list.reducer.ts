@@ -6,10 +6,18 @@ export interface WatchList2Data {
   isFinished: boolean;
 }
 
+export interface WatchList2DataDetailed {
+  id: string;
+  isFinished: boolean;
+  title: string | undefined;
+  posterUrl: string | undefined;
+  plot: string | undefined;
+}
+
 export interface WatchListState {
   readonly isLoading: boolean;
   readonly errorMessage: string | undefined;
-  readonly data: Record<string, WatchList2Data>;
+  readonly data: Record<string, WatchList2DataDetailed>;
 }
 
 export const initialState: WatchListState = {
@@ -52,16 +60,23 @@ const watchListReducer = createReducer(
     data: { ...data },
   })),
 
-  on(
-    WatchListActions.addMovieSuccess,
-    WatchListActions.updateMovieSuccess,
-    (state, { data }) => ({
+  on(WatchListActions.addMovieSuccess, (state, { data }) => ({
+    ...state,
+    isLoading: false,
+    errorMessage: undefined,
+    data: { ...state.data, ...{ [data.id]: data } },
+  })),
+
+  on(WatchListActions.updateMovieSuccess, (state, { data }) => {
+    const id = data.id;
+    const updatedData = { ...state.data[id], isFinished: data.isFinished };
+    return {
       ...state,
       isLoading: false,
       errorMessage: undefined,
-      data: { ...state.data, ...{ [data.id]: data } },
-    })
-  ),
+      data: { ...state.data, ...{ [id]: updatedData } },
+    };
+  }),
 
   on(WatchListActions.deleteMovieSuccess, (state, { id }) => {
     const updatedData = { ...state.data };

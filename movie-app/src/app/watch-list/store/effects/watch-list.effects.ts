@@ -48,7 +48,9 @@ export class WatchListEffects {
       ofType(WatchListActions.load),
       switchMap(() =>
         this.service.load().pipe(
-          map((data) => WatchListActions.loadSuccess({ data: data.data() })),
+          map((data) => {
+            return WatchListActions.loadSuccess({ data });
+          }),
           catchError((error) =>
             of(
               SnackBarActions.notify({
@@ -68,9 +70,9 @@ export class WatchListEffects {
       ofType(WatchListActions.addMovie),
       switchMap((action) => {
         return this.service.addMovie(action.data).pipe(
-          map(() =>
+          map((dataDetailed) =>
             WatchListActions.addMovieSuccess({
-              data: action.data,
+              data: dataDetailed,
             })
           ),
           catchError((error) =>
