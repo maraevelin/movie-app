@@ -11,7 +11,7 @@ import { selectUser } from '../../auth/store/selectors/auth.selectors';
 import { WatchListMovie } from '../models/watch-list-movie.model';
 import { Observable, forkJoin } from 'rxjs';
 import { DetailedMovie } from '../../movie/models/detailed-movie.model';
-import { notify } from '../../core/store/snack-bar';
+import { notify, SnackBarCSS } from '../../core/store/snack-bar';
 
 @Injectable({ providedIn: 'root' })
 export class WatchListService {
@@ -24,19 +24,19 @@ export class WatchListService {
     private store: Store<AppState>
   ) {
     this.store.select(selectUser).subscribe({
-      next: user => {
+      next: (user) => {
         if (user) {
           this.firestore
             .collection$()
             .pipe(
-              tap(watchList => {
+              tap((watchList) => {
                 if (!watchList || !watchList.length) {
                   this.watchListStore.patch(
                     {
                       isLoading: false,
                       isUpdated: false,
                       movies: {},
-                      errorMessage: undefined
+                      errorMessage: undefined,
                     },
                     `${this.storeId} collection subscription`
                   );
@@ -45,20 +45,20 @@ export class WatchListService {
 
                   const detailedMovies$: Observable<DetailedMovie>[] = [];
 
-                  watchList.forEach(movie => {
+                  watchList.forEach((movie) => {
                     collection[movie.id] = new WatchListMovie(movie);
                     detailedMovies$.push(
                       this.omdbService.getMovieByImdbId(movie.id, 'short')
                     );
                   });
 
-                  forkJoin(detailedMovies$).subscribe(result => {
-                    result.forEach(movie => {
+                  forkJoin(detailedMovies$).subscribe((result) => {
+                    result.forEach((movie) => {
                       collection[movie.imdbId] = {
                         ...collection[movie.imdbId],
                         title: movie.title,
                         posterUrl: movie.posterUrl,
-                        plot: movie.plot
+                        plot: movie.plot,
                       };
                     });
 
@@ -67,7 +67,7 @@ export class WatchListService {
                         isLoading: false,
                         isUpdated: false,
                         movies: collection,
-                        errorMessage: undefined
+                        errorMessage: undefined,
                       },
                       `${this.storeId} collection subscription`
                     );
@@ -78,8 +78,8 @@ export class WatchListService {
             .subscribe();
         }
       },
-      error: error => console.log(error),
-      complete: () => console.log('user$ subscription complete')
+      error: (error) => console.log(error),
+      complete: () => console.log('user$ subscription complete'),
     });
   }
 
@@ -103,7 +103,7 @@ export class WatchListService {
       await this.firestore.updateDoc({
         id: movie.imdbId,
         isFinished: movie.isFinished,
-        recommendation: movie.recommendation || ''
+        recommendation: movie.recommendation || '',
       });
       return this.updateStateOnSuccess(event);
     } catch (error) {
@@ -128,7 +128,7 @@ export class WatchListService {
       {
         isLoading: true,
         isUpdated: false,
-        errorMessage: undefined
+        errorMessage: undefined,
       },
       `${this.storeId} ${event}`
     );
@@ -138,7 +138,7 @@ export class WatchListService {
     this.watchListStore.patch(
       {
         isLoading: false,
-        isUpdated: true
+        isUpdated: true,
       },
       `${this.storeId} ${event} success`
     );
@@ -146,7 +146,7 @@ export class WatchListService {
     setTimeout(() => {
       this.watchListStore.patch(
         {
-          isUpdated: false
+          isUpdated: false,
         },
         `${this.storeId} ${event} reset updated status`
       );
@@ -155,13 +155,13 @@ export class WatchListService {
 
   private updateStateOnFail(error: Error, event: string) {
     this.store.dispatch(
-      notify({ message: error.message, cssClass: 'snack-bar-error' })
+      notify({ message: error.message, cssClass: SnackBarCSS.error })
     );
 
     this.watchListStore.patch(
       {
         isLoading: false,
-        errorMessage: error.message
+        errorMessage: error.message,
       },
       `${this.storeId} ${event} fail`
     );

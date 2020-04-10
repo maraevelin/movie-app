@@ -14,10 +14,11 @@ import { Credentials } from '../../models/credentials.model';
 import { User } from '../../models/user.model';
 import { BlankComponent } from 'src/app/core/components/blank/blank.component';
 import { Location } from '@angular/common';
+import { SnackBarCSS } from '../../../core/store/snack-bar/';
 
 const credentials: Credentials = {
   email: 'user@domain.com',
-  password: 'password'
+  password: 'password',
 };
 
 const user: User = { id: 'id', email: 'user@domain.com' };
@@ -34,8 +35,8 @@ describe('AuthEffects', () => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule.withRoutes([
-          { path: '**', component: BlankComponent }
-        ])
+          { path: '**', component: BlankComponent },
+        ]),
       ],
       providers: [
         provideMockStore({}),
@@ -44,13 +45,13 @@ describe('AuthEffects', () => {
           useValue: {
             signUp: jest.fn(),
             signIn: jest.fn(),
-            signOut: jest.fn()
-          }
+            signOut: jest.fn(),
+          },
         },
         AuthStore.AuthEffects,
-        provideMockActions(() => actions$)
+        provideMockActions(() => actions$),
       ],
-      declarations: [BlankComponent]
+      declarations: [BlankComponent],
     });
 
     actions$ = TestBed.get<Actions>(Actions);
@@ -71,7 +72,7 @@ describe('AuthEffects', () => {
 
       const notification = SnackBarStore.notify({
         message: 'Your account has been created',
-        cssClass: 'snack-bar-success'
+        cssClass: SnackBarCSS.success,
       });
       const outcome = AuthStore.signUpSuccess({ credentials });
 
@@ -107,10 +108,10 @@ describe('AuthEffects', () => {
 
       const metadata = {
         user: { uid: user.id, email: user.email },
-        returnUrl: undefined
+        returnUrl: undefined,
       };
       const response$ = cold('-a', {
-        a: { user: metadata.user, returnUrl: metadata.returnUrl }
+        a: { user: metadata.user, returnUrl: metadata.returnUrl },
       });
       authService.signIn = jest.fn(() => response$);
 

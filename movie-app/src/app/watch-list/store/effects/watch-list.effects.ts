@@ -21,7 +21,7 @@ export class WatchListEffects {
         of(
           SnackBarActions.notify({
             message: error,
-            cssClass: 'snack-bar-error',
+            cssClass: SnackBarActions.SnackBarCSS.error,
           })
         )
       )
@@ -36,7 +36,7 @@ export class WatchListEffects {
         of(
           SnackBarActions.notify({
             message: error,
-            cssClass: 'snack-bar-error',
+            cssClass: SnackBarActions.SnackBarCSS.error,
           })
         )
       )
@@ -53,7 +53,7 @@ export class WatchListEffects {
             of(
               SnackBarActions.notify({
                 message: error,
-                cssClass: 'snack-bar-error',
+                cssClass: SnackBarActions.SnackBarCSS.error,
               }),
               WatchListActions.loadFail({ error })
             )
@@ -77,7 +77,7 @@ export class WatchListEffects {
             of(
               SnackBarActions.notify({
                 message: error,
-                cssClass: 'snack-bar-error',
+                cssClass: SnackBarActions.SnackBarCSS.error,
               }),
               WatchListActions.addMovieFail({ error })
             )
@@ -98,7 +98,7 @@ export class WatchListEffects {
             of(
               SnackBarActions.notify({
                 message: error,
-                cssClass: 'snack-bar-error',
+                cssClass: SnackBarActions.SnackBarCSS.error,
               }),
               WatchListActions.updateMovieFail({ error })
             )
@@ -119,7 +119,7 @@ export class WatchListEffects {
             of(
               SnackBarActions.notify({
                 message: error,
-                cssClass: 'snack-bar-error',
+                cssClass: SnackBarActions.SnackBarCSS.error,
               }),
               WatchListActions.deleteMovieFail({ error })
             )

@@ -15,21 +15,21 @@ export class AuthEffects {
   signUp$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.signUp),
-      switchMap(action => {
+      switchMap((action) => {
         return this.service.signUp(action.credentials).pipe(
           switchMap(() => {
             return [
               SnackBarActions.notify({
                 message: 'Your account has been created',
-                cssClass: 'snack-bar-success'
+                cssClass: SnackBarActions.SnackBarCSS.success,
               }),
               AuthActions.signUpSuccess({
                 credentials: action.credentials,
-                returnUrl: action.returnUrl
-              })
+                returnUrl: action.returnUrl,
+              }),
             ];
           }),
-          catchError(error => of(AuthActions.signUpFail({ error })))
+          catchError((error) => of(AuthActions.signUpFail({ error })))
         );
       })
     )
@@ -38,15 +38,15 @@ export class AuthEffects {
   signIn$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.signIn),
-      switchMap(action => {
+      switchMap((action) => {
         return this.service.signIn(action.credentials).pipe(
-          map(response => {
+          map((response) => {
             return AuthActions.signInSuccess({
               user: new User(response),
-              returnUrl: action.returnUrl
+              returnUrl: action.returnUrl,
             });
           }),
-          catchError(error => of(AuthActions.signInFail({ error })))
+          catchError((error) => of(AuthActions.signInFail({ error })))
         );
       })
     )
@@ -58,7 +58,7 @@ export class AuthEffects {
       switchMap(() =>
         this.service.signOut().pipe(
           map(() => AuthActions.signOutSuccess()),
-          catchError(error => of(AuthActions.signOutFail({ error })))
+          catchError((error) => of(AuthActions.signOutFail({ error })))
         )
       )
     )
@@ -67,10 +67,10 @@ export class AuthEffects {
   automaticSignIn$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.signUpSuccess),
-      map(action =>
+      map((action) =>
         AuthActions.signIn({
           credentials: action.credentials,
-          returnUrl: action.returnUrl
+          returnUrl: action.returnUrl,
         })
       )
     )
@@ -80,7 +80,7 @@ export class AuthEffects {
     () =>
       this.actions$.pipe(
         ofType(AuthActions.signInSuccess),
-        tap(action => {
+        tap((action) => {
           const returnUrl: string = action.returnUrl || '/movies';
           this.ngZone.run(() => {
             this.router.navigate([returnUrl]);

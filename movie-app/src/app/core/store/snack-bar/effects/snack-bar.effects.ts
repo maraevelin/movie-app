@@ -12,10 +12,10 @@ export class SnackBarEffects {
     () =>
       this.actions$.pipe(
         ofType(SnackBarActions.notify),
-        tap(action => {
+        tap((action) => {
           this.snackBar.open(action.message, undefined, {
             panelClass: [action.cssClass],
-            duration: 3000
+            duration: 3000,
           });
         })
       ),

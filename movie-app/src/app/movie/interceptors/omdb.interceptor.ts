@@ -3,7 +3,7 @@ import {
   HttpEvent,
   HttpRequest,
   HttpHandler,
-  HttpResponse
+  HttpResponse,
 } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -11,7 +11,7 @@ import { Injectable } from '@angular/core';
 import { tap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../core/store';
-import { notify } from '../../core/store/snack-bar';
+import { notify, SnackBarCSS } from '../../core/store/snack-bar';
 
 @Injectable()
 export class OmdbInterceptor implements HttpInterceptor {
@@ -29,18 +29,18 @@ export class OmdbInterceptor implements HttpInterceptor {
         params: req.params.set(
           environment.omdb.paramApiKey,
           environment.omdb.apiKey
-        )
+        ),
       });
     }
 
     return next.handle(request).pipe(
-      tap(event => {
+      tap((event) => {
         if (event instanceof HttpResponse) {
           const message = event.body.Error;
 
           if (message) {
             this.store.dispatch(
-              notify({ message, cssClass: 'snack-bar-error' })
+              notify({ message, cssClass: SnackBarCSS.error })
             );
           }
 
