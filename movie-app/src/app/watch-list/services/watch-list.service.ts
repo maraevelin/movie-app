@@ -7,20 +7,20 @@ import * as firebase from 'firebase/app';
 import { environment } from 'src/environments/environment';
 import { DetailedMovie } from 'src/app/movie/models/detailed-movie.model';
 import { OmdbApiService } from 'src/app/movie/services/omdb-api.service';
-import { WatchList2Data } from '../models/watch-list-data.model';
-import { WatchList2DataDetailed } from '../models/watch-list-data-detailed.model';
+import { WatchListData } from '../models/watch-list-data.model';
+import { WatchListDataDetailed } from '../models/watch-list-data-detailed.model';
 
 @Injectable({ providedIn: 'root' })
-export class WatchList2Service {
+export class WatchListService {
   watchList = {};
   converter = {
     toFirestore: (
-      data: Record<string, WatchList2Data>
-    ): Record<string, WatchList2Data> => data,
+      data: Record<string, WatchListData>
+    ): Record<string, WatchListData> => data,
     fromFirestore: (
       snapshot: any,
       options: any
-    ): Record<string, WatchList2Data> => {
+    ): Record<string, WatchListData> => {
       return snapshot.data(options);
     },
   };
@@ -30,7 +30,7 @@ export class WatchList2Service {
     private omdbService: OmdbApiService
   ) {}
 
-  load(): Observable<Record<string, WatchList2DataDetailed>> {
+  load(): Observable<Record<string, WatchListDataDetailed>> {
     return from(
       this.angularFirestore.firestore
         .collection(environment.firebaseConfig.testCollection)
@@ -53,10 +53,10 @@ export class WatchList2Service {
           map((detailedMovies) =>
             detailedMovies.reduce(
               (
-                record: Record<string, WatchList2DataDetailed>,
+                record: Record<string, WatchListDataDetailed>,
                 detailedMovie
               ) => {
-                const id = detailedMovie.imdbId as keyof WatchList2Data;
+                const id = detailedMovie.imdbId as keyof WatchListData;
                 record[id] = {
                   id,
                   isFinished: data[id].isFinished,
@@ -75,7 +75,9 @@ export class WatchList2Service {
     );
   }
 
-  addMovie(data: WatchList2Data): Observable<WatchList2DataDetailed> {
+  addMovie(data: WatchListData): Observable<WatchListDataDetailed> {
+    data = { id: data.id, isFinished: data.isFinished };
+
     return from(
       this.angularFirestore
         .collection(environment.firebaseConfig.testCollection)
@@ -107,7 +109,9 @@ export class WatchList2Service {
     });
   }
 
-  updateMovie(data: WatchList2Data): Observable<void> {
+  updateMovie(data: WatchListData): Observable<void> {
+    data = { id: data.id, isFinished: data.isFinished };
+
     return from(
       this.angularFirestore.firestore
         .collection(environment.firebaseConfig.testCollection)
@@ -117,6 +121,10 @@ export class WatchList2Service {
   }
 
   deleteMovie(id: string): Observable<void> {
+    if (id === undefined) {
+      throw Error('Error deleting movie, id not specified!');
+    }
+
     const FieldValue = firebase.firestore.FieldValue;
     return from(
       this.angularFirestore.firestore
