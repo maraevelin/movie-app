@@ -1,8 +1,5 @@
 import { Component, OnInit, ViewChild, NgZone } from '@angular/core';
-import { Observable } from 'rxjs';
-import { WatchListService } from 'src/app/watch-list/services/watch-list.service';
-import { WatchListCollection } from 'src/app/watch-list/models/watch-list-collection.model';
-import { WatchListMovie } from 'src/app/watch-list/models/watch-list-movie.model';
+import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -11,11 +8,16 @@ import {
   state,
   style,
   transition,
-  animate
+  animate,
 } from '@angular/animations';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
 import { Column } from 'src/app/core/models/column.model';
-import { WatchListStore } from 'src/app/watch-list/services/watch-list.store.service';
-import { Router } from '@angular/router';
+import { WatchListDataDetailed } from '../../models/watch-list-data-detailed.model';
+import { AppState } from 'src/app/core/store';
+
+import * as WatchListStore from '../../store';
+import { WatchListData } from '../../models/watch-list-data.model';
 
 @Component({
   selector: 'app-watch-list',
@@ -32,9 +34,9 @@ import { Router } from '@angular/router';
       transition(
         'expanded <=> void',
         animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
-      )
-    ])
-  ]
+      ),
+    ]),
+  ],
 })
 export class WatchListComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator:
@@ -46,32 +48,31 @@ export class WatchListComponent implements OnInit {
   columnDef: Column[] = [
     { key: 'title', header: 'Title' },
     { key: 'finished', header: 'Finished' },
-    { key: '_', header: 'Options' }
+    { key: '_', header: 'Options' },
   ];
   dataSource = new MatTableDataSource();
-  expandedElement: WatchListMovie | undefined;
+  expandedElement: WatchListDataDetailed | undefined;
 
-  movies: WatchListMovie[] = [];
   isLoading$: Observable<boolean>;
-  isUpdated$: Observable<boolean>;
-  isEmpty$: Observable<boolean>;
-  errorMessage$: Observable<string | undefined>;
-  movies$: Observable<WatchListCollection>;
+  movies$: Observable<WatchListDataDetailed[]>;
 
   constructor(
-    private service: WatchListService,
-    private store: WatchListStore,
+    private store: Store<AppState>,
     private router: Router,
     private ngZone: NgZone
   ) {
-    this.isLoading$ = this.store.isLoading$;
-    this.isUpdated$ = this.store.isUpdated$;
-    this.isEmpty$ = this.store.isEmpty$;
-    this.errorMessage$ = this.store.errorMessage$;
-    this.movies$ = this.store.movies$;
+    this.isLoading$ = this.store.select(WatchListStore.selectIsLoading);
+    this.movies$ = this.store.select(WatchListStore.selectDataAsArray);
   }
 
   ngOnInit() {
+    this.movies$.subscribe({
+      next: (movies) => (this.dataSource.data = movies),
+      error: (error) => {
+        throw Error(error);
+      },
+    });
+
     if (this.paginator) {
       this.dataSource.paginator = this.paginator;
     }
@@ -79,34 +80,28 @@ export class WatchListComponent implements OnInit {
     if (this.sort) {
       this.dataSource.sort = this.sort;
       this.dataSource.filterPredicate = (
-        data: unknown | WatchListMovie,
+        data: unknown | WatchListDataDetailed,
         filter: string
       ) => {
         return (
           !filter ||
-          (data as WatchListMovie).title.toLowerCase().includes(filter)
+          (data as WatchListDataDetailed).title.toLowerCase().includes(filter)
         );
       };
     }
-
-    this.movies$.subscribe({
-      next: movies => {
-        this.movies = [];
-        Object.keys(movies).map(key => this.movies.push(movies[key]));
-        this.dataSource.data = this.movies;
-      },
-      error: error => console.log(error),
-      complete: () => console.log('movies$ subscription complete')
-    });
   }
 
-  toggleFinished(movie: WatchListMovie): void {
-    movie = { ...movie, isFinished: !movie.isFinished };
-    this.service.update(movie);
+  toggleFinished(movie: WatchListDataDetailed): void {
+    const data: WatchListData = {
+      id: movie.id,
+      isFinished: !movie.isFinished,
+    };
+    this.store.dispatch(WatchListStore.updateMovie({ data }));
   }
 
-  onRemove(imdbId: string): void {
-    this.service.remove(imdbId);
+  onRemove(id: string): void {
+    console.log('Removing movie by id: ', id);
+    this.store.dispatch(WatchListStore.deleteMovie({ id }));
   }
 
   onNavigateToMovie(imdbId: string): void {
