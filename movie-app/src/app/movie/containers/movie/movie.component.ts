@@ -2,22 +2,22 @@ import * as MovieSelectors from 'src/app/movie/store/movie/selectors/movie.selec
 
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { Component, OnInit, NgZone } from '@angular/core';
+import { Location } from '@angular/common';
+import { MatDialog } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
 
 import { AppState } from 'src/app/core/store';
 import { DetailedMovie } from '../../models/detailed-movie.model';
-import { Location } from '@angular/common';
-import { Observable } from 'rxjs';
-import { Store } from '@ngrx/store';
-import { User } from 'src/app/auth/models/user.model';
 import { getDetailed } from 'src/app/movie/store/movie/actions/movie.actions';
 import { selectUser } from 'src/app/auth/store/selectors/auth.selectors';
 import { AuthConstants } from 'src/app/auth/shared/auth.shared';
-import { WatchListService } from 'src/app/watch-list/services/watch-list.service';
-import { WatchListCollection } from 'src/app/watch-list/models/watch-list-collection.model';
-import { WatchListStore } from 'src/app/watch-list/services/watch-list.store.service';
-import { MatDialog } from '@angular/material/dialog';
+import { User } from 'src/app/auth/models/user.model';
 import { ConfirmationDialogComponent } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { ConfirmationDialogData } from 'src/app/shared/models/confirmation-dialog.model';
+import * as WatchListStore from '../../../watch-list/store/';
+import { WatchListDataDetailed } from 'src/app/watch-list/models/watch-list-data-detailed.model';
+import { WatchListData } from 'src/app/watch-list/models/watch-list-data.model';
 
 @Component({
   selector: 'app-movie',
@@ -31,13 +31,11 @@ export class MovieComponent implements OnInit {
   user$: Observable<User | undefined>;
   isSignedIn = false;
 
-  movies$: Observable<WatchListCollection>;
+  watchList$: Observable<Record<string, WatchListDataDetailed>>;
   isOnWatchList = false;
 
   constructor(
     private store: Store<AppState>,
-    private watchListStore: WatchListStore,
-    private service: WatchListService,
     private route: ActivatedRoute,
     private router: Router,
     private location: Location,
@@ -50,7 +48,7 @@ export class MovieComponent implements OnInit {
     this.isLoading$ = this.store.select(MovieSelectors.selectIsLoading);
 
     this.user$ = this.store.select(selectUser);
-    this.movies$ = this.watchListStore.movies$;
+    this.watchList$ = this.store.select(WatchListStore.selectData);
   }
 
   ngOnInit() {
@@ -58,10 +56,9 @@ export class MovieComponent implements OnInit {
       this.isSignedIn = !!user;
 
       if (this.isSignedIn) {
-        this.watchListStore.movies$.subscribe({
-          next: (movies) => {
-            this.isOnWatchList = movies.hasOwnProperty(this.id);
-          },
+        this.watchList$.subscribe({
+          next: (watchListMovies) =>
+            (this.isOnWatchList = watchListMovies.hasOwnProperty(this.id)),
         });
       } else {
         this.isOnWatchList = false;
@@ -73,11 +70,11 @@ export class MovieComponent implements OnInit {
     if (!this.isSignedIn) {
       this.confirmRedirection();
     } else {
-      this.service.create({
+      const data: WatchListData = {
         id: movie.imdbId,
         isFinished: false,
-        recommendation: '',
-      });
+      };
+      this.store.dispatch(WatchListStore.addMovie({ data }));
     }
   }
 
@@ -85,7 +82,7 @@ export class MovieComponent implements OnInit {
     if (!this.isSignedIn) {
       this.confirmRedirection();
     } else {
-      this.service.remove(movie.imdbId);
+      this.store.dispatch(WatchListStore.deleteMovie({ id: movie.imdbId }));
     }
   }
 
