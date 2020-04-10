@@ -4,10 +4,11 @@ import { Observable, from, forkJoin, of } from 'rxjs';
 import { concatMap, map } from 'rxjs/operators';
 import * as firebase from 'firebase/app';
 
-import { WatchList2Data, WatchList2DataDetailed } from '../store';
 import { environment } from 'src/environments/environment';
 import { DetailedMovie } from 'src/app/movie/models/detailed-movie.model';
 import { OmdbApiService } from 'src/app/movie/services/omdb-api.service';
+import { WatchList2Data } from '../models/watch-list-data.model';
+import { WatchList2DataDetailed } from '../models/watch-list-data-detailed.model';
 
 @Injectable({ providedIn: 'root' })
 export class WatchList2Service {
