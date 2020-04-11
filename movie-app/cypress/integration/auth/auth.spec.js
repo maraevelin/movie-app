@@ -2,7 +2,7 @@
 
 describe('Auth component', () => {
     beforeEach(() => {
-        cy.visit('http://localhost:4200/signin');
+        cy.visit('/signin');
     });
 
     it('Loads sign in from first', () => {
