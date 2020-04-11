@@ -1,7 +1,6 @@
 import { AppState } from 'src/app/core/store';
 import { createSelector } from '@ngrx/store';
 import * as WatchListStore from '../';
-import { WatchListDataDetailed } from '../../models/watch-list-data-detailed.model';
 
 export const selectWatchList = (state: AppState) => state.watchList;
 
@@ -27,13 +26,5 @@ export const selectData = createSelector(
 
 export const selectDataAsArray = createSelector(
   selectWatchList,
-  (state: WatchListStore.WatchListState) => {
-    return Object.values(state.data).reduce(
-      (datas: WatchListDataDetailed[], data) => {
-        datas.push(data);
-        return datas;
-      },
-      []
-    );
-  }
+  (state: WatchListStore.WatchListState) => Object.values(state.data)
 );
