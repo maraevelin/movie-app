@@ -10,6 +10,7 @@ import {
   transition,
   animate,
 } from '@angular/animations';
+import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { Column } from 'src/app/core/models/column.model';
@@ -17,6 +18,8 @@ import { WatchListDataDetailed } from '../../models/watch-list-data-detailed.mod
 import { AppState } from 'src/app/core/store';
 
 import * as WatchListStore from '../../store';
+import { ConfirmationDialogData } from 'src/app/shared/models/confirmation-dialog.model';
+import { ConfirmationDialogComponent } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-watch-list',
@@ -58,7 +61,8 @@ export class WatchListComponent implements OnInit {
   constructor(
     private store: Store<AppState>,
     private router: Router,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private dialog: MatDialog
   ) {
     this.isLoading$ = this.store.select(WatchListStore.selectIsLoading);
     this.movies$ = this.store.select(WatchListStore.selectDataAsArray);
@@ -94,10 +98,27 @@ export class WatchListComponent implements OnInit {
     this.store.dispatch(WatchListStore.updateMovie({ data }));
   }
 
-  onRemove(data: WatchListDataDetailed): void {
-    this.store.dispatch(
-      WatchListStore.deleteMovie({ id: data.id, title: data.title })
-    );
+  onRemove(dataDetailed: WatchListDataDetailed): void {
+    const data: ConfirmationDialogData = {
+      question: `You are about to remove ${dataDetailed.title} from your watch list. Are you sure?`,
+      answerYes: 'Yes',
+      answerNo: 'No',
+    };
+
+    const dialogReg = this.dialog.open(ConfirmationDialogComponent, {
+      data,
+    });
+
+    dialogReg.afterClosed().subscribe((isConfirmed) => {
+      if (isConfirmed) {
+        this.store.dispatch(
+          WatchListStore.deleteMovie({
+            id: dataDetailed.id,
+            title: dataDetailed.title,
+          })
+        );
+      }
+    });
   }
 
   onNavigateToMovie(imdbId: string): void {

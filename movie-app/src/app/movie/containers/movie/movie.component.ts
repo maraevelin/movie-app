@@ -92,17 +92,15 @@ export class MovieComponent implements OnInit {
       question:
         'You have to be signed in to edit your watch list. Do you want to sign in now?',
       answerYes: 'Yes',
-      answerNo: 'No, continue as guest',
+      answerNo: 'No',
     };
 
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '400px',
-      minHeight: 'max-content',
       data,
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
+    dialogRef.afterClosed().subscribe((isConfirmed) => {
+      if (isConfirmed) {
         this.redirectGuest();
       }
     });
