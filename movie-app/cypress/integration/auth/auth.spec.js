@@ -71,4 +71,35 @@ describe('Auth component', () => {
         cy.get('#data-password-toggle').click().contains('visibility_off');
         cy.get('#data-password-input').should('not.have.value');
     });
+
+    it('Requires valid data for submission', () => {
+        cy.get('#data-email-input').type('user');
+        cy.get('#data-password-input').type('pass');
+
+        cy.get('#data-form-submit').should('be.disabled');
+
+        cy.get('#data-email-input').should('have.attr', 'aria-invalid', 'true');
+        cy.get('#data-email-input').type('user@domain.com');
+        cy.get('#data-email-input').should(
+            'have.attr',
+            'aria-invalid',
+            'false',
+        );
+
+        cy.get('#data-form-submit').should('be.disabled');
+
+        cy.get('#data-password-input').should(
+            'have.attr',
+            'aria-invalid',
+            'true',
+        );
+        cy.get('#data-password-input').type('password');
+        cy.get('#data-password-input').should(
+            'have.attr',
+            'aria-invalid',
+            'false',
+        );
+
+        cy.get('#data-form-submit').should('not.be.disabled');
+    });
 });
