@@ -24,14 +24,14 @@ import { WatchListDataDetailed } from 'src/app/watch-list/models/watch-list-data
   styleUrls: ['./movie.component.scss'],
 })
 export class MovieComponent implements OnInit {
-  id: string;
-  movie$?: Observable<DetailedMovie | undefined>;
-  isLoading$: Observable<boolean>;
-  user$: Observable<User | undefined>;
+  id: string | null;
   isSignedIn = false;
-
-  watchList$: Observable<Record<string, WatchListDataDetailed>>;
   isOnWatchList = false;
+
+  isLoading$: Observable<boolean>;
+  movie$: Observable<DetailedMovie | undefined>;
+  user$: Observable<User | undefined>;
+  watchList$: Observable<Record<string, WatchListDataDetailed>>;
 
   constructor(
     private store: Store<AppState>,
@@ -41,8 +41,11 @@ export class MovieComponent implements OnInit {
     private ngZone: NgZone,
     public dialog: MatDialog
   ) {
-    this.id = this.route.snapshot.paramMap.get('id') || '';
-    this.store.dispatch(getDetailed({ id: this.id }));
+    this.id = this.route.snapshot.paramMap.get('id');
+    if (this.id) {
+      this.store.dispatch(getDetailed({ id: this.id }));
+    }
+
     this.movie$ = this.store.select(MovieSelectors.selectDetailedMovie);
     this.isLoading$ = this.store.select(MovieSelectors.selectIsLoading);
 
@@ -56,8 +59,11 @@ export class MovieComponent implements OnInit {
 
       if (this.isSignedIn) {
         this.watchList$.subscribe({
-          next: (watchListMovies) =>
-            (this.isOnWatchList = watchListMovies.hasOwnProperty(this.id)),
+          next: (watchListMovies) => {
+            if (this.id) {
+              this.isOnWatchList = watchListMovies.hasOwnProperty(this.id);
+            }
+          },
         });
       } else {
         this.isOnWatchList = false;
