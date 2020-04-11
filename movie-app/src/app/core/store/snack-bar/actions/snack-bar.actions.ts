@@ -7,5 +7,8 @@ export class SnackBarCSS {
 
 export const notify = createAction(
   '[SNACK BAR] Notification',
-  props<{ message: string; cssClass: string }>()
+  props<{
+    message: string;
+    cssClass: typeof SnackBarCSS.success | typeof SnackBarCSS.error;
+  }>()
 );
