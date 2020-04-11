@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppState } from '../../../core/store';
-import { search, selectTitle } from '../../store/movie';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
+import { AppState } from '../../../core/store';
+import * as MovieStore from '../../store/movie';
 
 @Component({
   selector: 'app-search-bar',
@@ -17,7 +17,7 @@ export class SearchBarComponent implements OnInit {
   title$: Observable<string>;
 
   constructor(private store: Store<AppState>) {
-    this.title$ = this.store.select(selectTitle);
+    this.title$ = this.store.select(MovieStore.selectTitle);
   }
 
   ngOnInit() {}
@@ -36,7 +36,7 @@ export class SearchBarComponent implements OnInit {
       }
 
       this.title.reset();
-      this.store.dispatch(search({ title: searchedTitle }));
+      this.store.dispatch(MovieStore.search({ title: searchedTitle }));
     });
   }
 }

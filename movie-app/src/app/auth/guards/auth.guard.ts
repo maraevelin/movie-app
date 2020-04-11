@@ -4,10 +4,10 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../core/store';
 import { Observable } from 'rxjs';
 import { User } from '../models/user.model';
-import { selectUser } from '../store/selectors/auth.selectors';
+import * as AuthStore from '../store';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
   user$: Observable<User | undefined>;
@@ -17,12 +17,12 @@ export class AuthGuard implements CanActivate {
     private router: Router,
     private ngZone: NgZone
   ) {
-    this.user$ = this.store.select(selectUser);
+    this.user$ = this.store.select(AuthStore.selectUser);
   }
 
   canActivate(): boolean {
     let isSignedIn = false;
-    this.user$.subscribe(user => (isSignedIn = !!user));
+    this.user$.subscribe((user) => (isSignedIn = !!user));
 
     if (isSignedIn) {
       this.ngZone.run(() => {

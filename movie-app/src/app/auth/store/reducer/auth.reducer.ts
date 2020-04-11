@@ -1,6 +1,6 @@
 import { Action, createReducer, on } from '@ngrx/store';
-import * as AuthActions from '../actions/auth.actions';
 import { User } from 'src/app/auth/models/user.model';
+import * as AuthActions from '../../store/actions/auth.actions';
 
 export interface AuthState {
   readonly user: User | undefined;
@@ -11,7 +11,7 @@ export interface AuthState {
 export const initialState: AuthState = {
   isLoading: false,
   errorMessage: undefined,
-  user: undefined
+  user: undefined,
 };
 
 export function reducer(state: AuthState | undefined, action: Action) {
@@ -21,22 +21,22 @@ export function reducer(state: AuthState | undefined, action: Action) {
 const authReducer = createReducer(
   initialState,
   on(AuthActions.reset, AuthActions.signOutSuccess, () => ({
-    ...initialState
+    ...initialState,
   })),
-  on(AuthActions.signUp, AuthActions.signIn, state => ({
+  on(AuthActions.signUp, AuthActions.signIn, (state) => ({
     ...state,
     isLoading: true,
     errorMessage: undefined,
-    user: undefined
+    user: undefined,
   })),
-  on(AuthActions.signUpSuccess, state => ({
+  on(AuthActions.signUpSuccess, (state) => ({
     ...state,
-    isLoading: false
+    isLoading: false,
   })),
   on(AuthActions.signInSuccess, (state, { user }) => ({
     ...state,
     isLoading: false,
-    user
+    user,
   })),
   on(
     AuthActions.signUpFail,
@@ -45,12 +45,12 @@ const authReducer = createReducer(
     (state, { error }) => ({
       ...state,
       isLoading: false,
-      errorMessage: error.message
+      errorMessage: error.message,
     })
   ),
-  on(AuthActions.signOut, state => ({
+  on(AuthActions.signOut, (state) => ({
     ...state,
     isLoading: true,
-    errorMessage: undefined
+    errorMessage: undefined,
   }))
 );

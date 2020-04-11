@@ -4,10 +4,9 @@ import { catchError, map, switchMap, concatMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import { WatchListService } from '../../services/watch-list.service';
-
+import * as AuthStore from '../../../auth/store/';
+import * as SnackBarStore from '../../../core/store/snack-bar/';
 import * as WatchListActions from '../actions/watch-list.actions';
-import * as AuthActions from '../../../auth/store/actions/auth.actions';
-import * as SnackBarActions from '../../../core/store/snack-bar/actions/snack-bar.actions';
 
 @Injectable()
 export class WatchListEffects {
@@ -15,11 +14,11 @@ export class WatchListEffects {
 
   loadOnSignInSuccess$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AuthActions.signInSuccess),
+      ofType(AuthStore.signInSuccess),
       map(() => WatchListActions.load()),
       catchError((error) =>
         of(
-          SnackBarActions.error({
+          SnackBarStore.error({
             message: error,
           })
         )
@@ -29,11 +28,11 @@ export class WatchListEffects {
 
   resetOnSignOutSuccess$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AuthActions.signOutSuccess),
+      ofType(AuthStore.signOutSuccess),
       map(() => WatchListActions.reset()),
       catchError((error) =>
         of(
-          SnackBarActions.error({
+          SnackBarStore.error({
             message: error,
           })
         )
@@ -50,7 +49,7 @@ export class WatchListEffects {
           catchError((error) =>
             of(
               WatchListActions.loadFail({ error }),
-              SnackBarActions.error({
+              SnackBarStore.error({
                 message: error,
               })
             )
@@ -69,14 +68,14 @@ export class WatchListEffects {
             WatchListActions.addMovieSuccess({
               data: dataDetailed,
             }),
-            SnackBarActions.success({
+            SnackBarStore.success({
               message: `${dataDetailed.title} has been added to your watch list`,
             }),
           ]),
           catchError((error) =>
             of(
               WatchListActions.addMovieFail({ error }),
-              SnackBarActions.error({
+              SnackBarStore.error({
                 message: error,
               })
             )
@@ -96,14 +95,14 @@ export class WatchListEffects {
         return this.service.updateMovie(data).pipe(
           concatMap(() => [
             WatchListActions.updateMovieSuccess({ data }),
-            SnackBarActions.success({
+            SnackBarStore.success({
               message: `${action.data.title}'s status has been updated`,
             }),
           ]),
           catchError((error) =>
             of(
               WatchListActions.updateMovieFail({ error }),
-              SnackBarActions.error({
+              SnackBarStore.error({
                 message: error,
               })
             )
@@ -123,14 +122,14 @@ export class WatchListEffects {
               id: action.id,
               title: action.title,
             }),
-            SnackBarActions.success({
+            SnackBarStore.success({
               message: `${action.title} has been removed from your watch list`,
             }),
           ]),
           catchError((error) =>
             of(
               WatchListActions.deleteMovieFail({ error }),
-              SnackBarActions.error({
+              SnackBarStore.error({
                 message: error,
               })
             )

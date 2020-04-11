@@ -1,5 +1,3 @@
-import * as MovieSelectors from 'src/app/movie/store/movie/selectors/movie.selectors';
-
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { Component, OnInit, NgZone } from '@angular/core';
 import { Location } from '@angular/common';
@@ -7,15 +5,15 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
+import * as MovieStore from '../../store/movie';
+import * as AuthStore from '../../../auth/store';
+import * as WatchListStore from '../../../watch-list/store/';
 import { AppState } from 'src/app/core/store';
 import { DetailedMovie } from '../../models/detailed-movie.model';
-import { getDetailed } from 'src/app/movie/store/movie/actions/movie.actions';
-import { selectUser } from 'src/app/auth/store/selectors/auth.selectors';
 import { AuthConstants } from 'src/app/auth/shared/auth.shared';
 import { User } from 'src/app/auth/models/user.model';
 import { ConfirmationDialogComponent } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { ConfirmationDialogData } from 'src/app/shared/models/confirmation-dialog.model';
-import * as WatchListStore from '../../../watch-list/store/';
 import { WatchListDataDetailed } from 'src/app/watch-list/models/watch-list-data-detailed.model';
 
 @Component({
@@ -43,13 +41,13 @@ export class MovieComponent implements OnInit {
   ) {
     this.id = this.route.snapshot.paramMap.get('id');
     if (this.id) {
-      this.store.dispatch(getDetailed({ id: this.id }));
+      this.store.dispatch(MovieStore.getDetailed({ id: this.id }));
     }
 
-    this.movie$ = this.store.select(MovieSelectors.selectDetailedMovie);
-    this.isLoading$ = this.store.select(MovieSelectors.selectIsLoading);
+    this.movie$ = this.store.select(MovieStore.selectDetailedMovie);
+    this.isLoading$ = this.store.select(MovieStore.selectIsLoading);
 
-    this.user$ = this.store.select(selectUser);
+    this.user$ = this.store.select(AuthStore.selectUser);
     this.watchList$ = this.store.select(WatchListStore.selectData);
   }
 

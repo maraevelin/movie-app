@@ -11,7 +11,7 @@ import { Injectable } from '@angular/core';
 import { tap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../core/store';
-import { error } from '../../core/store/snack-bar';
+import * as SnackBarStore from '../../core/store/snack-bar';
 
 @Injectable()
 export class OmdbErrorInterceptor implements HttpInterceptor {
@@ -28,7 +28,7 @@ export class OmdbErrorInterceptor implements HttpInterceptor {
           const message = event.body.Error;
 
           if (message) {
-            this.store.dispatch(error({ message }));
+            this.store.dispatch(SnackBarStore.error({ message }));
             throw Error(message);
           }
         }

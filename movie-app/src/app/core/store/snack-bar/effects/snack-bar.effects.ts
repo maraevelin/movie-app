@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Actions, ofType, createEffect } from '@ngrx/effects';
-import * as SnackBarActions from '../actions/snack-bar.actions';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { tap } from 'rxjs/operators';
+import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { SnackBarCSS } from 'src/app/core/models/snack-bar-css';
+import * as SnackBarActions from '../actions/snack-bar.actions';
 
 @Injectable()
 export class SnackBarEffects {

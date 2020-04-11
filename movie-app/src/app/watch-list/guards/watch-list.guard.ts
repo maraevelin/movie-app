@@ -1,9 +1,5 @@
 import { Injectable, NgZone } from '@angular/core';
-import { Observable } from 'rxjs';
-import { User } from '../../auth/models/user.model';
-import { Store } from '@ngrx/store';
-import { AppState } from '../../core/store';
-import { selectUser } from '../../auth/store/selectors/auth.selectors';
+import { Location } from '@angular/common';
 import {
   Router,
   CanActivate,
@@ -11,9 +7,13 @@ import {
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
 } from '@angular/router';
-import { Location } from '@angular/common';
-import { AuthConstants } from '../../auth/shared/auth.shared';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../core/store';
+import { AuthConstants } from '../../auth/shared/auth.shared';
+import { User } from '../../auth/models/user.model';
+import * as AuthStore from '../../auth/store';
 
 @Injectable({ providedIn: 'root' })
 export class WatchListGuard implements CanActivate {
@@ -25,7 +25,7 @@ export class WatchListGuard implements CanActivate {
     private location: Location,
     private ngZone: NgZone
   ) {
-    this.user$ = this.store.select(selectUser);
+    this.user$ = this.store.select(AuthStore.selectUser);
   }
 
   canActivate(

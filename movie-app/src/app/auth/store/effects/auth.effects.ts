@@ -1,5 +1,5 @@
 import * as AuthActions from '../actions/auth.actions';
-import * as SnackBarActions from 'src/app/core/store/snack-bar/actions/snack-bar.actions';
+import * as SnackBarStore from 'src/app/core/store/snack-bar/';
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
@@ -19,7 +19,7 @@ export class AuthEffects {
         return this.service.signUp(action.credentials).pipe(
           switchMap(() => {
             return [
-              SnackBarActions.success({
+              SnackBarStore.success({
                 message: 'Your account has been created',
               }),
               AuthActions.signUpSuccess({

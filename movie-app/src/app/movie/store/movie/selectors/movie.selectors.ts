@@ -1,30 +1,30 @@
 import { AppState } from '../../../../core/store';
 import { createSelector } from '@ngrx/store';
-import { MovieState } from '../reducer/movie.reducer';
+import * as MovieStore from '../';
 
 export const selectMovie = (state: AppState) => state.movie;
 
 export const selectTitle = createSelector(
   selectMovie,
-  (state: MovieState) => state.title
+  (state: MovieStore.MovieState) => state.title
 );
 
 export const selectIsLoading = createSelector(
   selectMovie,
-  (state: MovieState) => state.isLoading
+  (state: MovieStore.MovieState) => state.isLoading
 );
 
 export const selectMovies = createSelector(
   selectMovie,
-  (state: MovieState) => state.movies
+  (state: MovieStore.MovieState) => state.movies
 );
 
 export const selectErrorMessage = createSelector(
   selectMovie,
-  (state: MovieState) => state.errorMessage
+  (state: MovieStore.MovieState) => state.errorMessage
 );
 
 export const selectDetailedMovie = createSelector(
   selectMovie,
-  (state: MovieState) => state.detailedMovie
+  (state: MovieStore.MovieState) => state.detailedMovie
 );

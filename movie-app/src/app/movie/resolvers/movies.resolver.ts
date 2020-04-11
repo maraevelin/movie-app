@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Resolve } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { first } from 'rxjs/operators';
 import { AppState } from 'src/app/core/store';
 import * as MoviesStore from '../store/movie';
-import { first } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class MoviesResolver implements Resolve<void> {
