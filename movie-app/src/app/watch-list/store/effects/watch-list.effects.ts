@@ -48,9 +48,7 @@ export class WatchListEffects {
       ofType(WatchListActions.load),
       switchMap(() =>
         this.service.load().pipe(
-          map((data) => {
-            return WatchListActions.loadSuccess({ data });
-          }),
+          map((data) => WatchListActions.loadSuccess({ data })),
           catchError((error) =>
             of(
               WatchListActions.loadFail({ error }),
@@ -68,19 +66,17 @@ export class WatchListEffects {
   addMovie$ = createEffect(() =>
     this.actions$.pipe(
       ofType(WatchListActions.addMovie),
-      switchMap((action) => {
-        return this.service.addMovie(action.id).pipe(
-          concatMap((dataDetailed) => {
-            return [
-              WatchListActions.addMovieSuccess({
-                data: dataDetailed,
-              }),
-              SnackBarActions.notify({
-                message: `${dataDetailed.title} has been added to your watch list`,
-                cssClass: SnackBarActions.SnackBarCSS.success,
-              }),
-            ];
-          }),
+      switchMap((action) =>
+        this.service.addMovie(action.id).pipe(
+          concatMap((dataDetailed) => [
+            WatchListActions.addMovieSuccess({
+              data: dataDetailed,
+            }),
+            SnackBarActions.notify({
+              message: `${dataDetailed.title} has been added to your watch list`,
+              cssClass: SnackBarActions.SnackBarCSS.success,
+            }),
+          ]),
           catchError((error) =>
             of(
               WatchListActions.addMovieFail({ error }),
@@ -90,8 +86,8 @@ export class WatchListEffects {
               })
             )
           )
-        );
-      })
+        )
+      )
     )
   );
 
@@ -103,15 +99,13 @@ export class WatchListEffects {
         data = { ...data, isFinished: !data.isFinished };
 
         return this.service.updateMovie(data).pipe(
-          concatMap(() => {
-            return [
-              WatchListActions.updateMovieSuccess({ data }),
-              SnackBarActions.notify({
-                message: `${action.data.title}'s status has been updated`,
-                cssClass: SnackBarActions.SnackBarCSS.success,
-              }),
-            ];
-          }),
+          concatMap(() => [
+            WatchListActions.updateMovieSuccess({ data }),
+            SnackBarActions.notify({
+              message: `${action.data.title}'s status has been updated`,
+              cssClass: SnackBarActions.SnackBarCSS.success,
+            }),
+          ]),
           catchError((error) =>
             of(
               WatchListActions.updateMovieFail({ error }),
@@ -129,8 +123,8 @@ export class WatchListEffects {
   deleteMovie$ = createEffect(() =>
     this.actions$.pipe(
       ofType(WatchListActions.deleteMovie),
-      switchMap((action) => {
-        return this.service.deleteMovie(action.id).pipe(
+      switchMap((action) =>
+        this.service.deleteMovie(action.id).pipe(
           concatMap(() => [
             WatchListActions.deleteMovieSuccess({
               id: action.id,
@@ -150,8 +144,8 @@ export class WatchListEffects {
               })
             )
           )
-        );
-      })
+        )
+      )
     )
   );
 }
