@@ -9,25 +9,25 @@ import { Movie } from '../models/movie.model';
 import { DetailedMovie } from '../models/detailed-movie.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class OmdbApiService {
   constructor(private http: HttpClient) {}
 
   searchMoviesByTitle(title: string): Observable<Movie[]> {
     const params = new HttpParams().set(environment.omdb.paramSearch, title);
-    const response = this.http.get<SearchResponse>(environment.omdb.url, {
-      params
+    const response$ = this.http.get<SearchResponse>(environment.omdb.url, {
+      params,
     });
-    return response.pipe(
-      map(searchResponse => {
+    return response$.pipe(
+      map((searchResponse) => {
         if (searchResponse.Error) {
           throw new Error(searchResponse.Error);
         }
 
         return searchResponse.Search.filter(
-          movie => movie.Poster !== 'N/A'
-        ).map(movie => new Movie(movie));
+          (movie) => movie.Poster !== 'N/A'
+        ).map((movie) => new Movie(movie));
       })
     );
   }
@@ -39,17 +39,17 @@ export class OmdbApiService {
     const params = new HttpParams()
       .set(environment.omdb.paramImdbId, id)
       .set(environment.omdb.paramPlot, plotPref);
-    const response = this.http.get<DetailedMovieResponse>(
+    const response$ = this.http.get<DetailedMovieResponse>(
       environment.omdb.url,
       { params }
     );
-    return response.pipe(
-      tap(movie => {
+    return response$.pipe(
+      tap((movie) => {
         if (movie.Error) {
           throw new Error(movie.Error);
         }
       }),
-      map(movie => new DetailedMovie(movie))
+      map((movie) => new DetailedMovie(movie))
     );
   }
 }
