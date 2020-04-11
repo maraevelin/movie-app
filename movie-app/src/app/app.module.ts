@@ -23,7 +23,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { WatchListComponent } from './watch-list/components/watch-list/watch-list.component';
 import { AuthModule } from './auth/auth.module';
-import { BlankComponent } from './core/components/blank/blank.component';
+import { BlankComponent } from './tests/blank/blank.component';
 import { SharedModule } from './shared/shared.module';
 import { WatchListModule } from './watch-list/watch-list.module';
 import { MovieModule } from './movie/movie.module';
@@ -37,7 +37,7 @@ import { MovieModule } from './movie/movie.module';
     MovieComponent,
     NavigationBarComponent,
     WatchListComponent,
-    BlankComponent
+    BlankComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,7 +48,7 @@ import { MovieModule } from './movie/movie.module';
     EffectsModule.forRoot(effects),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
-      logOnly: environment.production
+      logOnly: environment.production,
     }),
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebase),
@@ -58,9 +58,9 @@ import { MovieModule } from './movie/movie.module';
     AuthModule,
     SharedModule,
     WatchListModule,
-    MovieModule
+    MovieModule,
   ],
   providers: [...interceptorProviders],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

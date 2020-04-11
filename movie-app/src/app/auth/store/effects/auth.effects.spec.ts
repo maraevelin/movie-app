@@ -12,7 +12,7 @@ import { hot, cold } from 'jest-marbles';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Credentials } from '../../models/credentials.model';
 import { User } from '../../models/user.model';
-import { BlankComponent } from 'src/app/core/components/blank/blank.component';
+import { BlankComponent } from 'src/app/tests/blank/blank.component';
 import { Location } from '@angular/common';
 import { SnackBarCSS } from '../../../core/store/snack-bar/';
 
