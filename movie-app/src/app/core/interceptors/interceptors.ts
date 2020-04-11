@@ -1,17 +1,23 @@
 import { Provider } from '@angular/core';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { OmdbInterceptor } from '../../movie/interceptors/omdb.interceptor';
 import { AuthInterceptor } from '../../auth/interceptors/auth.interceptor';
+import { OmdbApiInterceptor } from '../../movie/interceptors/omdb.api.interceptor';
+import { OmdbErrorInterceptor } from '../../movie/interceptors/omdb.error.interceptor';
 
 export const interceptorProviders: Provider[] = [
   {
     provide: HTTP_INTERCEPTORS,
     useClass: AuthInterceptor,
-    multi: true
+    multi: true,
   },
   {
     provide: HTTP_INTERCEPTORS,
-    useClass: OmdbInterceptor,
-    multi: true
-  }
+    useClass: OmdbApiInterceptor,
+    multi: true,
+  },
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: OmdbErrorInterceptor,
+    multi: true,
+  },
 ];

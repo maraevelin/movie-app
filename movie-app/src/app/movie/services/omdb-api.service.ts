@@ -4,7 +4,7 @@ import { environment } from 'src/environments/environment';
 import { SearchResponse } from './models/search-response.model';
 import { DetailedMovieResponse } from './models/detailed-movie-response.model';
 import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Movie } from '../models/movie.model';
 import { DetailedMovie } from '../models/detailed-movie.model';
 
@@ -21,13 +21,10 @@ export class OmdbApiService {
     });
     return response$.pipe(
       map((searchResponse) => {
-        if (searchResponse.Error) {
-          throw new Error(searchResponse.Error);
-        }
-
-        return searchResponse.Search.filter(
+        const moviesWithPoster = searchResponse.Search.filter(
           (movie) => movie.Poster !== 'N/A'
-        ).map((movie) => new Movie(movie));
+        );
+        return moviesWithPoster.map((movie) => new Movie(movie));
       })
     );
   }
@@ -43,13 +40,6 @@ export class OmdbApiService {
       environment.omdb.url,
       { params }
     );
-    return response$.pipe(
-      tap((movie) => {
-        if (movie.Error) {
-          throw new Error(movie.Error);
-        }
-      }),
-      map((movie) => new DetailedMovie(movie))
-    );
+    return response$.pipe(map((movie) => new DetailedMovie(movie)));
   }
 }

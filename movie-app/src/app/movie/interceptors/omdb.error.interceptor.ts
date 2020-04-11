@@ -5,7 +5,7 @@ import {
   HttpHandler,
   HttpResponse,
 } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Injectable } from '@angular/core';
 import { tap } from 'rxjs/operators';
@@ -14,35 +14,23 @@ import { AppState } from '../../core/store';
 import { error } from '../../core/store/snack-bar';
 
 @Injectable()
-export class OmdbInterceptor implements HttpInterceptor {
+export class OmdbErrorInterceptor implements HttpInterceptor {
   constructor(private store: Store<AppState>) {}
 
   intercept(
-    req: HttpRequest<any>,
+    request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    let request = req;
-    const omdbApiUrl = environment.omdb.url;
-
-    if (req.url.startsWith(omdbApiUrl)) {
-      request = req.clone({
-        params: req.params.set(
-          environment.omdb.paramApiKey,
-          environment.omdb.apiKey
-        ),
-      });
-    }
-
     return next.handle(request).pipe(
       tap((event) => {
-        if (event instanceof HttpResponse) {
+        const isOmdbRequest = request.url.startsWith(environment.omdb.url);
+        if (isOmdbRequest && event instanceof HttpResponse) {
           const message = event.body.Error;
 
           if (message) {
             this.store.dispatch(error({ message }));
+            throw Error(message);
           }
-
-          return of(event);
         }
       })
     );
