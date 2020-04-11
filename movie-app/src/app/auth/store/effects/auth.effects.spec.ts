@@ -14,7 +14,6 @@ import { Credentials } from '../../models/credentials.model';
 import { User } from '../../models/user.model';
 import { BlankComponent } from 'src/app/tests/blank/blank.component';
 import { Location } from '@angular/common';
-import { SnackBarCSS } from '../../../core/store/snack-bar/';
 
 const credentials: Credentials = {
   email: 'user@domain.com',
@@ -70,9 +69,8 @@ describe('AuthEffects', () => {
       const action = AuthStore.signUp({ credentials });
       actions$ = hot('-a', { a: action });
 
-      const notification = SnackBarStore.notify({
+      const notification = SnackBarStore.success({
         message: 'Your account has been created',
-        cssClass: SnackBarCSS.success,
       });
       const outcome = AuthStore.signUpSuccess({ credentials });
 

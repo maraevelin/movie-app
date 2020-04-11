@@ -11,7 +11,7 @@ import { Injectable } from '@angular/core';
 import { tap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../core/store';
-import { notify, SnackBarCSS } from '../../core/store/snack-bar';
+import { error } from '../../core/store/snack-bar';
 
 @Injectable()
 export class OmdbInterceptor implements HttpInterceptor {
@@ -39,9 +39,7 @@ export class OmdbInterceptor implements HttpInterceptor {
           const message = event.body.Error;
 
           if (message) {
-            this.store.dispatch(
-              notify({ message, cssClass: SnackBarCSS.error })
-            );
+            this.store.dispatch(error({ message }));
           }
 
           return of(event);

@@ -19,9 +19,8 @@ export class AuthEffects {
         return this.service.signUp(action.credentials).pipe(
           switchMap(() => {
             return [
-              SnackBarActions.notify({
+              SnackBarActions.success({
                 message: 'Your account has been created',
-                cssClass: SnackBarActions.SnackBarCSS.success,
               }),
               AuthActions.signUpSuccess({
                 credentials: action.credentials,

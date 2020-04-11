@@ -19,9 +19,8 @@ export class WatchListEffects {
       map(() => WatchListActions.load()),
       catchError((error) =>
         of(
-          SnackBarActions.notify({
+          SnackBarActions.error({
             message: error,
-            cssClass: SnackBarActions.SnackBarCSS.error,
           })
         )
       )
@@ -34,9 +33,8 @@ export class WatchListEffects {
       map(() => WatchListActions.reset()),
       catchError((error) =>
         of(
-          SnackBarActions.notify({
+          SnackBarActions.error({
             message: error,
-            cssClass: SnackBarActions.SnackBarCSS.error,
           })
         )
       )
@@ -52,9 +50,8 @@ export class WatchListEffects {
           catchError((error) =>
             of(
               WatchListActions.loadFail({ error }),
-              SnackBarActions.notify({
+              SnackBarActions.error({
                 message: error,
-                cssClass: SnackBarActions.SnackBarCSS.error,
               })
             )
           )
@@ -72,17 +69,15 @@ export class WatchListEffects {
             WatchListActions.addMovieSuccess({
               data: dataDetailed,
             }),
-            SnackBarActions.notify({
+            SnackBarActions.success({
               message: `${dataDetailed.title} has been added to your watch list`,
-              cssClass: SnackBarActions.SnackBarCSS.success,
             }),
           ]),
           catchError((error) =>
             of(
               WatchListActions.addMovieFail({ error }),
-              SnackBarActions.notify({
+              SnackBarActions.error({
                 message: error,
-                cssClass: SnackBarActions.SnackBarCSS.error,
               })
             )
           )
@@ -101,17 +96,15 @@ export class WatchListEffects {
         return this.service.updateMovie(data).pipe(
           concatMap(() => [
             WatchListActions.updateMovieSuccess({ data }),
-            SnackBarActions.notify({
+            SnackBarActions.success({
               message: `${action.data.title}'s status has been updated`,
-              cssClass: SnackBarActions.SnackBarCSS.success,
             }),
           ]),
           catchError((error) =>
             of(
               WatchListActions.updateMovieFail({ error }),
-              SnackBarActions.notify({
+              SnackBarActions.error({
                 message: error,
-                cssClass: SnackBarActions.SnackBarCSS.error,
               })
             )
           )
@@ -130,17 +123,15 @@ export class WatchListEffects {
               id: action.id,
               title: action.title,
             }),
-            SnackBarActions.notify({
+            SnackBarActions.success({
               message: `${action.title} has been removed from your watch list`,
-              cssClass: SnackBarActions.SnackBarCSS.success,
             }),
           ]),
           catchError((error) =>
             of(
               WatchListActions.deleteMovieFail({ error }),
-              SnackBarActions.notify({
+              SnackBarActions.error({
                 message: error,
-                cssClass: SnackBarActions.SnackBarCSS.error,
               })
             )
           )

@@ -1,14 +1,15 @@
 import { createAction, props } from '@ngrx/store';
 
-export class SnackBarCSS {
-  public static readonly success = 'snack-bar-success';
-  public static readonly error = 'snack-bar-error';
-}
-
-export const notify = createAction(
-  '[SNACK BAR] Notification',
+export const success = createAction(
+  '[SNACK BAR NOTIFICATION] Success',
   props<{
     message: string;
-    cssClass: typeof SnackBarCSS.success | typeof SnackBarCSS.error;
+  }>()
+);
+
+export const error = createAction(
+  '[SNACK BAR NOTIFICATION] Error',
+  props<{
+    message: string;
   }>()
 );

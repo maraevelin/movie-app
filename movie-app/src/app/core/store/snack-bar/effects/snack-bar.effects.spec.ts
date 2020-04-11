@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 
 import * as SnackBarStore from '../';
 import { hot } from 'jest-marbles';
-import { SnackBarCSS } from '../actions/snack-bar.actions';
+import { SnackBarCSS } from 'src/app/core/models/snack-bar-css';
 
 describe('SnackBarEffects', () => {
   let actions$: Observable<Action>;
@@ -36,18 +36,16 @@ describe('SnackBarEffects', () => {
 
   it('should handle a successful notification', () => {
     const message = 'Successul action';
-    const cssClass = SnackBarCSS.success;
 
-    const action = SnackBarStore.notify({
+    const action = SnackBarStore.success({
       message,
-      cssClass,
     });
 
     actions$ = hot('-a', { a: action });
 
-    effects.notifications$.subscribe(() => {
+    effects.successNotification$.subscribe(() => {
       expect(snackBar.open).toHaveBeenCalledWith(action.message, undefined, {
-        panelClass: [cssClass],
+        panelClass: [SnackBarCSS.SUCCESS],
         duration: 5000,
       });
     });
@@ -55,18 +53,16 @@ describe('SnackBarEffects', () => {
 
   it('should handle an error notification', () => {
     const message = 'An error occured';
-    const cssClass = SnackBarCSS.error;
 
-    const action = SnackBarStore.notify({
+    const action = SnackBarStore.error({
       message,
-      cssClass,
     });
 
     actions$ = hot('-a', { a: action });
 
-    effects.notifications$.subscribe(() => {
+    effects.errorNotification$.subscribe(() => {
       expect(snackBar.open).toHaveBeenCalledWith(action.message, undefined, {
-        panelClass: [cssClass],
+        panelClass: [SnackBarCSS.ERROR],
         duration: 5000,
       });
     });
