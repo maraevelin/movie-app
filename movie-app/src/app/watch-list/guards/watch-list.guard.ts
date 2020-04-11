@@ -9,10 +9,11 @@ import {
   CanActivate,
   NavigationExtras,
   ActivatedRouteSnapshot,
-  RouterStateSnapshot
+  RouterStateSnapshot,
 } from '@angular/router';
 import { Location } from '@angular/common';
 import { AuthConstants } from '../../auth/shared/auth.shared';
+import { map } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class WatchListGuard implements CanActivate {
@@ -30,26 +31,29 @@ export class WatchListGuard implements CanActivate {
   canActivate(
     _next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): boolean {
-    let isSignedIn = false;
-    this.user$.subscribe(user => (isSignedIn = !!user));
+  ): Observable<boolean> {
+    return this.user$.pipe(
+      map((user) => {
+        const isSignedIn = !!user;
+        if (isSignedIn) {
+          return true;
+        }
 
-    if (isSignedIn) {
-      return true;
-    }
+        const redirectUrl = state.url;
+        const redirectTo: NavigationExtras = {
+          queryParams: { [AuthConstants.REDIRECT_URL]: redirectUrl },
+          queryParamsHandling: 'merge',
+          skipLocationChange: true,
+        };
 
-    const redirectUrl = state.url;
-    const redirectTo: NavigationExtras = {
-      queryParams: { [AuthConstants.REDIRECT_URL]: redirectUrl },
-      queryParamsHandling: 'merge',
-      skipLocationChange: true
-    };
+        this.ngZone.run(() => {
+          this.router.navigate(['/auth'], redirectTo).then(() => {
+            this.location.replaceState(redirectUrl);
+          });
+        });
 
-    this.ngZone.run(() => {
-      this.router.navigate(['/auth'], redirectTo).then(() => {
-        this.location.replaceState(redirectUrl);
-      });
-    });
-    return false;
+        return false;
+      })
+    );
   }
 }
