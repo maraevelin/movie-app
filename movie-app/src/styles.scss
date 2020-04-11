@@ -57,13 +57,9 @@ body {
 }
 
 .snack-bar-success {
-  background: $success-solarized;
-  font-size: $font-size-larger;
-  color: white;
+  color: $success-solarized;
 }
 
 .snack-bar-error {
-  background: $warn-solarized;
-  font-size: $font-size-larger;
-  color: white;
+  color: $warn-solarized;
 }

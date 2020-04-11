@@ -14,6 +14,8 @@ describe('SnackBarEffects', () => {
   let effects: SnackBarStore.SnackBarEffects;
   let snackBar: MatSnackBar;
 
+  const duration = 3000;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
@@ -46,7 +48,7 @@ describe('SnackBarEffects', () => {
     effects.successNotification$.subscribe(() => {
       expect(snackBar.open).toHaveBeenCalledWith(action.message, undefined, {
         panelClass: [SnackBarCSS.SUCCESS],
-        duration: 5000,
+        duration,
       });
     });
   });
@@ -63,7 +65,7 @@ describe('SnackBarEffects', () => {
     effects.errorNotification$.subscribe(() => {
       expect(snackBar.open).toHaveBeenCalledWith(action.message, undefined, {
         panelClass: [SnackBarCSS.ERROR],
-        duration: 5000,
+        duration,
       });
     });
   });

@@ -14,9 +14,9 @@ export class SnackBarEffects {
       this.actions$.pipe(
         ofType(SnackBarActions.success),
         tap((action) => {
-          this.snackBar.open(action.message, undefined, {
+          this.snackBar.open(action.message, '×', {
             panelClass: [SnackBarCSS.SUCCESS],
-            duration: 5000,
+            duration: 3000,
           });
         })
       ),
@@ -28,9 +28,9 @@ export class SnackBarEffects {
       this.actions$.pipe(
         ofType(SnackBarActions.error),
         tap((action) => {
-          this.snackBar.open(action.message, undefined, {
+          this.snackBar.open(action.message, '×', {
             panelClass: [SnackBarCSS.ERROR],
-            duration: 5000,
+            duration: 3000,
           });
         })
       ),
