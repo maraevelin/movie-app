@@ -14,7 +14,7 @@ import { AuthConstants } from '../../shared/auth.shared';
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
-  styleUrls: ['./auth.component.scss']
+  styleUrls: ['./auth.component.scss'],
 })
 export class AuthComponent implements OnInit {
   redirectUrl: string | undefined;
@@ -25,7 +25,7 @@ export class AuthComponent implements OnInit {
 
   form = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(6)]]
+    password: ['', [Validators.required, Validators.minLength(6)]],
   });
 
   constructor(
@@ -38,7 +38,9 @@ export class AuthComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.queryParamMap.subscribe(params => {
+    this.store.dispatch(reset());
+
+    this.route.queryParamMap.subscribe((params) => {
       this.redirectUrl = params.get(AuthConstants.REDIRECT_URL) || undefined;
     });
   }

@@ -118,7 +118,7 @@ export class MovieComponent implements OnInit {
     };
 
     this.ngZone.run(() => {
-      this.router.navigate(['/auth'], redirectTo);
+      this.router.navigate(['/signin'], redirectTo);
     });
   }
 }
