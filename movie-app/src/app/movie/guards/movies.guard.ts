@@ -1,9 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  CanActivate,
-  ActivatedRouteSnapshot,
-  RouterStateSnapshot
-} from '@angular/router';
+import { CanActivate } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../core/store';
 import { Observable } from 'rxjs';
@@ -17,13 +13,10 @@ export class MoviesGuard implements CanActivate {
     this.title$ = this.store.select(selectTitle);
   }
 
-  canActivate(
-    _next: ActivatedRouteSnapshot,
-    _state: RouterStateSnapshot
-  ): boolean {
+  canActivate(): boolean {
     let isSearchInProgress = false;
 
-    this.title$.subscribe(title => (isSearchInProgress = !!title.length));
+    this.title$.subscribe((title) => (isSearchInProgress = !!title.length));
 
     if (!isSearchInProgress) {
       this.store.dispatch(search({ title: 'Futurama' }));
