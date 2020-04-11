@@ -3,23 +3,24 @@
 </div>
 
 <form [formGroup]="form" (ngSubmit)="onSubmit()" class="container">
-  <div class="title">
+  <div class="title" id="data-form-title">
     {{ isSignIn ? 'Sign in' : 'Sign up' }}
   </div>
 
   <mat-form-field appearance="outline" class="from form-email">
-    <mat-label>Enter your e-mail</mat-label>
-    <input matInput formControlName="email" />
+    <mat-label id="data-email-label">Enter your e-mail</mat-label>
+    <input matInput formControlName="email" id="data-email-input" />
   </mat-form-field>
 
   <br />
 
   <mat-form-field appearance="outline" class="from form-password">
-    <mat-label>Enter your password</mat-label>
+    <mat-label id="data-password-label">Enter your password</mat-label>
     <input
       matInput
       formControlName="password"
       [type]="hidePassword ? 'password' : 'text'"
+      id="data-password-input"
     />
     <button
       type="button"
@@ -29,14 +30,22 @@
       [attr.aria-label]="'Hide password'"
       [attr.aria-pressed]="hidePassword"
     >
-      <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+      <mat-icon id="data-password-toggle">{{
+        hidePassword ? 'visibility_off' : 'visibility'
+      }}</mat-icon>
     </button>
   </mat-form-field>
 
   <br />
 
   <div class="form-actions">
-    <button type="button" mat-button color="primary" (click)="onSwitch()">
+    <button
+      type="button"
+      mat-button
+      color="primary"
+      (click)="onSwitch()"
+      id="data-form-toggle"
+    >
       {{ isSignIn ? ' Create account ' : 'Already have an account?' }}
     </button>
 
@@ -45,6 +54,7 @@
       mat-flat-button
       color="primary"
       [disabled]="form.invalid"
+      id="data-form-submit"
     >
       {{ isSignIn ? 'Sign in' : 'Sign up' }}
     </button>
@@ -52,7 +62,7 @@
 
   <br />
 
-  <mat-error *ngIf="errorMessage$ | async as errorMessage">
+  <mat-error *ngIf="errorMessage$ | async as errorMessage" id="data-form-error">
     {{ errorMessage }}
   </mat-error>
 </form>
