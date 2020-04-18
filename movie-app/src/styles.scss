@@ -45,6 +45,12 @@ $resolution-larger: 1280px;
   font-size: $font-size-smaller;
 }
 
+@mixin error-message {
+  .error-message {
+    text-align: justify;
+  }
+}
+
 html,
 body {
   height: 100%;
@@ -57,9 +63,19 @@ body {
 }
 
 .snack-bar-success {
-  color: $success-solarized;
+  background-color: $success-solarized;
+  color: white;
+
+  .mat-simple-snackbar-action {
+    color: white;
+  }
 }
 
 .snack-bar-error {
-  color: $warn-solarized;
+  background-color: $warn-solarized;
+  color: white;
+
+  .mat-simple-snackbar-action {
+    color: white;
+  }
 }
