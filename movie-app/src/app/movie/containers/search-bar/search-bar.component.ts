@@ -23,14 +23,14 @@ export class SearchBarComponent implements OnInit, OnDestroy {
     this.title$ = this.store.select(MovieStore.selectTitle);
   }
 
-  ngOnInit() {}
+  ngOnInit(): void {}
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroyed$.next(true);
     this.destroyed$.unsubscribe();
   }
 
-  onSearch() {
+  onSearch(): void {
     const searchedTitle = this.title.value.trim();
     if (!searchedTitle) {
       return;

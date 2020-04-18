@@ -72,7 +72,7 @@ export class WatchListComponent implements OnInit, OnDestroy {
     this.movies$ = this.store.select(WatchListStore.selectDataAsArray);
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.movies$.pipe(takeUntil(this.destroyed$)).subscribe({
       next: (movies) => (this.dataSource.data = movies),
       error: (error) => {
@@ -98,7 +98,7 @@ export class WatchListComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroyed$.next(true);
     this.destroyed$.unsubscribe();
   }

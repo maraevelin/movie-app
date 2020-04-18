@@ -21,9 +21,9 @@ export class MoviesComponent implements OnInit, OnDestroy {
     this.title$ = this.store.select(MovieStore.selectTitle);
   }
 
-  ngOnInit() {}
+  ngOnInit(): void {}
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.store.dispatch(MovieStore.reset());
   }
 }

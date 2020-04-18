@@ -17,9 +17,9 @@ export class NavigationBarComponent implements OnInit {
     this.user$ = this.store.select(AuthStore.selectUser);
   }
 
-  ngOnInit() {}
+  ngOnInit(): void {}
 
-  onSignOut() {
+  onSignOut(): void {
     this.store.dispatch(AuthStore.signOut());
   }
 }

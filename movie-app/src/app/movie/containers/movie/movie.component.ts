@@ -56,7 +56,7 @@ export class MovieComponent implements OnInit, OnDestroy {
     this.watchList$ = this.store.select(WatchListStore.selectData);
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.user$.pipe(takeUntil(this.destroyed$)).subscribe((user) => {
       this.isSignedIn = !!user;
 
@@ -74,7 +74,7 @@ export class MovieComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroyed$.next(true);
     this.destroyed$.unsubscribe();
   }
@@ -119,7 +119,7 @@ export class MovieComponent implements OnInit, OnDestroy {
       });
   }
 
-  private redirectGuest() {
+  private redirectGuest(): void {
     const redirectTo: NavigationExtras = {
       queryParams: { [AuthConstants.REDIRECT_URL]: this.location.path() },
       queryParamsHandling: 'merge',

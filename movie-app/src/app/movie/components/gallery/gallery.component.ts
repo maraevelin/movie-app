@@ -5,14 +5,14 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-gallery',
   templateUrl: './gallery.component.html',
-  styleUrls: ['./gallery.component.scss']
+  styleUrls: ['./gallery.component.scss'],
 })
 export class GalleryComponent implements OnInit {
   @Input() movies: Movie[] = [];
 
   constructor(private ngZone: NgZone, private router: Router) {}
 
-  ngOnInit() {}
+  ngOnInit(): void {}
 
   onSelect(id: string) {
     setTimeout(() => {
