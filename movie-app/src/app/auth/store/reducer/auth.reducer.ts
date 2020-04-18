@@ -23,13 +23,18 @@ const authReducer = createReducer(
   on(AuthActions.reset, AuthActions.signOutSuccess, () => ({
     ...initialState,
   })),
-  on(AuthActions.signUp, AuthActions.signIn, (state) => ({
-    ...state,
-    isLoading: true,
-    errorMessage: undefined,
-    user: undefined,
-  })),
-  on(AuthActions.signUpSuccess, (state) => ({
+  on(
+    AuthActions.signUp,
+    AuthActions.signIn,
+    AuthActions.forgotPassword,
+    (state) => ({
+      ...state,
+      isLoading: true,
+      errorMessage: undefined,
+      user: undefined,
+    })
+  ),
+  on(AuthActions.signUpSuccess, AuthActions.forgotPasswordSuccess, (state) => ({
     ...state,
     isLoading: false,
   })),
@@ -42,6 +47,7 @@ const authReducer = createReducer(
     AuthActions.signUpFail,
     AuthActions.signInFail,
     AuthActions.signOutFail,
+    AuthActions.forgotPasswordFail,
     (state, { error }) => ({
       ...state,
       isLoading: false,

@@ -1,14 +1,13 @@
-import * as AuthActions from '../actions/auth.actions';
-import * as SnackBarStore from 'src/app/core/store/snack-bar/';
-
-import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, switchMap, tap } from 'rxjs/operators';
-
-import { AuthService } from 'src/app/auth/services/auth.service';
 import { Injectable, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
-import { User } from 'src/app/auth/models/user.model';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
+
+import * as AuthActions from '../actions/auth.actions';
+import * as SnackBarStore from 'src/app/core/store/snack-bar/';
+import { AuthService } from 'src/app/auth/services/auth.service';
+import { User } from 'src/app/auth/models/user.model';
 
 @Injectable()
 export class AuthEffects {
@@ -60,6 +59,24 @@ export class AuthEffects {
           catchError((error) => of(AuthActions.signOutFail({ error })))
         )
       )
+    )
+  );
+
+  forgotPassword$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.forgotPassword),
+      switchMap((action) => {
+        const email = action.email;
+        return this.service.requestResetPassword(email).pipe(
+          switchMap(() => [
+            SnackBarStore.success({
+              message: `Your password reset link has been sent to ${email}`,
+            }),
+            AuthActions.forgotPasswordSuccess(),
+          ]),
+          catchError((error) => of(AuthActions.forgotPasswordFail({ error })))
+        );
+      })
     )
   );
 
