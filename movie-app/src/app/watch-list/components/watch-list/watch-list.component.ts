@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, NgZone } from '@angular/core';
+import { Component, OnInit, ViewChild, NgZone, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
@@ -11,7 +11,7 @@ import {
   animate,
 } from '@angular/animations';
 import { MatDialog } from '@angular/material/dialog';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { Column } from 'src/app/core/models/column.model';
 import { WatchListDataDetailed } from '../../models/watch-list-data-detailed.model';
@@ -20,6 +20,7 @@ import { AppState } from 'src/app/core/store';
 import * as WatchListStore from '../../store';
 import { ConfirmationDialogData } from 'src/app/shared/models/confirmation-dialog.model';
 import { ConfirmationDialogComponent } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.component';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-watch-list',
@@ -40,7 +41,9 @@ import { ConfirmationDialogComponent } from 'src/app/shared/components/confirmat
     ]),
   ],
 })
-export class WatchListComponent implements OnInit {
+export class WatchListComponent implements OnInit, OnDestroy {
+  destroyed$: Subject<boolean>;
+
   @ViewChild(MatPaginator, { static: true }) paginator:
     | MatPaginator
     | undefined;
@@ -64,12 +67,13 @@ export class WatchListComponent implements OnInit {
     private ngZone: NgZone,
     private dialog: MatDialog
   ) {
+    this.destroyed$ = new Subject<boolean>();
     this.isLoading$ = this.store.select(WatchListStore.selectIsLoading);
     this.movies$ = this.store.select(WatchListStore.selectDataAsArray);
   }
 
   ngOnInit() {
-    this.movies$.subscribe({
+    this.movies$.pipe(takeUntil(this.destroyed$)).subscribe({
       next: (movies) => (this.dataSource.data = movies),
       error: (error) => {
         throw Error(error);
@@ -94,6 +98,11 @@ export class WatchListComponent implements OnInit {
     }
   }
 
+  ngOnDestroy() {
+    this.destroyed$.next(true);
+    this.destroyed$.unsubscribe();
+  }
+
   toggleFinished(data: WatchListDataDetailed): void {
     this.store.dispatch(WatchListStore.updateMovie({ data }));
   }
@@ -109,16 +118,19 @@ export class WatchListComponent implements OnInit {
       data,
     });
 
-    dialogReg.afterClosed().subscribe((isConfirmed) => {
-      if (isConfirmed) {
-        this.store.dispatch(
-          WatchListStore.deleteMovie({
-            id: dataDetailed.id,
-            title: dataDetailed.title,
-          })
-        );
-      }
-    });
+    dialogReg
+      .afterClosed()
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((isConfirmed) => {
+        if (isConfirmed) {
+          this.store.dispatch(
+            WatchListStore.deleteMovie({
+              id: dataDetailed.id,
+              title: dataDetailed.title,
+            })
+          );
+        }
+      });
   }
 
   onNavigateToMovie(imdbId: string): void {

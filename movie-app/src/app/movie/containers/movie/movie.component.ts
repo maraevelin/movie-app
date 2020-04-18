@@ -1,8 +1,8 @@
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit, NgZone, OnDestroy } from '@angular/core';
 import { Location } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import * as MovieStore from '../../store/movie';
@@ -15,13 +15,16 @@ import { User } from 'src/app/auth/models/user.model';
 import { ConfirmationDialogComponent } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { ConfirmationDialogData } from 'src/app/shared/models/confirmation-dialog.model';
 import { WatchListDataDetailed } from 'src/app/watch-list/models/watch-list-data-detailed.model';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-movie',
   templateUrl: './movie.component.html',
   styleUrls: ['./movie.component.scss'],
 })
-export class MovieComponent implements OnInit {
+export class MovieComponent implements OnInit, OnDestroy {
+  destroyed$: Subject<boolean>;
+
   id: string | null;
   isSignedIn = false;
   isOnWatchList = false;
@@ -39,6 +42,8 @@ export class MovieComponent implements OnInit {
     private ngZone: NgZone,
     public dialog: MatDialog
   ) {
+    this.destroyed$ = new Subject<boolean>();
+
     this.id = this.route.snapshot.paramMap.get('id');
     if (this.id) {
       this.store.dispatch(MovieStore.getDetailed({ id: this.id }));
@@ -52,11 +57,11 @@ export class MovieComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.user$.subscribe((user) => {
+    this.user$.pipe(takeUntil(this.destroyed$)).subscribe((user) => {
       this.isSignedIn = !!user;
 
       if (this.isSignedIn) {
-        this.watchList$.subscribe({
+        this.watchList$.pipe(takeUntil(this.destroyed$)).subscribe({
           next: (watchListMovies) => {
             if (this.id) {
               this.isOnWatchList = watchListMovies.hasOwnProperty(this.id);
@@ -67,6 +72,11 @@ export class MovieComponent implements OnInit {
         this.isOnWatchList = false;
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.destroyed$.next(true);
+    this.destroyed$.unsubscribe();
   }
 
   onAddToWatchList(movie: DetailedMovie): void {
@@ -99,11 +109,14 @@ export class MovieComponent implements OnInit {
       data,
     });
 
-    dialogRef.afterClosed().subscribe((isConfirmed) => {
-      if (isConfirmed) {
-        this.redirectGuest();
-      }
-    });
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((isConfirmed) => {
+        if (isConfirmed) {
+          this.redirectGuest();
+        }
+      });
   }
 
   private redirectGuest() {
