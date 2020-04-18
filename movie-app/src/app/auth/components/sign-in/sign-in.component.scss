@@ -36,3 +36,11 @@
   display: flex;
   justify-content: space-between;
 }
+
+.form-password-forgotten {
+  &:hover {
+    cursor: pointer;
+
+    font-weight: 450;
+  }
+}

@@ -7,14 +7,14 @@
     {{ isSignIn ? 'Sign in' : 'Sign up' }}
   </div>
 
-  <mat-form-field appearance="outline" class="from form-email">
+  <mat-form-field appearance="outline">
     <mat-label id="data-email-label">Enter your e-mail</mat-label>
     <input matInput formControlName="email" id="data-email-input" />
   </mat-form-field>
 
   <br />
 
-  <mat-form-field appearance="outline" class="from form-password">
+  <mat-form-field appearance="outline">
     <mat-label id="data-password-label">Enter your password</mat-label>
     <input
       matInput
@@ -34,6 +34,13 @@
         hidePassword ? 'visibility_off' : 'visibility'
       }}</mat-icon>
     </button>
+    <mat-hint
+      align="start"
+      class="form-password-forgotten"
+      id="data-password-forgotten"
+    >
+      Forgot password?
+    </mat-hint>
   </mat-form-field>
 
   <br />
