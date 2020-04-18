@@ -4,7 +4,7 @@ import { Observable, from } from 'rxjs';
 import { AngularFireAuth } from '@angular/fire/auth';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   constructor(private firebase: AngularFireAuth) {}
@@ -29,5 +29,9 @@ export class AuthService {
 
   signOut(): Observable<void> {
     return from(this.firebase.auth.signOut());
+  }
+
+  requestResetPassword(email: string): Observable<void> {
+    return from(this.firebase.auth.sendPasswordResetEmail(email));
   }
 }
