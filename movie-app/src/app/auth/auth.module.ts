@@ -6,9 +6,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialDesignModule } from '../material-design/material-design.module';
 import { SharedModule } from '../shared/shared.module';
 import { SignInComponent } from './components/sign-in/sign-in.component';
+import { ForgotPasswordComponent } from './components/account-recovery/forgot-password/forgot-password.component';
 
 @NgModule({
-  declarations: [SignInComponent],
+  declarations: [SignInComponent, ForgotPasswordComponent],
   imports: [
     CommonModule,
     AuthRoutingModule,
