@@ -18,3 +18,8 @@ export const selectUser = createSelector(
   selectAuth,
   (state: AuthStore.AuthState) => state.user
 );
+
+export const selectUserId = createSelector(
+  selectAuth,
+  (state: AuthStore.AuthState) => (state.user ? state.user.id : undefined)
+);
