@@ -5,7 +5,7 @@ import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
-import * as AuthStore from '../../store';
+import * as AuthStore from '../../store/auth';
 import { AuthConstants } from '../../shared/auth.shared';
 import { Credentials } from '../../models/credentials.model';
 import { AppState } from 'src/app/core/store';

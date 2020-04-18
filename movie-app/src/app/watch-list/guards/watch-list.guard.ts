@@ -13,7 +13,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../core/store';
 import { AuthConstants } from '../../auth/shared/auth.shared';
 import { User } from '../../auth/models/user.model';
-import * as AuthStore from '../../auth/store';
+import * as AuthStore from '../../auth/store/auth';
 
 @Injectable({ providedIn: 'root' })
 export class WatchListGuard implements CanActivate {

@@ -31,7 +31,7 @@ export class AuthService {
     return from(this.firebase.auth.signOut());
   }
 
-  requestResetPassword(email: string): Observable<void> {
+  requestNewPassword(email: string): Observable<void> {
     return from(this.firebase.auth.sendPasswordResetEmail(email));
   }
 }

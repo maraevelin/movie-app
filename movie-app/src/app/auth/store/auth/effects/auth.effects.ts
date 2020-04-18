@@ -67,7 +67,7 @@ export class AuthEffects {
       ofType(AuthActions.forgotPassword),
       switchMap((action) => {
         const email = action.email;
-        return this.service.requestResetPassword(email).pipe(
+        return this.service.requestNewPassword(email).pipe(
           switchMap(() => [
             SnackBarStore.success({
               message: `Your password reset link has been sent to ${email}`,

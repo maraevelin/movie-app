@@ -11,7 +11,7 @@ import { OmdbApiService } from 'src/app/movie/services/omdb-api.service';
 import { WatchListData } from '../models/watch-list-data.model';
 import { WatchListDataDetailed } from '../models/watch-list-data-detailed.model';
 import { AppState } from 'src/app/core/store';
-import * as AuthStore from '../../auth/store';
+import * as AuthStore from '../../auth/store/auth';
 
 @Injectable({ providedIn: 'root' })
 export class WatchListService {

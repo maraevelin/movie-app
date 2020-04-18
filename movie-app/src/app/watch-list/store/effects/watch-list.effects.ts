@@ -4,7 +4,7 @@ import { catchError, map, switchMap, concatMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import { WatchListService } from '../../services/watch-list.service';
-import * as AuthStore from '../../../auth/store/';
+import * as AuthStore from '../../../auth/store/auth';
 import * as SnackBarStore from '../../../core/store/snack-bar/';
 import * as WatchListActions from '../actions/watch-list.actions';
 

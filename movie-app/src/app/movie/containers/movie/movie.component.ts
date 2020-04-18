@@ -6,7 +6,7 @@ import { Observable, Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import * as MovieStore from '../../store/movie';
-import * as AuthStore from '../../../auth/store';
+import * as AuthStore from '../../../auth/store/auth';
 import * as WatchListStore from '../../../watch-list/store/';
 import { AppState } from 'src/app/core/store';
 import { DetailedMovie } from '../../models/detailed-movie.model';

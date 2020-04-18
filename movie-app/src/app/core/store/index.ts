@@ -1,5 +1,5 @@
 import * as MovieStore from '../../movie/store/movie';
-import * as AuthStore from '../../auth/store';
+import * as AuthStore from '../../auth/store/auth';
 import * as WatchListStore from '../../watch-list/store';
 import * as SnackBarStore from './snack-bar/';
 

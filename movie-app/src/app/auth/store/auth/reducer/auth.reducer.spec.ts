@@ -1,12 +1,12 @@
 import { createAction } from '@ngrx/store';
-import { Credentials } from '../../models/credentials.model';
-import { User } from '../../models/user.model';
+import { Credentials } from '../../../models/credentials.model';
+import { User } from '../../../models/user.model';
 import * as AuthStore from '../';
 
 describe('Auth Reducer', () => {
   const credentials: Credentials = {
     email: 'user@domain.com',
-    password: 'pwd'
+    password: 'pwd',
   };
   const user: User = { id: 'id', email: credentials.email };
   const error = new Error('an error occured');
@@ -24,7 +24,7 @@ describe('Auth Reducer', () => {
       const state: AuthStore.AuthState = {
         isLoading: true,
         errorMessage: error.message,
-        user
+        user,
       };
 
       const actionReset = AuthStore.reset();
@@ -36,11 +36,11 @@ describe('Auth Reducer', () => {
         actionSignOutSuccess
       );
 
-      [resultReset, resultSignOutSuccess].forEach(result =>
+      [resultReset, resultSignOutSuccess].forEach((result) =>
         expect(result).toEqual({
           isLoading: false,
           errorMessage: undefined,
-          user: undefined
+          user: undefined,
         })
       );
     });
@@ -51,7 +51,7 @@ describe('Auth Reducer', () => {
       const state: AuthStore.AuthState = {
         isLoading: true,
         errorMessage: undefined,
-        user: undefined
+        user: undefined,
       };
 
       const actionSignUp = AuthStore.signUp({ credentials });
@@ -60,10 +60,10 @@ describe('Auth Reducer', () => {
       const actionSignIn = AuthStore.signIn({ credentials });
       const resultSignIn = AuthStore.reducer(state, actionSignIn);
 
-      [resultSignUp, resultSignIn].forEach(result =>
+      [resultSignUp, resultSignIn].forEach((result) =>
         expect(result).toEqual({
           ...state,
-          isLoading: true
+          isLoading: true,
         })
       );
     });
@@ -74,13 +74,13 @@ describe('Auth Reducer', () => {
       const state: AuthStore.AuthState = {
         isLoading: true,
         errorMessage: undefined,
-        user: undefined
+        user: undefined,
       };
       const action = AuthStore.signUpSuccess({ credentials });
       const result = AuthStore.reducer(state, action);
       expect(result).toEqual({
         ...state,
-        isLoading: false
+        isLoading: false,
       });
     });
   });
@@ -90,14 +90,14 @@ describe('Auth Reducer', () => {
       const state: AuthStore.AuthState = {
         isLoading: true,
         errorMessage: undefined,
-        user
+        user,
       };
       const action = AuthStore.signInSuccess({ user });
       const result = AuthStore.reducer(state, action);
       expect(result).toEqual({
         ...state,
         isLoading: false,
-        user
+        user,
       });
     });
   });
@@ -107,7 +107,7 @@ describe('Auth Reducer', () => {
       const state: AuthStore.AuthState = {
         isLoading: true,
         errorMessage: undefined,
-        user: undefined
+        user: undefined,
       };
 
       const actionSignUpFail = AuthStore.signUpFail({ error });
@@ -119,12 +119,13 @@ describe('Auth Reducer', () => {
       const actionSignOutFail = AuthStore.signOutFail({ error });
       const resultSignOutFail = AuthStore.reducer(state, actionSignOutFail);
 
-      [resultSignUpFail, resultSignInFail, resultSignOutFail].forEach(result =>
-        expect(result).toEqual({
-          ...state,
-          isLoading: false,
-          errorMessage: error.message
-        })
+      [resultSignUpFail, resultSignInFail, resultSignOutFail].forEach(
+        (result) =>
+          expect(result).toEqual({
+            ...state,
+            isLoading: false,
+            errorMessage: error.message,
+          })
       );
     });
   });
@@ -134,14 +135,14 @@ describe('Auth Reducer', () => {
       const state: AuthStore.AuthState = {
         isLoading: false,
         errorMessage: error.message,
-        user: undefined
+        user: undefined,
       };
       const action = AuthStore.signOut();
       const result = AuthStore.reducer(state, action);
       expect(result).toEqual({
         ...state,
         isLoading: true,
-        errorMessage: undefined
+        errorMessage: undefined,
       });
     });
   });

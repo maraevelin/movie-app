@@ -1,17 +1,17 @@
 import * as AuthStore from '../';
-import * as SnackBarStore from '../../../core/store/snack-bar/';
+import * as SnackBarStore from '../../../../core/store/snack-bar';
 
 import { Observable } from 'rxjs';
 import { Action } from '@ngrx/store';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../../services/auth.service';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 import { Actions } from '@ngrx/effects';
 import { hot, cold } from 'jest-marbles';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Credentials } from '../../models/credentials.model';
-import { User } from '../../models/user.model';
+import { Credentials } from '../../../models/credentials.model';
+import { User } from '../../../models/user.model';
 import { BlankComponent } from 'src/app/tests/blank/blank.component';
 import { Location } from '@angular/common';
 

@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/core/store';
 import { User } from 'src/app/auth/models/user.model';
-import * as AuthStore from '../../../auth/store';
+import * as AuthStore from '../../../auth/store/auth';
 
 @Component({
   selector: 'app-navigation-bar',

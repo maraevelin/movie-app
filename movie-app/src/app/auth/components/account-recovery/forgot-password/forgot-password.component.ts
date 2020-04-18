@@ -3,7 +3,7 @@ import { Validators, FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
-import * as AuthStore from '../../../store/';
+import * as AuthStore from '../../../store/auth';
 import { AppState } from 'src/app/core/store';
 
 @Component({

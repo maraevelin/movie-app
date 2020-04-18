@@ -1,6 +1,6 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import { User } from 'src/app/auth/models/user.model';
-import * as AuthActions from '../../store/actions/auth.actions';
+import * as AuthActions from '../actions/auth.actions';
 
 export interface AuthState {
   readonly user: User | undefined;

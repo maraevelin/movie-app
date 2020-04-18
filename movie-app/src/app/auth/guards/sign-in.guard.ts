@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../core/store';
 import { Observable, Subject } from 'rxjs';
 import { User } from '../models/user.model';
-import * as AuthStore from '../store';
+import * as AuthStore from '../store/auth';
 import { takeUntil } from 'rxjs/operators';
 
 @Injectable({
