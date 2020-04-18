@@ -70,7 +70,11 @@
 
   <br />
 
-  <mat-error *ngIf="errorMessage$ | async as errorMessage" id="data-form-error">
+  <mat-error
+    *ngIf="errorMessage$ | async as errorMessage"
+    class="error-message"
+    id="data-form-error"
+  >
     {{ errorMessage }}
   </mat-error>
 </form>
