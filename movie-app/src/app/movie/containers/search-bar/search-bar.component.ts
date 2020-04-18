@@ -1,4 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { FormControl } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
@@ -18,7 +19,11 @@ export class SearchBarComponent implements OnInit, OnDestroy {
 
   title$: Observable<string>;
 
-  constructor(private store: Store<AppState>) {
+  constructor(
+    private store: Store<AppState>,
+    private router: Router,
+    private ngZone: NgZone
+  ) {
     this.destroyed$ = new Subject<boolean>();
     this.title$ = this.store.select(MovieStore.selectTitle);
   }
@@ -48,6 +53,12 @@ export class SearchBarComponent implements OnInit, OnDestroy {
 
         this.title.reset();
         this.store.dispatch(MovieStore.search({ title: searchedTitle }));
+
+        if (this.router.url !== '/movies') {
+          this.ngZone.run(() => {
+            this.router.navigate(['/movies']);
+          });
+        }
       });
   }
 }
