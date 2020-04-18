@@ -11,11 +11,11 @@ import { AppState } from 'src/app/core/store';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-auth',
-  templateUrl: './auth.component.html',
-  styleUrls: ['./auth.component.scss'],
+  selector: 'app-sign-in',
+  templateUrl: './sign-in.component.html',
+  styleUrls: ['./sign-in.component.scss'],
 })
-export class AuthComponent implements OnInit, OnDestroy {
+export class SignInComponent implements OnInit, OnDestroy {
   destroyed$: Subject<boolean>;
   redirectUrl: string | undefined;
   isLoading$: Observable<boolean>;

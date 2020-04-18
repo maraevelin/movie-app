@@ -2,14 +2,14 @@ import {
   HttpInterceptor,
   HttpEvent,
   HttpRequest,
-  HttpHandler
+  HttpHandler,
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Injectable } from '@angular/core';
 
 @Injectable()
-export class AuthInterceptor implements HttpInterceptor {
+export class SignInInterceptor implements HttpInterceptor {
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
@@ -27,7 +27,7 @@ export class AuthInterceptor implements HttpInterceptor {
           .set(
             environment.firebaseOld.paramReturnSecureTokenParam,
             environment.firebaseOld.returnSecureTokenPreference
-          )
+          ),
       });
     }
 

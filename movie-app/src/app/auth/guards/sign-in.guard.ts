@@ -10,7 +10,7 @@ import { takeUntil } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
-export class AuthGuard implements CanActivate, OnDestroy {
+export class SignInGuard implements CanActivate, OnDestroy {
   destroyed$: Subject<boolean>;
   user$: Observable<User | undefined>;
 

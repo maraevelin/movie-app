@@ -47,7 +47,7 @@ export class WatchListGuard implements CanActivate {
         };
 
         this.ngZone.run(() => {
-          this.router.navigate(['/signin'], redirectTo).then(() => {
+          this.router.navigate(['/sign-in'], redirectTo).then(() => {
             this.location.replaceState(redirectUrl);
           });
         });

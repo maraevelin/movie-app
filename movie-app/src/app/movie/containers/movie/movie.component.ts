@@ -127,7 +127,7 @@ export class MovieComponent implements OnInit, OnDestroy {
     };
 
     this.ngZone.run(() => {
-      this.router.navigate(['/signin'], redirectTo);
+      this.router.navigate(['/sign-in'], redirectTo);
     });
   }
 }
