@@ -47,6 +47,7 @@ $resolution-larger: 1280px;
 
 @mixin error-message {
   .error-message {
+    font-weight: 350;
     text-align: justify;
   }
 }
