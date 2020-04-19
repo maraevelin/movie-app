@@ -1,9 +1,9 @@
-import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { FormControl } from '@angular/forms';
-import { Observable, Subject } from 'rxjs';
-import { first, takeUntil } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { first } from 'rxjs/operators';
 import { AppState } from '../../../core/store';
 import * as MovieStore from '../../store/movie';
 
@@ -12,9 +12,7 @@ import * as MovieStore from '../../store/movie';
   templateUrl: './search-bar.component.html',
   styleUrls: ['./search-bar.component.scss'],
 })
-export class SearchBarComponent implements OnInit, OnDestroy {
-  destroyed$: Subject<boolean>;
-
+export class SearchBarComponent {
   title = new FormControl('');
 
   title$: Observable<string>;
@@ -24,15 +22,7 @@ export class SearchBarComponent implements OnInit, OnDestroy {
     private router: Router,
     private ngZone: NgZone
   ) {
-    this.destroyed$ = new Subject<boolean>();
     this.title$ = this.store.select(MovieStore.selectTitle);
-  }
-
-  ngOnInit(): void {}
-
-  ngOnDestroy(): void {
-    this.destroyed$.next(true);
-    this.destroyed$.unsubscribe();
   }
 
   onSearch(): void {
@@ -42,23 +32,20 @@ export class SearchBarComponent implements OnInit, OnDestroy {
     }
 
     let isAlreadyShown = false;
-    this.title$
-      .pipe(first(), takeUntil(this.destroyed$))
-      .subscribe((lastTitle) => {
-        isAlreadyShown =
-          searchedTitle.toLowerCase() === lastTitle.toLowerCase();
-        if (isAlreadyShown) {
-          return;
-        }
+    this.title$.pipe(first()).subscribe((lastTitle) => {
+      isAlreadyShown = searchedTitle.toLowerCase() === lastTitle.toLowerCase();
+      if (isAlreadyShown) {
+        return;
+      }
 
-        this.title.reset();
-        this.store.dispatch(MovieStore.search({ title: searchedTitle }));
+      this.title.reset();
+      this.store.dispatch(MovieStore.search({ title: searchedTitle }));
 
-        if (this.router.url !== '/movies') {
-          this.ngZone.run(() => {
-            this.router.navigate(['/movies']);
-          });
-        }
-      });
+      if (this.router.url !== '/movies') {
+        this.ngZone.run(() => {
+          this.router.navigate(['/movies']);
+        });
+      }
+    });
   }
 }
