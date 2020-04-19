@@ -40,7 +40,6 @@ export class ResetPasswordComponent {
   hidePasswordConfirmation = true;
 
   isLoading$: Observable<boolean>;
-  errorMessage$: Observable<string | undefined>;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -48,9 +47,6 @@ export class ResetPasswordComponent {
     private activatedRoute: ActivatedRoute
   ) {
     this.isLoading$ = this.store.select(ResetPasswordStore.selectIsLoading);
-    this.errorMessage$ = this.store.select(
-      ResetPasswordStore.selectErrorMessage
-    );
   }
 
   onSubmit(): void {

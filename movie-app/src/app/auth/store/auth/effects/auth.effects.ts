@@ -27,7 +27,14 @@ export class AuthEffects {
               }),
             ];
           }),
-          catchError((error) => of(AuthActions.signUpFail({ error })))
+          catchError((error) =>
+            of(
+              AuthActions.signUpFail({ error }),
+              SnackBarStore.error({
+                message: error.message,
+              })
+            )
+          )
         );
       })
     )
@@ -44,7 +51,14 @@ export class AuthEffects {
               returnUrl: action.returnUrl,
             })
           ),
-          catchError((error) => of(AuthActions.signInFail({ error })))
+          catchError((error) =>
+            of(
+              AuthActions.signInFail({ error }),
+              SnackBarStore.error({
+                message: error.message,
+              })
+            )
+          )
         )
       )
     )

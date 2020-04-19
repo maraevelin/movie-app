@@ -19,7 +19,6 @@ export class SignInComponent implements OnInit, OnDestroy {
   destroyed$: Subject<boolean>;
   redirectUrl: string | undefined;
   isLoading$: Observable<boolean>;
-  errorMessage$: Observable<string | undefined>;
   isSignIn = true;
   hidePassword = true;
 
@@ -35,7 +34,6 @@ export class SignInComponent implements OnInit, OnDestroy {
   ) {
     this.destroyed$ = new Subject<boolean>();
     this.isLoading$ = this.store.select(AuthStore.selectIsLoading);
-    this.errorMessage$ = this.store.select(AuthStore.selectErrorMessage);
   }
 
   ngOnInit(): void {

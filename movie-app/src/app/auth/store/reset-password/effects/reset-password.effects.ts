@@ -30,7 +30,10 @@ export class ResetPasswordEffects {
             ResetActions.requestResetLinkSuccess(),
           ]),
           catchError((error) =>
-            of(ResetActions.requestResetLinkFail({ error }))
+            of(
+              ResetActions.requestResetLinkFail({ error }),
+              SnackBarStore.error({ message: error.message })
+            )
           )
         );
       })
@@ -68,7 +71,12 @@ export class ResetPasswordEffects {
               ResetActions.confirmSuccess(),
             ];
           }),
-          catchError((error) => of(ResetActions.confirmFail({ error })))
+          catchError((error) =>
+            of(
+              ResetActions.confirmFail({ error }),
+              SnackBarStore.error({ message: error.message })
+            )
+          )
         )
       )
     )

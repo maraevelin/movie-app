@@ -17,16 +17,12 @@ export class RequestResetPasswordComponent implements OnInit {
   });
 
   isLoading$: Observable<boolean>;
-  errorMessage$: Observable<string | undefined>;
 
   constructor(
     private formBuilder: FormBuilder,
     private store: Store<AppState>
   ) {
     this.isLoading$ = this.store.select(ResetPasswordStore.selectIsLoading);
-    this.errorMessage$ = this.store.select(
-      ResetPasswordStore.selectErrorMessage
-    );
   }
 
   ngOnInit(): void {}
