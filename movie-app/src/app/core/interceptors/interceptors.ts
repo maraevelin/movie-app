@@ -1,8 +1,8 @@
 import { Provider } from '@angular/core';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { SignInInterceptor } from 'src/app/auth/interceptors/sign-in.interceptor';
-import { OmdbApiInterceptor } from '../../movie/interceptors/omdb.api.interceptor';
 import { OmdbErrorInterceptor } from '../../movie/interceptors/omdb.error.interceptor';
+import { OmdbInterceptor } from 'src/app/movie/interceptors/omdb.interceptor';
 
 export const interceptorProviders: Provider[] = [
   {
@@ -12,7 +12,7 @@ export const interceptorProviders: Provider[] = [
   },
   {
     provide: HTTP_INTERCEPTORS,
-    useClass: OmdbApiInterceptor,
+    useClass: OmdbInterceptor,
     multi: true,
   },
   {

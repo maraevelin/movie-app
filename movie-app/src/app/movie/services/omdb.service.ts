@@ -12,10 +12,15 @@ import { DetailedMovie } from '../models/detailed-movie.model';
   providedIn: 'root',
 })
 export class OmdbService {
+  private readonly paramSearch = 's';
+  private readonly paramPlot = 'plot';
+  private readonly paramImdbId = 'i';
+  private readonly plotPreference = 'full';
+
   constructor(private http: HttpClient) {}
 
   searchMoviesByTitle(title: string): Observable<Movie[]> {
-    const params = new HttpParams().set(environment.omdb.paramSearch, title);
+    const params = new HttpParams().set(this.paramSearch, title);
     const response$ = this.http.get<SearchResponse>(environment.omdb.url, {
       params,
     });
@@ -31,11 +36,11 @@ export class OmdbService {
 
   getMovieByImdbId(
     id: string,
-    plotPref: string = environment.omdb.plotPreference
+    plotPref: string = this.plotPreference
   ): Observable<DetailedMovie> {
     const params = new HttpParams()
-      .set(environment.omdb.paramImdbId, id)
-      .set(environment.omdb.paramPlot, plotPref);
+      .set(this.paramImdbId, id)
+      .set(this.paramPlot, plotPref);
     const response$ = this.http.get<DetailedMovieResponse>(
       environment.omdb.url,
       { params }

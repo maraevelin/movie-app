@@ -5,7 +5,6 @@ import { concatMap, map, flatMap, filter, first } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import * as firebase from 'firebase/app';
 
-import { environment } from 'src/environments/environment';
 import { DetailedMovie } from 'src/app/movie/models/detailed-movie.model';
 import { OmdbService } from 'src/app/movie/services/omdb.service';
 import { WatchListData } from '../models/watch-list-data.model';
@@ -15,6 +14,7 @@ import * as AuthStore from '../../auth/store/auth';
 
 @Injectable({ providedIn: 'root' })
 export class WatchListService {
+  private readonly collection = 'watch-lists';
   userId$: Observable<string | undefined>;
   watchList = {};
   converter = {
@@ -45,7 +45,7 @@ export class WatchListService {
       flatMap((userId) => {
         return from(
           this.angularFirestore.firestore
-            .collection(environment.firebaseConfig.testCollection)
+            .collection(this.collection)
             .doc(userId)
             .withConverter(this.converter)
             .get()
@@ -94,7 +94,7 @@ export class WatchListService {
 
         return from(
           this.angularFirestore
-            .collection(environment.firebaseConfig.testCollection)
+            .collection(this.collection)
             .doc(userId)
             .set({ [data.id]: data }, { merge: true })
         ).pipe(() => {
@@ -126,7 +126,7 @@ export class WatchListService {
 
         return from(
           this.angularFirestore.firestore
-            .collection(environment.firebaseConfig.testCollection)
+            .collection(this.collection)
             .doc(userId)
             .update({ [data.id]: data })
         );
@@ -143,7 +143,7 @@ export class WatchListService {
 
         return from(
           this.angularFirestore.firestore
-            .collection(environment.firebaseConfig.testCollection)
+            .collection(this.collection)
             .doc(userId)
             .update({ [id]: FieldValue.delete() })
         );

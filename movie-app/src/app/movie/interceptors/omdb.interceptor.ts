@@ -9,7 +9,9 @@ import { environment } from 'src/environments/environment';
 import { Injectable } from '@angular/core';
 
 @Injectable()
-export class OmdbApiInterceptor implements HttpInterceptor {
+export class OmdbInterceptor implements HttpInterceptor {
+  private readonly paramApiKey = 'apikey';
+
   constructor() {}
 
   intercept(
@@ -22,7 +24,7 @@ export class OmdbApiInterceptor implements HttpInterceptor {
     if (request.url.startsWith(omdbApiUrl)) {
       requestWithApiKey = request.clone({
         params: request.params.set(
-          environment.omdb.paramApiKey,
+          this.paramApiKey,
           environment.omdb.apiKey
         ),
       });

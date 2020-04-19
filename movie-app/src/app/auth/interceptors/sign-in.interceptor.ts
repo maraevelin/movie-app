@@ -15,19 +15,13 @@ export class SignInInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     let request = req;
-    const firebaseApiURl = environment.firebaseOld.url;
+    const firebaseApiURl = environment.firebase.url;
 
     if (req.url.startsWith(firebaseApiURl)) {
       request = req.clone({
         params: req.params
-          .set(
-            environment.firebaseOld.paramApiKey,
-            environment.firebaseOld.apiKey
-          )
-          .set(
-            environment.firebaseOld.paramReturnSecureTokenParam,
-            environment.firebaseOld.returnSecureTokenPreference
-          ),
+          .set('key', environment.firebase.apiKey)
+          .set('returnSecureToken', 'true'),
       });
     }
 
