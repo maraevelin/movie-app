@@ -15,7 +15,7 @@ export class AuthEffects {
     this.actions$.pipe(
       ofType(AuthActions.signUp),
       switchMap((action) => {
-        return this.service.signUp(action.credentials).pipe(
+        return this.authService.signUp(action.credentials).pipe(
           switchMap(() => {
             return [
               SnackBarStore.success({
@@ -36,17 +36,17 @@ export class AuthEffects {
   signIn$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.signIn),
-      switchMap((action) => {
-        return this.service.signIn(action.credentials).pipe(
-          map((response) => {
-            return AuthActions.signInSuccess({
+      switchMap((action) =>
+        this.authService.signIn(action.credentials).pipe(
+          map((response) =>
+            AuthActions.signInSuccess({
               user: new User(response),
               returnUrl: action.returnUrl,
-            });
-          }),
+            })
+          ),
           catchError((error) => of(AuthActions.signInFail({ error })))
-        );
-      })
+        )
+      )
     )
   );
 
@@ -54,29 +54,11 @@ export class AuthEffects {
     this.actions$.pipe(
       ofType(AuthActions.signOut),
       switchMap(() =>
-        this.service.signOut().pipe(
+        this.authService.signOut().pipe(
           map(() => AuthActions.signOutSuccess()),
           catchError((error) => of(AuthActions.signOutFail({ error })))
         )
       )
-    )
-  );
-
-  forgotPassword$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(AuthActions.forgotPassword),
-      switchMap((action) => {
-        const email = action.email;
-        return this.service.requestNewPassword(email).pipe(
-          switchMap(() => [
-            SnackBarStore.success({
-              message: `Your password reset link has been sent to ${email}`,
-            }),
-            AuthActions.forgotPasswordSuccess(),
-          ]),
-          catchError((error) => of(AuthActions.forgotPasswordFail({ error })))
-        );
-      })
     )
   );
 
@@ -111,9 +93,7 @@ export class AuthEffects {
       this.actions$.pipe(
         ofType(AuthActions.signOutSuccess),
         tap(() => {
-          this.ngZone.run(() => {
-            this.router.navigate(['/']);
-          });
+          this.ngZone.run(() => this.router.navigate(['/']));
         })
       ),
     { dispatch: false }
@@ -121,7 +101,7 @@ export class AuthEffects {
 
   constructor(
     private actions$: Actions,
-    private service: AuthService,
+    private authService: AuthService,
     private router: Router,
     private ngZone: NgZone
   ) {}

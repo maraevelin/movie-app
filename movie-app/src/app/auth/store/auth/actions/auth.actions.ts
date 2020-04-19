@@ -43,17 +43,3 @@ export const signOutFail = createAction(
   '[AUTH] Sign out Fail',
   props<{ error: Error }>()
 );
-
-export const forgotPassword = createAction(
-  '[AUTH] Forgot password',
-  props<{ email: string }>()
-);
-
-export const forgotPasswordSuccess = createAction(
-  '[AUTH] Forgot password Success'
-);
-
-export const forgotPasswordFail = createAction(
-  '[AUTH] Forgot password Fail',
-  props<{ error: Error }>()
-);
