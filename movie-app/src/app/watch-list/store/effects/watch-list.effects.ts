@@ -10,7 +10,10 @@ import * as WatchListActions from '../actions/watch-list.actions';
 
 @Injectable()
 export class WatchListEffects {
-  constructor(private actions$: Actions, private service: WatchListService) {}
+  constructor(
+    private actions$: Actions,
+    private watchListService: WatchListService
+  ) {}
 
   loadOnSignInSuccess$ = createEffect(() =>
     this.actions$.pipe(
@@ -44,7 +47,7 @@ export class WatchListEffects {
     this.actions$.pipe(
       ofType(WatchListActions.load),
       switchMap(() =>
-        this.service.load().pipe(
+        this.watchListService.load().pipe(
           map((data) => WatchListActions.loadSuccess({ data })),
           catchError((error) =>
             of(
@@ -63,7 +66,7 @@ export class WatchListEffects {
     this.actions$.pipe(
       ofType(WatchListActions.addMovie),
       switchMap((action) =>
-        this.service.addMovie(action.id).pipe(
+        this.watchListService.addMovie(action.id).pipe(
           concatMap((dataDetailed) => [
             WatchListActions.addMovieSuccess({
               data: dataDetailed,
@@ -92,7 +95,7 @@ export class WatchListEffects {
         let data = action.data;
         data = { ...data, isFinished: !data.isFinished };
 
-        return this.service.updateMovie(data).pipe(
+        return this.watchListService.updateMovie(data).pipe(
           concatMap(() => [
             WatchListActions.updateMovieSuccess({ data }),
             SnackBarStore.success({
@@ -116,7 +119,7 @@ export class WatchListEffects {
     this.actions$.pipe(
       ofType(WatchListActions.deleteMovie),
       switchMap((action) =>
-        this.service.deleteMovie(action.id).pipe(
+        this.watchListService.deleteMovie(action.id).pipe(
           concatMap(() => [
             WatchListActions.deleteMovieSuccess({
               id: action.id,

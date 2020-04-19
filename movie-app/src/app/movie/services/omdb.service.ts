@@ -11,7 +11,7 @@ import { DetailedMovie } from '../models/detailed-movie.model';
 @Injectable({
   providedIn: 'root',
 })
-export class OmdbApiService {
+export class OmdbService {
   constructor(private http: HttpClient) {}
 
   searchMoviesByTitle(title: string): Observable<Movie[]> {

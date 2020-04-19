@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { OmdbApiService } from 'src/app/movie/services/omdb-api.service';
+import { OmdbService } from 'src/app/movie/services/omdb.service';
 import * as MovieStore from '..';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -12,11 +12,11 @@ import { DetailedMovie } from 'src/app/movie/models/detailed-movie.model';
 describe('MovieEffects', () => {
   let actions$: Observable<Action>;
   let effects: MovieStore.MovieEffects;
-  let omdbApiService: OmdbApiService;
+  let omdbService: OmdbService;
 
   const movies: Movie[] = [
     { imdbId: 'imdbId1', posterUrl: 'posterUrl1', title: 'title1' },
-    { imdbId: 'imdbId2', posterUrl: 'posterUrl2', title: 'title2' }
+    { imdbId: 'imdbId2', posterUrl: 'posterUrl2', title: 'title2' },
   ];
 
   const detailedMovie: DetailedMovie = {
@@ -28,7 +28,7 @@ describe('MovieEffects', () => {
     posterUrl: 'posterUrl',
     actors: ['actor1', 'actor2'],
     writers: ['writer1', 'writer2'],
-    plot: 'plot'
+    plot: 'plot',
   };
 
   const error = new Error('an error occured');
@@ -37,20 +37,20 @@ describe('MovieEffects', () => {
     TestBed.configureTestingModule({
       providers: [
         {
-          provide: OmdbApiService,
+          provide: OmdbService,
           useValue: {
             searchMoviesByTitle: jest.fn(),
-            getMovieByImdbId: jest.fn()
-          }
+            getMovieByImdbId: jest.fn(),
+          },
         },
         MovieStore.MovieEffects,
-        provideMockActions(() => actions$)
-      ]
+        provideMockActions(() => actions$),
+      ],
     });
 
     actions$ = TestBed.get<Actions>(Actions);
     effects = TestBed.get<MovieStore.MovieEffects>(MovieStore.MovieEffects);
-    omdbApiService = TestBed.get<OmdbApiService>(OmdbApiService);
+    omdbService = TestBed.get<OmdbService>(OmdbService);
   });
 
   it('should be created', () => {
@@ -69,7 +69,7 @@ describe('MovieEffects', () => {
       const response$ = cold('-a', { a: movies });
       const expected$ = cold('--b', { b: outcome });
 
-      omdbApiService.searchMoviesByTitle = jest.fn(() => response$);
+      omdbService.searchMoviesByTitle = jest.fn(() => response$);
 
       expect(effects.searchMovies$).toBeObservable(expected$);
     });
@@ -87,7 +87,7 @@ describe('MovieEffects', () => {
       const response$ = cold('-#', {}, error);
       const expected$ = cold('--b', { b: outcome });
 
-      omdbApiService.searchMoviesByTitle = jest.fn(() => response$);
+      omdbService.searchMoviesByTitle = jest.fn(() => response$);
 
       expect(effects.searchMovies$).toBeObservable(expected$);
     });
@@ -105,7 +105,7 @@ describe('MovieEffects', () => {
       const response$ = cold('-a', { a: detailedMovie });
       const expected$ = cold('--b', { b: outcome });
 
-      omdbApiService.getMovieByImdbId = jest.fn(() => response$);
+      omdbService.getMovieByImdbId = jest.fn(() => response$);
 
       expect(effects.getDetailedMovie$).toBeObservable(expected$);
     });
@@ -123,7 +123,7 @@ describe('MovieEffects', () => {
       const response$ = cold('-#', {}, error);
       const expected$ = cold('--b', { b: outcome });
 
-      omdbApiService.getMovieByImdbId = jest.fn(() => response$);
+      omdbService.getMovieByImdbId = jest.fn(() => response$);
 
       expect(effects.getDetailedMovie$).toBeObservable(expected$);
     });

@@ -7,7 +7,7 @@ import * as firebase from 'firebase/app';
 
 import { environment } from 'src/environments/environment';
 import { DetailedMovie } from 'src/app/movie/models/detailed-movie.model';
-import { OmdbApiService } from 'src/app/movie/services/omdb-api.service';
+import { OmdbService } from 'src/app/movie/services/omdb.service';
 import { WatchListData } from '../models/watch-list-data.model';
 import { WatchListDataDetailed } from '../models/watch-list-data-detailed.model';
 import { AppState } from 'src/app/core/store';
@@ -31,7 +31,7 @@ export class WatchListService {
 
   constructor(
     private angularFirestore: AngularFirestore,
-    private omdbService: OmdbApiService,
+    private omdbService: OmdbService,
     private store: Store<AppState>
   ) {
     this.userId$ = this.store.select(AuthStore.selectUserId);
