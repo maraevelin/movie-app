@@ -3,15 +3,15 @@ import { Validators, FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
-import * as AuthStore from '../../../store/auth';
+import * as ResetPasswordStore from '../../../store/reset-password';
 import { AppState } from 'src/app/core/store';
 
 @Component({
-  selector: 'app-forgot-password',
-  templateUrl: './forgot-password.component.html',
-  styleUrls: ['./forgot-password.component.scss'],
+  selector: 'app-request-reset-password',
+  templateUrl: './request-reset-password.component.html',
+  styleUrls: ['./request-reset-password.component.scss'],
 })
-export class ForgotPasswordComponent implements OnInit {
+export class RequestResetPasswordComponent implements OnInit {
   form = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
   });
@@ -23,14 +23,21 @@ export class ForgotPasswordComponent implements OnInit {
     private formBuilder: FormBuilder,
     private store: Store<AppState>
   ) {
-    this.isLoading$ = this.store.select(AuthStore.selectIsLoading);
-    this.errorMessage$ = this.store.select(AuthStore.selectErrorMessage);
+    this.isLoading$ = this.store.select(ResetPasswordStore.selectIsLoading);
+    this.errorMessage$ = this.store.select(
+      ResetPasswordStore.selectErrorMessage
+    );
   }
 
   ngOnInit(): void {}
 
   onSubmit(): void {
+    if (this.form.invalid) {
+      return;
+    }
+
     const email = this.form.value.email;
-    this.store.dispatch(AuthStore.forgotPassword({ email }));
+
+    this.store.dispatch(ResetPasswordStore.requestResetLink({ email }));
   }
 }
