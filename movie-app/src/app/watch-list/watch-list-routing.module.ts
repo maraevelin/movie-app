@@ -5,7 +5,7 @@ import { WatchListGuard } from './guards/watch-list.guard';
 
 const routes: Routes = [
   {
-    path: 'watchList',
+    path: 'watch-list',
     component: WatchListComponent,
     canActivate: [WatchListGuard],
   },
