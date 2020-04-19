@@ -36,7 +36,7 @@ export class MovieComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<AppState>,
-    private route: ActivatedRoute,
+    private activatedRoute: ActivatedRoute,
     private router: Router,
     private location: Location,
     private ngZone: NgZone,
@@ -44,7 +44,7 @@ export class MovieComponent implements OnInit, OnDestroy {
   ) {
     this.destroyed$ = new Subject<boolean>();
 
-    this.id = this.route.snapshot.paramMap.get('id');
+    this.id = this.activatedRoute.snapshot.paramMap.get('id');
     if (this.id) {
       this.store.dispatch(MovieStore.getDetailed({ id: this.id }));
     }
