@@ -34,13 +34,19 @@
         hidePassword ? 'visibility_off' : 'visibility'
       }}</mat-icon>
     </button>
+
     <mat-hint
+      *ngIf="isSignIn"
       align="start"
       routerLink="/forgot-password"
       class="form-password-forgot"
       id="data-password-forgot"
     >
       Forgot password?
+    </mat-hint>
+
+    <mat-hint *ngIf="!isSignIn" align="end">
+      Your password must be at least 6 characters long
     </mat-hint>
   </mat-form-field>
 
