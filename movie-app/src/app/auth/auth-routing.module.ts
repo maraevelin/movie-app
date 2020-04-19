@@ -2,7 +2,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { SignInComponent } from './components/sign-in/sign-in.component';
 import { SignInGuard } from './guards/sign-in.guard';
-import { ForgotPasswordComponent } from './components/account-recovery/forgot-password/forgot-password.component';
+import { RequestResetPasswordComponent } from './components/account-recovery/request-reset-password/request-reset-password.component';
+import { ResetPasswordComponent } from './components/account-recovery/reset-password/reset-password.component';
+import { ResetPasswordGuard } from './guards/reset-password.guard';
 
 const routes: Routes = [
   {
@@ -12,7 +14,12 @@ const routes: Routes = [
   },
   {
     path: 'forgot-password',
-    component: ForgotPasswordComponent,
+    component: RequestResetPasswordComponent,
+  },
+  {
+    path: 'reset-password',
+    component: ResetPasswordComponent,
+    canActivate: [ResetPasswordGuard],
   },
 ];
 

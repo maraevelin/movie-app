@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Credentials } from '../models/credentials.model';
 import { Observable, from } from 'rxjs';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { ConfirmResetPasswordModel } from './models/confirm-reset-password.model';
 
 @Injectable({
   providedIn: 'root',
@@ -31,7 +32,17 @@ export class AuthService {
     return from(this.firebase.auth.signOut());
   }
 
-  requestNewPassword(email: string): Observable<void> {
+  requestResetPasswordLink(email: string): Observable<void> {
     return from(this.firebase.auth.sendPasswordResetEmail(email));
+  }
+
+  verifyResetPasswordCode(oobCode: string): Observable<string> {
+    return from(this.firebase.auth.verifyPasswordResetCode(oobCode));
+  }
+
+  confirmResetPassword(confirm: ConfirmResetPasswordModel): Observable<void> {
+    return from(
+      this.firebase.auth.confirmPasswordReset(confirm.oobCode, confirm.password)
+    );
   }
 }

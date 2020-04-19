@@ -6,10 +6,15 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialDesignModule } from '../material-design/material-design.module';
 import { SharedModule } from '../shared/shared.module';
 import { SignInComponent } from './components/sign-in/sign-in.component';
-import { ForgotPasswordComponent } from './components/account-recovery/forgot-password/forgot-password.component';
+import { RequestResetPasswordComponent } from './components/account-recovery/request-reset-password/request-reset-password.component';
+import { ResetPasswordComponent } from './components/account-recovery/reset-password/reset-password.component';
 
 @NgModule({
-  declarations: [SignInComponent, ForgotPasswordComponent],
+  declarations: [
+    SignInComponent,
+    RequestResetPasswordComponent,
+    ResetPasswordComponent,
+  ],
   imports: [
     CommonModule,
     AuthRoutingModule,
