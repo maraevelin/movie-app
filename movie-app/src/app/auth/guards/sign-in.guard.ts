@@ -1,17 +1,16 @@
 import { CanActivate, Router } from '@angular/router';
-import { Injectable, NgZone, OnDestroy } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../core/store';
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { User } from '../models/user.model';
 import * as AuthStore from '../store/auth';
-import { takeUntil } from 'rxjs/operators';
+import { first } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
-export class SignInGuard implements CanActivate, OnDestroy {
-  destroyed$: Subject<boolean>;
+export class SignInGuard implements CanActivate {
   user$: Observable<User | undefined>;
 
   constructor(
@@ -19,19 +18,12 @@ export class SignInGuard implements CanActivate, OnDestroy {
     private router: Router,
     private ngZone: NgZone
   ) {
-    this.destroyed$ = new Subject<boolean>();
     this.user$ = this.store.select(AuthStore.selectUser);
-  }
-  ngOnDestroy(): void {
-    this.destroyed$.next(true);
-    this.destroyed$.unsubscribe();
   }
 
   canActivate(): boolean {
     let isSignedIn = false;
-    this.user$
-      .pipe(takeUntil(this.destroyed$))
-      .subscribe((user) => (isSignedIn = !!user));
+    this.user$.pipe(first()).subscribe((user) => (isSignedIn = !!user));
 
     if (isSignedIn) {
       this.ngZone.run(() => {
