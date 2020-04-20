@@ -29,7 +29,8 @@ export class WatchListGuard implements CanActivate {
   }
 
   canActivate(
-    _next: ActivatedRouteSnapshot,
+    // @ts-ignore
+    next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> {
     return this.user$.pipe(
