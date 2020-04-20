@@ -48,7 +48,3 @@ Thumbs.db
 # Environment variables
 /src/environments/environment.ts
 /cypress/integration/examples
-
-# Firebase
-.firebaserc
-firebase.json

@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "movie-app-c0024": {
+      "hosting": {
+        "movie-app": [
+          "movie-app-c0024"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "movie-app-c0024"
+  }
+}
