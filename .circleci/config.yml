@@ -7,13 +7,13 @@ jobs:
       name: node/default
     steps:
       - checkout
+      - node/with-cache:
+          steps:
+            - run: npm install
       - run:
           name: 'Set up prod environments'
           command: |
             node scripts/set-up-config.js $omdbApiKey $firebaseApiKey $firebaseAuthDomain $firebaseDatabaseURL $firebaseProjectId $firebaseStorageBucket $firebaseMessagingSenderId $firebaseAppId $firebaseMeasurementId $firebaseUrl
-      - node/with-cache:
-          steps:
-            - run: npm install
 
 workflows:
     build-and-test:
