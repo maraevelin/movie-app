@@ -14,7 +14,6 @@ jobs:
           name: 'Set up prod environments'
           command: |
             node scripts/set-up-config.js $omdbApiKey $firebaseApiKey $firebaseAuthDomain $firebaseDatabaseURL $firebaseProjectId $firebaseStorageBucket $firebaseMessagingSenderId $firebaseAppId $firebaseMeasurementId $firebaseUrl
-            cat src/environments/environment.prod.ts
       - run:
           name: 'lint'
           command: |
@@ -27,6 +26,10 @@ jobs:
           name: 'build'
           command: |
             npm run build
+      - run:
+          name: 'deploy'
+          command: |
+            npx firebase deploy --token "$FIREBASE_TOKEN"
 workflows:
     build-and-test:
       jobs:
