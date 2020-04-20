@@ -85,14 +85,15 @@ describe('AuthEffects', () => {
   describe('signUp service call, fail', () => {
     it(`should dispatch an action of type ${AuthStore.signUpFail.type} with error`, () => {
       const action = AuthStore.signUp({ credentials });
-      const outcome = AuthStore.signUpFail({ error });
-
       actions$ = hot('-a', { a: action });
+
+      const outcome = AuthStore.signUpFail({ error });
+      const notification = SnackBarStore.error({message: 'an error occured'});
 
       const response$ = cold('-#', {}, error);
       authService.signUp = jest.fn(() => response$);
 
-      const expected$ = cold('--b', { b: outcome });
+      const expected$ = cold('--(bn)', { b: outcome, n: notification });
       expect(effects.signUp$).toBeObservable(expected$);
     });
   });
@@ -121,14 +122,15 @@ describe('AuthEffects', () => {
   describe('signIn service call, fail', () => {
     it(`should dispatch an action of type ${AuthStore.signInFail.type} with error`, () => {
       const action = AuthStore.signIn({ credentials });
-      const outcome = AuthStore.signInFail({ error });
-
       actions$ = hot('-a', { a: action });
+
+      const outcome = AuthStore.signInFail({ error });
+      const notification = SnackBarStore.error({message: 'an error occured'});
 
       const response$ = cold('-#', {}, error);
       authService.signIn = jest.fn(() => response$);
 
-      const expected$ = cold('--b', { b: outcome });
+      const expected$ = cold('--(bn)', { b: outcome, n: notification });
       expect(effects.signIn$).toBeObservable(expected$);
     });
   });
