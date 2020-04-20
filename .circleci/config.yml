@@ -14,6 +14,7 @@ jobs:
           name: 'Set up prod environments'
           command: |
             node scripts/set-up-config.js $omdbApiKey $firebaseApiKey $firebaseAuthDomain $firebaseDatabaseURL $firebaseProjectId $firebaseStorageBucket $firebaseMessagingSenderId $firebaseAppId $firebaseMeasurementId $firebaseUrl
+            cat src/environments/environment.prod.ts
 
 workflows:
     build-and-test:
