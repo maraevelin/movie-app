@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
   omdb: {
-    url: 'http://omdbapi.com/',
+    url: '//www.omdbapi.com/',
     apiKey: '{omdbApiKey}',
   },
   firebase: {
