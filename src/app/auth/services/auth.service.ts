@@ -21,10 +21,7 @@ export class AuthService {
   }
 
   signIn(credentials: Credentials): Observable<firebase.auth.UserCredential> {
-    return from(
-      this.angularFireAuth.auth.setPersistence(firebase.auth.Auth.Persistence.SESSION)
-        .then(() => this.angularFireAuth.auth.signInWithEmailAndPassword(credentials.email, credentials.password))
-    );
+    return from(this.angularFireAuth.auth.signInWithEmailAndPassword(credentials.email, credentials.password));
   }
 
   signOut(): Observable<void> {
