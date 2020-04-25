@@ -1,7 +1,7 @@
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
-import { WatchListComponent } from './components/watch-list/watch-list.component';
 import { WatchListGuard } from './guards/watch-list.guard';
+import { WatchListComponent } from './containers/watch-list/watch-list.component';
 
 const routes: Routes = [
   {
