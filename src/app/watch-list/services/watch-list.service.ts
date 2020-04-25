@@ -50,8 +50,12 @@ export class WatchListService {
             .withConverter(this.converter)
             .get()
         ).pipe(
-          filter((doc) => doc.data() !== undefined),
           concatMap((doc) => {
+            if (!doc.exists || doc.data() === undefined) {
+              const emptyResult: Record<string, WatchListDataDetailed> = {};
+              return of(emptyResult);
+            }
+
             const data = doc.data() as Record<string, WatchListDataDetailed>;
 
             const movies: Observable<DetailedMovie>[] = Object.keys(data)
