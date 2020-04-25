@@ -51,12 +51,15 @@ export class WatchListService {
             .get()
         ).pipe(
           concatMap((doc) => {
-            if (!doc.exists || doc.data() === undefined) {
-              const emptyResult: Record<string, WatchListDataDetailed> = {};
-              return of(emptyResult);
+            if (!doc.exists || !doc.data()) {
+              return of({});
             }
 
             const data = doc.data() as Record<string, WatchListDataDetailed>;
+
+            if (!Object.keys(data).length) {
+              return of({});
+            }
 
             const movies: Observable<DetailedMovie>[] = Object.keys(data)
               .filter((id) => id.startsWith('tt'))
@@ -64,7 +67,8 @@ export class WatchListService {
 
             return forkJoin(movies).pipe(
               map((detailedMovies) =>
-                detailedMovies.reduce(
+                {
+                  return detailedMovies.reduce(
                   (
                     record: Record<string, WatchListDataDetailed>,
                     detailedMovie
@@ -80,7 +84,7 @@ export class WatchListService {
                     return record;
                   },
                   {}
-                )
+                )}
               )
             );
           })
