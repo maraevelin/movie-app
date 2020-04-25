@@ -66,9 +66,7 @@ export class WatchListService {
               .map((id) => this.omdbService.getMovieByImdbId(id, 'short'));
 
             return forkJoin(movies).pipe(
-              map((detailedMovies) =>
-                {
-                  return detailedMovies.reduce(
+              map((detailedMovies) => detailedMovies.reduce(
                   (
                     record: Record<string, WatchListDataDetailed>,
                     detailedMovie
@@ -84,7 +82,7 @@ export class WatchListService {
                     return record;
                   },
                   {}
-                )}
+                )
               )
             );
           })
