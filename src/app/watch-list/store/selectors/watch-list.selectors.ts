@@ -28,3 +28,13 @@ export const selectDataAsArray = createSelector(
   selectWatchList,
   (state: WatchListStore.WatchListState) => Object.values(state.data)
 );
+
+export const selectIsEmpty = createSelector(
+  selectWatchList,
+  (state: WatchListStore.WatchListState) => !state.isLoading && !Object.keys(state.data).length
+);
+
+export const selectIsPopulated = createSelector(
+  selectWatchList,
+  (state: WatchListStore.WatchListState) => !state.isLoading && Object.keys(state.data).length > 0
+);

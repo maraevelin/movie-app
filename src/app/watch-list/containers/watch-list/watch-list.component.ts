@@ -1,19 +1,9 @@
-import { Component, OnInit, ViewChild, NgZone, OnDestroy } from '@angular/core';
+import { Component, NgZone, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import {
-  trigger,
-  state,
-  style,
-  transition,
-  animate,
-} from '@angular/animations';
+
 import { MatDialog } from '@angular/material/dialog';
 import { Observable, Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { Column } from 'src/app/core/models/column.model';
 import { WatchListDataDetailed } from '../../models/watch-list-data-detailed.model';
 import { AppState } from 'src/app/core/store';
 
@@ -26,40 +16,13 @@ import { takeUntil } from 'rxjs/operators';
   selector: 'app-watch-list',
   templateUrl: './watch-list.component.html',
   styleUrls: ['./watch-list.component.scss'],
-  animations: [
-    trigger('detailExpand', [
-      state('collapsed, void', style({ height: '0px', minHeight: '0' })),
-      state('expanded', style({ height: '*' })),
-      transition(
-        'expanded <=> collapsed',
-        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
-      ),
-      transition(
-        'expanded <=> void',
-        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
-      ),
-    ]),
-  ],
 })
-export class WatchListComponent implements OnInit, OnDestroy {
+export class WatchListComponent implements OnDestroy {
   destroyed$: Subject<boolean>;
-
-  @ViewChild(MatPaginator, { static: true }) paginator:
-    | MatPaginator
-    | undefined;
-  @ViewChild(MatSort, { static: true }) sort: MatSort | undefined;
-
-  columnsToDisplay: string[] = ['title', 'isFinished', 'options'];
-  columnDef: Column[] = [
-    { key: 'title', header: 'Title' },
-    { key: 'finished', header: 'Finished' },
-    { key: '_', header: 'Options' },
-  ];
-  dataSource = new MatTableDataSource();
-  expandedElement: WatchListDataDetailed | undefined;
-
   isLoading$: Observable<boolean>;
   movies$: Observable<WatchListDataDetailed[]>;
+  isEmpty$: Observable<boolean>;
+  isPopulated$: Observable<boolean>;
 
   constructor(
     private store: Store<AppState>,
@@ -70,32 +33,8 @@ export class WatchListComponent implements OnInit, OnDestroy {
     this.destroyed$ = new Subject<boolean>();
     this.isLoading$ = this.store.select(WatchListStore.selectIsLoading);
     this.movies$ = this.store.select(WatchListStore.selectDataAsArray);
-  }
-
-  ngOnInit(): void {
-    this.movies$.pipe(takeUntil(this.destroyed$)).subscribe({
-      next: (movies) => (this.dataSource.data = movies),
-      error: (error) => {
-        throw Error(error);
-      },
-    });
-
-    if (this.paginator) {
-      this.dataSource.paginator = this.paginator;
-    }
-
-    if (this.sort) {
-      this.dataSource.sort = this.sort;
-      this.dataSource.filterPredicate = (
-        data: unknown | WatchListDataDetailed,
-        filter: string
-      ) => {
-        return (
-          !filter ||
-          (data as WatchListDataDetailed).title.toLowerCase().includes(filter)
-        );
-      };
-    }
+    this.isEmpty$ = this.store.select(WatchListStore.selectIsEmpty);
+    this.isPopulated$ = this.store.select(WatchListStore.selectIsPopulated);
   }
 
   ngOnDestroy(): void {
@@ -103,7 +42,7 @@ export class WatchListComponent implements OnInit, OnDestroy {
     this.destroyed$.unsubscribe();
   }
 
-  toggleFinished(data: WatchListDataDetailed): void {
+  onToggleFinished(data: WatchListDataDetailed): void {
     this.store.dispatch(WatchListStore.updateMovie({ data }));
   }
 
@@ -137,10 +76,5 @@ export class WatchListComponent implements OnInit, OnDestroy {
     this.ngZone.run(() => {
       this.router.navigate([`movies/${imdbId}`]);
     });
-  }
-
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 }

@@ -1,0 +1,170 @@
+@import 'src/styles.scss';
+
+.container-filter {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.filter {
+  @include transition-smooth-slow;
+
+  overflow: hidden;
+
+  width: 35%;
+
+  padding: 8px 16px;
+  margin: 8px 0px;
+
+  border-radius: 20px;
+
+  background-color: $grey-lightest;
+
+  font-size: $font-size-smaller;
+
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: start;
+  gap: 8px;
+
+  &:hover,
+  &:active {
+    box-shadow: inset 1px 1px 8px $grey-lightest;
+
+    width: 40%;
+
+    background-color: $grey-lightest-extra;
+
+    .filter-icon {
+      color: $primary;
+    }
+  }
+
+  &-icon {
+    color: $grey-lighter;
+  }
+
+  &-input {
+    width: 100vw;
+
+    outline: none;
+    border: none;
+    background: none;
+
+    color: $grey-darkest;
+    text-transform: uppercase;
+  }
+}
+
+.item {
+  padding: 0px 8px;
+
+  display: flex;
+  justify-content: space-between;
+
+  &-title,
+  &-isFinished,
+  &-remove {
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  &-poster {
+    width: 80px;
+  }
+}
+
+table {
+  width: 100%;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+tr:hover {
+  cursor: pointer;
+}
+
+tr.detail-row {
+  height: 0;
+}
+
+tr.element-row:not(.expanded-row):hover,
+tr.detail-row:hover{
+  background: whitesmoke;
+}
+
+tr.element-row:not(.expanded-row):active {
+  background: #efefef;
+}
+
+.element-row td {
+  border-bottom-width: 0;
+}
+
+.element-detail {
+  overflow: hidden;
+  display: flex;
+}
+
+.material-icons.md-inactive {
+  cursor: default;
+
+  &.md-check {
+    color: #3d9970;
+  }
+
+  &.md-trashcan {
+    color: #ff4136;
+  }
+
+  transition: 0.2s;
+
+  &:hover {
+    cursor: pointer;
+
+    &.md-check {
+      color: rgba(#3d9970, 0.5);
+    }
+
+    &.md-trashcan {
+      color: rgba(#ff4136, 0.5);
+    }
+  }
+
+  &:active {
+    transform: translateY(10%);
+    transition: 0.2s;
+  }
+}
+
+.material-icons.md-active {
+  cursor: default;
+
+  &.md-check {
+    color: #3d9970;
+  }
+
+  &.md-trashcan {
+    color: #ff4136;
+  }
+
+  color: black;
+
+  transition: 0.2s;
+
+  &:hover {
+    cursor: pointer;
+
+    &.md-check {
+      color: rgba(#3d9970, 0.5);
+    }
+  }
+
+  &:active {
+    transform: translateY(10%);
+    transition: 0.2s;
+  }
+}
