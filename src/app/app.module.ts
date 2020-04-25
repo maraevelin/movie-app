@@ -21,7 +21,6 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
-import { WatchListComponent } from './watch-list/containers/watch-list/watch-list.component';
 import { AuthModule } from './auth/auth.module';
 import { BlankComponent } from './tests/blank/blank.component';
 import { SharedModule } from './shared/shared.module';
@@ -36,7 +35,6 @@ import { MovieModule } from './movie/movie.module';
     MoviesComponent,
     MovieComponent,
     NavigationBarComponent,
-    WatchListComponent,
     BlankComponent,
   ],
   imports: [
