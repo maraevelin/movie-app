@@ -35,6 +35,10 @@ $resolution-larger: 1280px;
   transition: 0.4s;
 }
 
+@mixin font-lighter {
+  font-weight: 350;
+}
+
 @mixin border-light {
   border: 1px solid $grey-lightest;
   border-radius: 8px;
@@ -47,7 +51,7 @@ $resolution-larger: 1280px;
 
 @mixin error-message {
   .error-message {
-    font-weight: 350;
+    @include font-lighter;
     text-align: justify;
   }
 }
