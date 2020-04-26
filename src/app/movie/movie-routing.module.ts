@@ -11,11 +11,6 @@ const routes: Routes = [
     component: MoviesComponent,
     resolve: { moviesResolver: MoviesResolver },
   },
-  {
-    path: '',
-    redirectTo: '/movies',
-    pathMatch: 'full',
-  },
 ];
 
 @NgModule({
