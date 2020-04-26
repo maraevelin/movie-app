@@ -1,6 +1,8 @@
 @import 'src/styles.scss';
 
 $unit: 48px;
+$unit-small: 24px;
+$unit-smallest: 12px;
 
 .container {
   height: $unit;
@@ -13,6 +15,14 @@ $unit: 48px;
   grid-template-rows: $unit;
   justify-content: stretch;
   column-gap: $unit;
+
+  @media screen and (max-width: $resolution-smallest) {
+    column-gap: $unit-small;
+  }
+
+  @media screen and (max-width: $resolution-smallest-extra) {
+    column-gap: $unit-smallest;
+  }
 }
 
 .nav-element {
