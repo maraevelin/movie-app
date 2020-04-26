@@ -9,8 +9,6 @@
 
   overflow: hidden;
 
-  width: 30vw;
-
   border-radius: 20px;
 
   padding: 6px 12px;
@@ -24,13 +22,15 @@
   justify-content: flex-start;
   gap: 8px;
 
+  width: 45vw;
+
   &:hover,
   &:active {
     box-shadow: inset 1px 1px 8px $grey-lightest-extra;
 
-    width: 35vw;
-
     background-color: white;
+
+    width: 50vw;
 
     .search-bar-icon {
       color: $primary;
