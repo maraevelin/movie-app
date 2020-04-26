@@ -27,7 +27,7 @@ export class SignInGuard implements CanActivate {
 
     if (isSignedIn) {
       this.ngZone.run(() => {
-        this.router.navigate(['/movies']);
+        this.router.navigate(['/watch-list']);
       });
       return false;
     }
