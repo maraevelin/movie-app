@@ -4,9 +4,4 @@
   margin: 8px 48px;
 }
 
-.reminder-empty{
-  padding-top: 16px;
-
-  text-align: center;
-  color: $grey-darker;
-}
+@include reminder-text;
