@@ -1,5 +1,4 @@
 @import 'src/styles.scss';
-@include error-message;
 
 .container {
   box-sizing: border-box;
@@ -20,6 +19,16 @@
   color: $grey-darker;
   text-align: center;
   font-size: $font-size-larger;
+
+  padding: 8px 0px 24px 0px;
+}
+
+.helper{
+  color: $grey-medium;
+
+  text-align: center;
+  font-size: $font-size-normal;
+  font-weight: 350;
 
   padding: 8px 0px 24px 0px;
 }
