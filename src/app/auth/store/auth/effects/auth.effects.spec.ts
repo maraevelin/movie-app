@@ -178,13 +178,13 @@ describe('AuthEffects', () => {
   });
 
   describe('sigIn success without returnUrl dispatched', () => {
-    it(`should redirect to /movies`, () => {
+    it(`should redirect to /watch-list`, () => {
       const action = AuthStore.signInSuccess({ user });
 
       actions$ = hot('-a', { a: action });
 
       effects.automaticRedirectOnSignInSuccess$.subscribe(() => {
-        expect(location.path()).toBe('/movies');
+        expect(location.path()).toBe('/watch-list');
       });
     });
   });

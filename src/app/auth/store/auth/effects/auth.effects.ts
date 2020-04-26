@@ -93,7 +93,7 @@ export class AuthEffects {
       this.actions$.pipe(
         ofType(AuthActions.signInSuccess),
         tap((action) => {
-          const returnUrl: string = action.returnUrl || '/movies';
+          const returnUrl: string = action.returnUrl || '/watch-list';
           this.ngZone.run(() => {
             this.router.navigate([returnUrl]);
           });
