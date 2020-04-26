@@ -33,3 +33,8 @@ export const getDetailedFail = createAction(
   '[MOVIE] Get detailed Fail',
   props<{ error: Error }>()
 );
+
+export const reloadSearchedMovies = createAction(
+  '[MOVIE] Reload Searched Movies',
+  props<{ title: string, movies: Movie[] }>()
+);

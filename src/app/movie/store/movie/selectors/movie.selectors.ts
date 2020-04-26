@@ -28,3 +28,8 @@ export const selectDetailedMovie = createSelector(
   selectMovie,
   (state: MovieStore.MovieState) => state.detailedMovie
 );
+
+export const selectSearchedMovie = createSelector(
+  selectMovie,
+  (state: MovieStore.MovieState, title: string) => state.searchedMovies[title.toLowerCase()]
+);

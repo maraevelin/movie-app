@@ -39,13 +39,21 @@ export class SearchBarComponent {
       }
 
       this.title.reset();
-      this.store.dispatch(MovieStore.search({ title: searchedTitle }));
 
-      if (this.router.url !== '/movies') {
-        this.ngZone.run(() => {
-          this.router.navigate(['/movies']);
+      this.store.select(MovieStore.selectSearchedMovie, searchedTitle).pipe(
+        first()).subscribe(searchedMovies => {
+          if (searchedMovies) {
+            this.store.dispatch(MovieStore.reloadSearchedMovies({ title: searchedTitle, movies: searchedMovies }));
+          } else {
+            this.store.dispatch(MovieStore.search({ title: searchedTitle }));
+          }
+
+          if (this.router.url !== '/movies') {
+            this.ngZone.run(() => {
+              this.router.navigate(['/movies']);
+            });
+          }
         });
-      }
     });
   }
 }

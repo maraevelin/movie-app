@@ -38,7 +38,8 @@ describe('Movie Reducer', () => {
         isLoading: true,
         errorMessage: error.message,
         movies,
-        detailedMovie
+        detailedMovie,
+        searchedMovies: {},
       };
       const action = MovieStore.reset;
       const result = MovieStore.reducer(state, action);
@@ -47,7 +48,8 @@ describe('Movie Reducer', () => {
         isLoading: false,
         errorMessage: undefined,
         movies: [],
-        detailedMovie: undefined
+        detailedMovie: undefined,
+        searchedMovies: {},
       });
     });
   });
@@ -59,7 +61,8 @@ describe('Movie Reducer', () => {
         isLoading: false,
         errorMessage: undefined,
         movies: [],
-        detailedMovie: undefined
+        detailedMovie: undefined,
+        searchedMovies: {},
       };
       const title = 'title';
       const action = MovieStore.search({ title });
@@ -74,19 +77,26 @@ describe('Movie Reducer', () => {
 
   describe(MovieStore.searchSuccess.type, () => {
     it('should toggle off isLoading and update movies in state', () => {
+      const searchedMovies = {'': movies};
+
       const state: MovieStore.MovieState = {
         title: '',
         isLoading: true,
         errorMessage: error.message,
         movies: [],
-        detailedMovie: undefined
+        detailedMovie: undefined,
+        searchedMovies: {},
       };
+
       const action = MovieStore.searchSuccess({ movies });
+
       const result = MovieStore.reducer(state, action);
+
       expect(result).toEqual({
         ...state,
         isLoading: false,
-        movies
+        movies,
+        searchedMovies,
       });
     });
   });
@@ -98,7 +108,8 @@ describe('Movie Reducer', () => {
         isLoading: false,
         errorMessage: error.message,
         movies: [],
-        detailedMovie
+        detailedMovie,
+        searchedMovies: {},
       };
       const id = 'id';
       const action = MovieStore.getDetailed({ id });
@@ -107,7 +118,8 @@ describe('Movie Reducer', () => {
         ...state,
         isLoading: true,
         errorMessage: undefined,
-        detailedMovie: undefined
+        detailedMovie: undefined,
+        searchedMovies: {},
       });
     });
   });
@@ -119,14 +131,16 @@ describe('Movie Reducer', () => {
         isLoading: true,
         errorMessage: undefined,
         movies: [],
-        detailedMovie: undefined
+        detailedMovie: undefined,
+        searchedMovies: {},
       };
       const action = MovieStore.getDetailedSuccess({ detailedMovie });
       const result = MovieStore.reducer(state, action);
       expect(result).toEqual({
         ...state,
         isLoading: false,
-        detailedMovie
+        detailedMovie,
+        searchedMovies: {},
       });
     });
   });
@@ -138,7 +152,8 @@ describe('Movie Reducer', () => {
         isLoading: true,
         errorMessage: undefined,
         movies: [],
-        detailedMovie: undefined
+        detailedMovie: undefined,
+        searchedMovies: {},
       };
 
       const actionSearchFail = MovieStore.searchFail({ error });
@@ -157,6 +172,38 @@ describe('Movie Reducer', () => {
           errorMessage: error.message
         })
       );
+    });
+  });
+
+  describe(MovieStore.reloadSearchedMovies.type, () => {
+    it('should set title and movies in state', () => {
+      const title = 'title';
+
+      const searchedMovies = {
+        [title]: movies
+      };
+
+      const state: MovieStore.MovieState = {
+        title: '',
+        isLoading: true,
+        errorMessage: 'error happened',
+        movies: [],
+        detailedMovie,
+        searchedMovies,
+      };
+
+      const action = MovieStore.reloadSearchedMovies({ title, movies });
+
+      const result = MovieStore.reducer(state, action);
+
+      expect(result).toEqual({
+        ...state,
+        title,
+        isLoading: false,
+        errorMessage: undefined,
+        movies,
+        detailedMovie: undefined,
+      });
     });
   });
 });
