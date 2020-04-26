@@ -52,6 +52,15 @@ $resolution-larger: 1280px;
   }
 }
 
+@mixin reminder-text{
+  .reminder-text{
+    padding-top: 16px;
+
+    text-align: center;
+    color: $grey-darker;
+  }
+}
+
 html,
 body {
   height: 100%;
