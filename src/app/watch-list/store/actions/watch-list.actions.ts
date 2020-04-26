@@ -1,12 +1,13 @@
 import { createAction, props } from '@ngrx/store';
 import { WatchListDataDetailed } from '../../models/watch-list-data-detailed.model';
+import { WatchListDataType } from '..';
 
 export const reset = createAction('[WATCH LIST] Reset');
 
 export const load = createAction('[WATCH LIST] Load');
 export const loadSuccess = createAction(
   '[WATCH LIST] Load Success',
-  props<{ data: Record<string, WatchListDataDetailed> }>()
+  props<{ data: WatchListDataType }>()
 );
 export const loadFail = createAction(
   '[WATCH LIST] Load Fail',

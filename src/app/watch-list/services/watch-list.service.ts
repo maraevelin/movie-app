@@ -11,6 +11,7 @@ import { WatchListData } from '../models/watch-list-data.model';
 import { WatchListDataDetailed } from '../models/watch-list-data-detailed.model';
 import { AppState } from 'src/app/core/store';
 import * as AuthStore from '../../auth/store/auth';
+import * as WatchListStore from '../store';
 
 @Injectable({ providedIn: 'root' })
 export class WatchListService {
@@ -38,7 +39,7 @@ export class WatchListService {
     this.userId$.subscribe();
   }
 
-  load(): Observable<Record<string, WatchListDataDetailed>> {
+  load(): Observable<WatchListStore.WatchListDataType> {
     return this.userId$.pipe(
       first(),
       filter((userId) => userId !== undefined),
@@ -55,7 +56,7 @@ export class WatchListService {
               return of({});
             }
 
-            const data = doc.data() as Record<string, WatchListDataDetailed>;
+            const data = doc.data() as WatchListStore.WatchListDataType;
 
             if (!Object.keys(data).length) {
               return of({});
@@ -68,7 +69,7 @@ export class WatchListService {
             return forkJoin(movies).pipe(
               map((detailedMovies) => detailedMovies.reduce(
                   (
-                    record: Record<string, WatchListDataDetailed>,
+                    record: WatchListStore.WatchListDataType,
                     detailedMovie
                   ) => {
                     const id = detailedMovie.imdbId as keyof WatchListData;

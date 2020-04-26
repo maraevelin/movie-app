@@ -14,7 +14,6 @@ import { AuthConstants } from 'src/app/auth/shared/auth.shared';
 import { User } from 'src/app/auth/models/user.model';
 import { ConfirmationDialogComponent } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { ConfirmationDialogData } from 'src/app/shared/models/confirmation-dialog.model';
-import { WatchListDataDetailed } from 'src/app/watch-list/models/watch-list-data-detailed.model';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
@@ -32,7 +31,7 @@ export class MovieComponent implements OnInit, OnDestroy {
   isLoading$: Observable<boolean>;
   movie$: Observable<DetailedMovie | undefined>;
   user$: Observable<User | undefined>;
-  watchList$: Observable<Record<string, WatchListDataDetailed>>;
+  watchList$: Observable<WatchListStore.WatchListDataType>;
 
   constructor(
     private store: Store<AppState>,
