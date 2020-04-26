@@ -33,13 +33,19 @@ describe('Movie Reducer', () => {
 
   describe(MovieStore.reset.type, () => {
     it('should return the default state', () => {
+      const title = 'title';
+
+      const searchedMovies = {
+        [title]: movies
+      };
+
       const state: MovieStore.MovieState = {
         title: 'title',
         isLoading: true,
         errorMessage: error.message,
         movies,
         detailedMovie,
-        searchedMovies: {},
+        searchedMovies,
       };
       const action = MovieStore.reset;
       const result = MovieStore.reducer(state, action);
@@ -49,7 +55,7 @@ describe('Movie Reducer', () => {
         errorMessage: undefined,
         movies: [],
         detailedMovie: undefined,
-        searchedMovies: {},
+        searchedMovies
       });
     });
   });
