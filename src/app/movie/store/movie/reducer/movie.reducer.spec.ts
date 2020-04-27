@@ -189,7 +189,7 @@ describe('Movie Reducer', () => {
         searchedMovies,
       };
 
-      const action = MovieStore.reloadSearchedMovies({ title, movies });
+      const action = MovieStore.reloadSearchedMovies({ title });
 
       const result = MovieStore.reducer(state, action);
 
