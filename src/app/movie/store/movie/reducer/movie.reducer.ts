@@ -9,7 +9,6 @@ export interface MovieState {
   readonly title: string;
   readonly isLoading: boolean;
   readonly errorMessage: string | undefined;
-  readonly movies: Movie[];
   readonly detailedMovie: DetailedMovie | undefined;
   readonly searchedMovies: SearchedMoviesType;
 }
@@ -18,7 +17,6 @@ export const initialState: MovieState = {
   title: '',
   isLoading: false,
   errorMessage: undefined,
-  movies: [],
   detailedMovie: undefined,
   searchedMovies: {},
 };
@@ -37,15 +35,16 @@ const movieReducer = createReducer(
     ...state,
     isLoading: true,
     errorMessage: undefined,
-    movies: [],
     detailedMovie: undefined,
     title,
   })),
   on(MovieActions.searchSuccess, (state, { movies }) => ({
     ...state,
     isLoading: false,
-    movies,
-    searchedMovies: {...state.searchedMovies, ...{ [state.title.toLowerCase()]: movies} },
+    searchedMovies: {
+      ...state.searchedMovies,
+      ...{ [state.title.toLowerCase()]: movies },
+    },
   })),
   on(
     MovieActions.searchFail,
@@ -67,12 +66,11 @@ const movieReducer = createReducer(
     isLoading: false,
     detailedMovie,
   })),
-  on(MovieActions.reloadSearchedMovies, (state, {title, movies}) => ({
+  on(MovieActions.reloadSearchedMovies, (state, { title }) => ({
     ...state,
     title: title.toLowerCase(),
     isLoading: false,
     errorMessage: undefined,
-    movies,
     detailedMovie: undefined,
   }))
 );

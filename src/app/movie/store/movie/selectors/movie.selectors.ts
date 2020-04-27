@@ -14,11 +14,6 @@ export const selectIsLoading = createSelector(
   (state: MovieStore.MovieState) => state.isLoading
 );
 
-export const selectMovies = createSelector(
-  selectMovie,
-  (state: MovieStore.MovieState) => state.movies
-);
-
 export const selectErrorMessage = createSelector(
   selectMovie,
   (state: MovieStore.MovieState) => state.errorMessage
@@ -31,5 +26,12 @@ export const selectDetailedMovie = createSelector(
 
 export const selectSearchedMovie = createSelector(
   selectMovie,
-  (state: MovieStore.MovieState, title: string) => state.searchedMovies[title.toLowerCase()]
+  (state: MovieStore.MovieState, title: string) =>
+    state.searchedMovies[title.toLowerCase()]
+);
+
+export const selectMovies = createSelector(
+  selectMovie,
+  (state: MovieStore.MovieState) =>
+    state.searchedMovies[state.title.toLowerCase()]
 );

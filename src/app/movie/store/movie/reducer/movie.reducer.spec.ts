@@ -6,7 +6,7 @@ import * as MovieStore from '..';
 describe('Movie Reducer', () => {
   const movies: Movie[] = [
     { imdbId: 'imdbId1', posterUrl: 'posterUrl1', title: 'title1' },
-    { imdbId: 'imdbId2', posterUrl: 'posterUrl2', title: 'title2' }
+    { imdbId: 'imdbId2', posterUrl: 'posterUrl2', title: 'title2' },
   ];
 
   const detailedMovie: DetailedMovie = {
@@ -18,7 +18,7 @@ describe('Movie Reducer', () => {
     posterUrl: 'posterUrl',
     actors: ['actor1', 'actor2'],
     writers: ['writer1', 'writer2'],
-    plot: 'plot'
+    plot: 'plot',
   };
 
   const error = new Error('an error occured');
@@ -36,14 +36,13 @@ describe('Movie Reducer', () => {
       const title = 'title';
 
       const searchedMovies = {
-        [title]: movies
+        [title]: movies,
       };
 
       const state: MovieStore.MovieState = {
         title: 'title',
         isLoading: true,
         errorMessage: error.message,
-        movies,
         detailedMovie,
         searchedMovies,
       };
@@ -53,9 +52,8 @@ describe('Movie Reducer', () => {
         title: '',
         isLoading: false,
         errorMessage: undefined,
-        movies: [],
         detailedMovie: undefined,
-        searchedMovies
+        searchedMovies,
       });
     });
   });
@@ -66,7 +64,6 @@ describe('Movie Reducer', () => {
         title: '',
         isLoading: false,
         errorMessage: undefined,
-        movies: [],
         detailedMovie: undefined,
         searchedMovies: {},
       };
@@ -76,20 +73,19 @@ describe('Movie Reducer', () => {
       expect(result).toEqual({
         ...state,
         isLoading: true,
-        title
+        title,
       });
     });
   });
 
   describe(MovieStore.searchSuccess.type, () => {
     it('should toggle off isLoading and update movies in state', () => {
-      const searchedMovies = {'': movies};
+      const searchedMovies = { '': movies };
 
       const state: MovieStore.MovieState = {
         title: '',
         isLoading: true,
         errorMessage: error.message,
-        movies: [],
         detailedMovie: undefined,
         searchedMovies: {},
       };
@@ -101,7 +97,6 @@ describe('Movie Reducer', () => {
       expect(result).toEqual({
         ...state,
         isLoading: false,
-        movies,
         searchedMovies,
       });
     });
@@ -113,7 +108,6 @@ describe('Movie Reducer', () => {
         title: '',
         isLoading: false,
         errorMessage: error.message,
-        movies: [],
         detailedMovie,
         searchedMovies: {},
       };
@@ -136,7 +130,6 @@ describe('Movie Reducer', () => {
         title: '',
         isLoading: true,
         errorMessage: undefined,
-        movies: [],
         detailedMovie: undefined,
         searchedMovies: {},
       };
@@ -157,7 +150,6 @@ describe('Movie Reducer', () => {
         title: '',
         isLoading: true,
         errorMessage: undefined,
-        movies: [],
         detailedMovie: undefined,
         searchedMovies: {},
       };
@@ -171,11 +163,11 @@ describe('Movie Reducer', () => {
         actionGetDetailedFail
       );
 
-      [resultSearchFail, resultGetDetailedFail].forEach(result =>
+      [resultSearchFail, resultGetDetailedFail].forEach((result) =>
         expect(result).toEqual({
           ...state,
           isLoading: false,
-          errorMessage: error.message
+          errorMessage: error.message,
         })
       );
     });
@@ -186,14 +178,13 @@ describe('Movie Reducer', () => {
       const title = 'title';
 
       const searchedMovies = {
-        [title]: movies
+        [title]: movies,
       };
 
       const state: MovieStore.MovieState = {
         title: '',
         isLoading: true,
         errorMessage: 'error happened',
-        movies: [],
         detailedMovie,
         searchedMovies,
       };
@@ -207,7 +198,6 @@ describe('Movie Reducer', () => {
         title,
         isLoading: false,
         errorMessage: undefined,
-        movies,
         detailedMovie: undefined,
       });
     });
