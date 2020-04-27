@@ -36,7 +36,7 @@ const movieReducer = createReducer(
     isLoading: true,
     errorMessage: undefined,
     detailedMovie: undefined,
-    title,
+    title: title.toLowerCase(),
   })),
   on(MovieActions.searchSuccess, (state, { movies }) => ({
     ...state,
