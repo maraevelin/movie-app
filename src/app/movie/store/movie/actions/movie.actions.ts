@@ -36,5 +36,5 @@ export const getDetailedFail = createAction(
 
 export const reloadSearchedMovies = createAction(
   '[MOVIE] Reload Searched Movies',
-  props<{ title: string; movies: Movie[] }>()
+  props<{ title: string }>()
 );

@@ -83,7 +83,6 @@ export class SearchBarComponent implements OnInit, OnDestroy {
           this.store.dispatch(
             MovieStore.reloadSearchedMovies({
               title: searchedTitle,
-              movies: previousSearchResult,
             })
           );
         } else {
