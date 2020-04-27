@@ -3,14 +3,16 @@
 </div>
 
 <div class="container">
-  <div *ngIf="(movies$ | async)?.length > 0">
+  <ng-container *ngIf="movies$ | async as movies">
     <div class="header">
-      {{ (movies$ | async)?.length }} results for
+      {{ movies.length }} results for
       <span class="keyword">{{ title$ | async }}</span>
     </div>
 
     <mat-divider class="divider"></mat-divider>
 
-    <app-gallery [movies]="movies$ | async"></app-gallery>
-  </div>
+    <ng-container *ngIf="movies.length > 0">
+      <app-gallery [movies]="movies$ | async"></app-gallery>
+    </ng-container>
+  </ng-container>
 </div>

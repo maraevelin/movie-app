@@ -12,6 +12,7 @@ import { tap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../core/store';
 import * as SnackBarStore from '../../core/store/snack-bar';
+import * as MovieStore from '../../movie/store/movie';
 
 @Injectable()
 export class OmdbErrorInterceptor implements HttpInterceptor {
@@ -25,11 +26,19 @@ export class OmdbErrorInterceptor implements HttpInterceptor {
       tap((event) => {
         const isOmdbRequest = request.url.startsWith(environment.omdb.url);
         if (isOmdbRequest && event instanceof HttpResponse) {
-          const message = event.body.Error;
+          const message = event.body.Error as string;
 
           if (message) {
-            this.store.dispatch(SnackBarStore.error({ message }));
-            throw Error(message);
+            const notFoundByTitle = message
+              .toLowerCase()
+              .startsWith('movie not found');
+
+            if (notFoundByTitle) {
+              this.store.dispatch(MovieStore.searchSuccess({ movies: [] }));
+            } else {
+              this.store.dispatch(SnackBarStore.error({ message }));
+              throw Error(message);
+            }
           }
         }
       })
