@@ -3,7 +3,13 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { FormControl } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
-import { first, filter, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import {
+  first,
+  filter,
+  debounceTime,
+  distinctUntilChanged,
+  takeUntil,
+} from 'rxjs/operators';
 import { AppState } from '../../../core/store';
 import * as MovieStore from '../../store/movie';
 
@@ -29,12 +35,14 @@ export class SearchBarComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.title.valueChanges.pipe(
-      takeUntil(this.destroyed$),
-      filter(Boolean),
-      debounceTime(500),
-      distinctUntilChanged()
-    ).subscribe(value => this.search(value as string));
+    this.title.valueChanges
+      .pipe(
+        takeUntil(this.destroyed$),
+        filter(Boolean),
+        debounceTime(1200),
+        distinctUntilChanged()
+      )
+      .subscribe((value) => this.search(value as string));
   }
 
   ngOnDestroy(): void {
@@ -56,7 +64,8 @@ export class SearchBarComponent implements OnInit, OnDestroy {
     let isCurrentlyShown = false;
 
     this.title$.pipe(first()).subscribe((lastTitle) => {
-      isCurrentlyShown = searchedTitle.toLowerCase() === lastTitle.toLowerCase();
+      isCurrentlyShown =
+        searchedTitle.toLowerCase() === lastTitle.toLowerCase();
       if (isCurrentlyShown) {
         return;
       }
@@ -66,13 +75,17 @@ export class SearchBarComponent implements OnInit, OnDestroy {
   }
 
   getSearchResult(searchedTitle: string): void {
-    this.store.select(MovieStore.selectSearchedMovie, searchedTitle).pipe(
-      first()).subscribe(previousSearchResult => {
+    this.store
+      .select(MovieStore.selectSearchedMovie, searchedTitle)
+      .pipe(first())
+      .subscribe((previousSearchResult) => {
         if (previousSearchResult) {
-          this.store.dispatch(MovieStore.reloadSearchedMovies({
-            title: searchedTitle,
-            movies: previousSearchResult
-          }));
+          this.store.dispatch(
+            MovieStore.reloadSearchedMovies({
+              title: searchedTitle,
+              movies: previousSearchResult,
+            })
+          );
         } else {
           this.store.dispatch(MovieStore.search({ title: searchedTitle }));
         }
