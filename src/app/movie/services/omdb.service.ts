@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Movie } from '../models/movie.model';
 import { DetailedMovie } from '../models/detailed-movie.model';
+import { MovieResponse } from './models/movie-response.model';
 
 @Injectable({
   providedIn: 'root',
@@ -26,9 +27,15 @@ export class OmdbService {
     });
     return response$.pipe(
       map((searchResponse) => {
+        const hasValidType = (movie: MovieResponse) =>
+          movie.Type === 'movie' ||
+          movie.Type === 'series' ||
+          movie.Type === 'episode';
+
         const moviesWithPoster = searchResponse.Search.filter(
-          (movie) => movie.Poster !== 'N/A'
+          (movie) => movie.Poster !== 'N/A' && hasValidType(movie)
         );
+
         return moviesWithPoster.map((movie) => new Movie(movie));
       })
     );
