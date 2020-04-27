@@ -10,7 +10,8 @@
     "test": "jest ./src",
     "test:watch": "jest --watch",
     "test:ci": "jest --runInBand",
-    "cypress": "npx cypress open"
+    "cypress": "npx cypress open",
+    "bld": "ng lint && npm test jest./src && ng serve"
   },
   "private": true,
   "dependencies": {
